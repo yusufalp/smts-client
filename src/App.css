@@ -1,7 +1,24 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
+}
+
+main {
   padding: 2rem;
+  min-width: 320px;
+}
+
+header ul {
+  display: flex;
+  justify-content: flex-end;
+  list-style: none;
+  padding: 0;
+}
+
+header ul li {
+  text-align: center;
+  margin: 0 12px;
+  width: 80px;
 }
 
 button {
@@ -14,9 +31,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -25,6 +44,8 @@ button:focus-visible {
 form {
   display: flex;
   flex-direction: column;
+  margin: auto;
+  width: 50%;
 }
 
 form button {
@@ -41,7 +62,7 @@ form textarea {
   border-radius: 10px;
   border: 1px solid black;
   font-size: 1rem;
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .meeting p {
