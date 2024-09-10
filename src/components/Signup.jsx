@@ -1,8 +1,8 @@
 function Signup() {
   return (
-    <div>
-      <h1>Create an account</h1>
+    <main>
       <form>
+        <h1>Create an account</h1>
         <label htmlFor="first">First name</label>
         <input type="text" name="first" id="first" />
         <label htmlFor="last">Last name</label>
@@ -13,7 +13,7 @@ function Signup() {
         <input type="password" name="password" id="password" />
         <button type="submit">Create</button>
       </form>
-    </div>
+    </main>
   );
 }
 
