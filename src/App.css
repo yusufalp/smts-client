@@ -8,6 +8,10 @@ main {
   min-width: 320px;
 }
 
+h1 {
+  text-align: center;
+}
+
 header ul {
   display: flex;
   justify-content: flex-end;
@@ -19,6 +23,11 @@ header ul li {
   text-align: center;
   margin: 0 12px;
   width: 80px;
+}
+
+p {
+  text-align: center;
+  margin: 0;
 }
 
 button {
@@ -49,11 +58,11 @@ form {
 }
 
 form button {
-  margin: 12px 0;
+  margin: 16px 0;
 }
 
 form label {
-  margin: 12px 0 3px;
+  margin: 16px 0 3px;
 }
 
 form input,
@@ -63,8 +72,4 @@ form textarea {
   border: 1px solid black;
   font-size: 1rem;
   padding: 0.5rem;
-}
-
-.meeting p {
-  margin: 0;
 }
