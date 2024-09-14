@@ -8,26 +8,17 @@ main {
   min-width: 320px;
 }
 
-h1 {
-  text-align: center;
+header nav {
+  display: flex;
+  justify-content: flex-end;
 }
 
 header ul {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-around;
   list-style: none;
   padding: 0;
-}
-
-header ul li {
-  text-align: center;
-  margin: 0 12px;
-  width: 80px;
-}
-
-p {
-  text-align: center;
-  margin: 0;
+  width: 320px;
 }
 
 button {
@@ -72,4 +63,33 @@ form textarea {
   border: 1px solid black;
   font-size: 1rem;
   padding: 0.5rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-margin-0 {
+  margin: 0;
+}
+
+.dashboard ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.dashboard ul:first-of-type {
+  font-weight: bold;
+}
+
+.dashboard ul li {
+  width: 64px;
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.dashboard ul li:first-child {
+  flex: 3;
 }
