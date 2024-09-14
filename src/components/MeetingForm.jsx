@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { mentors } from "../data/mentors";
 
 function MeetingForm() {
+  const accessToken = useSelector((state) => state.auth.accessToken);
+
   const [meetingFormData, setMeetingFormData] = useState({
     title: "",
     mentorId: "",
@@ -11,6 +15,8 @@ function MeetingForm() {
     duration: 30,
     notes: "",
   });
+
+  const navigate = useNavigate();
 
   const handleFormDataChange = (event) => {
     const { name, value } = event.target;
@@ -21,14 +27,38 @@ function MeetingForm() {
     }));
   };
 
-  console.log("meetingFormData :>> ", meetingFormData);
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:8080/api/meetings", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(meetingFormData),
+      });
+
+      const result = await response.json();
+
+      if (result.error) {
+        throw new Error(result.error.message);
+      }
+
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <main className="meeting">
-      <form>
+      <form onSubmit={handleFormSubmit}>
         <h1>Add meeting</h1>
-        <p>Did you just meet with your mentor?</p>
-        <p>Complete the form</p>
+        <p className="text-margin-0">Did you just meet with your mentor?</p>
+        <p className="text-margin-0">Complete the form</p>
         <label htmlFor="title">Title</label>
         <input
           type="text"
