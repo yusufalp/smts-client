@@ -11,13 +11,17 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+
+    console.log("import.meta.env :>> ", import.meta.env);
 
     const body = { username, password };
 
     try {
-      const response = await fetch(`http://localhost:8080/auth/login`, {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         credentials: "include",
         headers: {

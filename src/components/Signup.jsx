@@ -13,13 +13,15 @@ function Signup() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
 
     const body = { first, last, username, password };
 
     try {
-      const response = await fetch(`http://localhost:8080/auth/signup`, {
+      const response = await fetch(`${API_BASE_URL}/auth/signup`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -39,7 +41,7 @@ function Signup() {
 
       dispatch(login({ currentUser, accessToken }));
 
-      navigate("/dashboard");
+      navigate("/profile");
     } catch (error) {
       console.log(error);
     }
@@ -56,6 +58,7 @@ function Signup() {
           type="text"
           name="first"
           id="first"
+          required
           value={first}
           onChange={(e) => setFirst(e.target.value)}
         />
@@ -64,6 +67,7 @@ function Signup() {
           type="text"
           name="last"
           id="last"
+          required
           value={last}
           onChange={(e) => setLast(e.target.value)}
         />
@@ -72,6 +76,7 @@ function Signup() {
           type="text"
           name="username"
           id="username"
+          required
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
@@ -80,6 +85,7 @@ function Signup() {
           type="password"
           name="password"
           id="password"
+          required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />

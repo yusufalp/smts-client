@@ -27,11 +27,13 @@ function MeetingForm() {
     }));
   };
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8080/api/meetings", {
+      const response = await fetch(`${API_BASE_URL}/api/meetings`, {
         method: "POST",
         credentials: "include",
         headers: {
