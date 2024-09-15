@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { login } from "../store/features/authSlice";
+import { addProfile } from "../store/features/userSlice";
 
 function Signup() {
   const [first, setFirst] = useState("");
@@ -21,7 +22,7 @@ function Signup() {
     const body = { first, last, username, password };
 
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+      const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -36,10 +37,13 @@ function Signup() {
         throw new Error(result.error.message);
       }
 
-      const currentUser = result.data.user;
-      const accessToken = result.data.accessToken;
+      console.log("result :>> ", result);
 
-      dispatch(login({ currentUser, accessToken }));
+      const accessToken = result.data.accessToken;
+      const profile = result.data.profile;
+
+      dispatch(login({ accessToken }));
+      dispatch(addProfile({ profile }));
 
       navigate("/profile");
     } catch (error) {

@@ -1,9 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
 import { logout } from "../store/features/authSlice";
+import { removeProfile } from "../store/features/userSlice";
 
 function Header() {
-  const accessToken = useSelector((state) => state.auth.accessToken);
+  const userProfile = useSelector((state) => state.user.profile);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -11,7 +13,7 @@ function Header() {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleLogout = async () => {
-    const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+    const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -26,13 +28,15 @@ function Header() {
     }
 
     dispatch(logout());
+    dispatch(removeProfile());
+
     navigate("/login");
   };
 
   return (
     <header>
       <nav>
-        {accessToken ? (
+        {userProfile ? (
           <ul>
             <li>
               <Link to="/dashboard">Dashboard</Link>

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { login } from "../store/features/authSlice";
+import { addProfile } from "../store/features/userSlice";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -21,7 +22,7 @@ function Login() {
     const body = { username, password };
 
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -36,10 +37,11 @@ function Login() {
         throw new Error(result.error.message);
       }
 
-      const currentUser = result.data.user;
       const accessToken = result.data.accessToken;
+      const profile = result.data.profile;
 
-      dispatch(login({ currentUser, accessToken }));
+      dispatch(login({ accessToken }));
+      dispatch(addProfile({ profile }));
 
       navigate("/dashboard");
     } catch (error) {
