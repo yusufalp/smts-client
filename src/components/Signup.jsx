@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { login } from "../store/features/authSlice";
 import { addProfile } from "../store/features/userSlice";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 function Signup() {
   const [first, setFirst] = useState("");
   const [last, setLast] = useState("");
@@ -13,8 +15,6 @@ function Signup() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();

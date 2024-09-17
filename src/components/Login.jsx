@@ -5,14 +5,14 @@ import { useDispatch } from "react-redux";
 import { login } from "../store/features/authSlice";
 import { addProfile } from "../store/features/userSlice";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
