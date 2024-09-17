@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addProfile } from "../../store/features/userSlice";
 
 import { STATES } from "../../data/states";
@@ -97,7 +97,7 @@ function AddressForm() {
       <select
         name="state"
         id="state"
-        defaultValue="default"
+        defaultValue={addressFormData.state || "default"}
         onChange={handleAddressInputChange}
       >
         <option value="default" disabled>
@@ -120,6 +120,7 @@ function AddressForm() {
         onChange={handleAddressInputChange}
       />
       <button type="submit">Update</button>
+      <Link to="/profile">Cancel</Link>
     </form>
   );
 }

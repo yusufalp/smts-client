@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addProfile } from "../../store/features/userSlice";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -90,6 +90,7 @@ function LinksForm() {
         onChange={handleLinksInputChange}
       />
       <button type="submit">Update</button>
+      <Link to="/profile">Cancel</Link>
     </form>
   );
 }
