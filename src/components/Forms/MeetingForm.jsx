@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { mentors } from "../data/mentors";
+import { mentors } from "../../data/mentors";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function MeetingForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -18,16 +20,14 @@ function MeetingForm() {
 
   const navigate = useNavigate();
 
-  const handleFormDataChange = (event) => {
-    const { name, value } = event.target;
+  const handleMeetingInputChange = (e) => {
+    const { name, value } = e.target;
 
     setMeetingFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
-
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -68,7 +68,7 @@ function MeetingForm() {
           name="title"
           placeholder="Short title"
           value={meetingFormData.title}
-          onChange={handleFormDataChange}
+          onChange={handleMeetingInputChange}
         />
         <label htmlFor="mentorId">Mentor</label>
         <select
@@ -76,7 +76,7 @@ function MeetingForm() {
           id="mentorId"
           defaultValue="default"
           required
-          onChange={handleFormDataChange}
+          onChange={handleMeetingInputChange}
         >
           <option value="default" disabled>
             Select your mentor
@@ -94,7 +94,7 @@ function MeetingForm() {
           name="date"
           required
           value={meetingFormData.date}
-          onChange={handleFormDataChange}
+          onChange={handleMeetingInputChange}
         />
         <label htmlFor="time">Time</label>
         <input
@@ -103,7 +103,7 @@ function MeetingForm() {
           name="time"
           required
           value={meetingFormData.time}
-          onChange={handleFormDataChange}
+          onChange={handleMeetingInputChange}
         />
         <label htmlFor="duration">Duration (min)</label>
         <input
@@ -112,7 +112,7 @@ function MeetingForm() {
           name="duration"
           required
           value={meetingFormData.duration}
-          onChange={handleFormDataChange}
+          onChange={handleMeetingInputChange}
         />
         <label htmlFor="noes">Notes about the meeting</label>
         <textarea
@@ -122,7 +122,7 @@ function MeetingForm() {
           cols={40}
           placeholder="Enter important notes here..."
           value={meetingFormData.notes}
-          onChange={handleFormDataChange}
+          onChange={handleMeetingInputChange}
         />
         <button type="submit">Submit</button>
       </form>
