@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/features/authSlice";
 import { removeProfile } from "../store/features/userSlice";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 function Header() {
   const userProfile = useSelector((state) => state.user.profile);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleLogout = async () => {
     const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
