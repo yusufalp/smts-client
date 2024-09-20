@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { mentors } from "../../data/mentors";
 
@@ -125,6 +125,7 @@ function MeetingForm() {
           onChange={handleMeetingInputChange}
         />
         <button type="submit">Submit</button>
+        <Link to="/dashboard">Cancel</Link>
       </form>
     </main>
   );
