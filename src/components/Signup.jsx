@@ -37,8 +37,6 @@ function Signup() {
         throw new Error(result.error.message);
       }
 
-      console.log("result :>> ", result);
-
       const accessToken = result.data.accessToken;
       const profile = result.data.profile;
 
