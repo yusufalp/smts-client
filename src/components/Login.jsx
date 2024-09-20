@@ -17,8 +17,6 @@ function Login() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("import.meta.env :>> ", import.meta.env);
-
     const body = { username, password };
 
     try {
@@ -45,7 +43,7 @@ function Login() {
 
       navigate("/dashboard");
     } catch (error) {
-      console.log("error :>> ", error);
+      console.log(error);
     }
   };
 
