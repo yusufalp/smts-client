@@ -38,9 +38,10 @@ function Signup() {
       }
 
       const accessToken = result.data.accessToken;
+      const expiresAt = result.data.expiresAt;
       const profile = result.data.profile;
 
-      dispatch(login({ accessToken }));
+      dispatch(login({ accessToken, expiresAt }));
       dispatch(addProfile({ profile }));
 
       navigate("/profile");
