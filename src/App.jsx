@@ -1,11 +1,18 @@
 import { Routes, Route } from "react-router-dom";
 
+import Layout from "./components/Layout";
+
 import Header from "./shared/Header";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+
 import PrivateRoutes from "./components/PrivateRoutes";
+
 import Dashboard from "./components/Dashboard/Dashboard";
 import Profile from "./components/Profile/MenteeProfile";
+import Meeting from "./components/Meeting";
+import Mentee from "./components/Mentee";
+
 import MeetingForm from "./components/Forms/MeetingForm";
 import EmailForm from "./components/Forms/EmailForm";
 import AddressForm from "./components/Forms/AddressForm";
@@ -15,7 +22,7 @@ import "./App.css";
 
 function App() {
   return (
-    <>
+    <Layout>
       <Header />
       <Routes>
         <Route path="/login" index element={<Login />} />
@@ -23,6 +30,8 @@ function App() {
         <Route element={<PrivateRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/meetings/:meetingId" element={<Meeting />} />
+          <Route path="/mentees/:menteeId" element={<Mentee />} />
           <Route path="/meeting-form" element={<MeetingForm />} />
           <Route path="/email-form" element={<EmailForm />} />
           <Route path="/address-form" element={<AddressForm />} />
@@ -30,7 +39,7 @@ function App() {
         </Route>
         <Route path="*" element={<h1>Page not found</h1>} />
       </Routes>
-    </>
+    </Layout>
   );
 }
 
