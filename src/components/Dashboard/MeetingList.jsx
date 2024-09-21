@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -48,7 +49,9 @@ function MeetingList() {
           </ul>
           {meetings.map((meeting) => (
             <ul key={meeting._id}>
-              <li>{meeting.title}</li>
+              <li>
+                <Link to={`/meetings/${meeting._id}`}>{meeting.title}</Link>
+              </li>
               {/* Update the date format */}
               <li>{meeting.date}</li>
               <li>{meeting.time}</li>

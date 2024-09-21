@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -8,13 +9,12 @@ function MenteeList() {
   const userProfile = useSelector((state) => state.user.profile);
 
   const [mentees, setMentees] = useState([]);
-  
+
   const advisorId = userProfile.userId;
   const advisorRole = userProfile.role;
 
-
   useEffect(() => {
-    const getMeentees = async () => {
+    const getMentees = async () => {
       try {
         const response = await fetch(
           `${API_BASE_URL}/api/profiles/${advisorId}/${advisorRole}`,
@@ -40,7 +40,7 @@ function MenteeList() {
       }
     };
 
-    getMeentees();
+    getMentees();
   }, [accessToken, advisorId, advisorRole]);
 
   return (
@@ -56,7 +56,9 @@ function MenteeList() {
       {mentees.length !== 0 ? (
         mentees.map((mentee) => (
           <ul key={mentee._id}>
-            <li>{mentee.name.first}</li>
+            <li>
+              <Link to={`/mentees/${mentee._id}}`}>{mentee.name.first}</Link>
+            </li>
             <li>{mentee.name.last}</li>
             <li>{mentee.graduation}</li>
           </ul>
