@@ -10,10 +10,10 @@ function Layout({ children }) {
   const accessToken = useSelector((state) => state.auth.accessToken);
   const expiresAt = useSelector((state) => state.auth.expiresAt);
 
-  const isTokenExpired = Date.now() > expiresAt * 1000;
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const isTokenExpired = Date.now() > expiresAt * 1000;
 
   useEffect(() => {
     if (!accessToken || isTokenExpired) {
