@@ -89,7 +89,3 @@ form textarea {
   align-items: center;
   flex: 1;
 }
-
-.dashboard ul li:first-child {
-  flex: 3;
-}
