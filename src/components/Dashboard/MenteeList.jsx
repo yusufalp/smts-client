@@ -45,7 +45,7 @@ function MenteeList() {
 
   return (
     <>
-      <h2>Mentee List</h2>
+      <h2>Mentees</h2>
       {mentees.length !== 0 && (
         <ul>
           <li>First Name</li>
