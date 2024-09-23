@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function MeetingList() {
   const accessToken = useSelector((state) => state.auth.accessToken);
+  const userProfile = useSelector((state) => state.user.profile);
 
   const [meetings, setMeetings] = useState([]);
+
+  const navigate = useNavigate();
+
+  const { role } = userProfile;
+
+  const isLearner = role === "mentee" || role === "alumni";
 
   useEffect(() => {
     const getMeetings = async () => {
@@ -38,6 +45,14 @@ function MeetingList() {
 
   return (
     <>
+      <h2>Meetings</h2>
+
+      {isLearner && (
+        <button onClick={() => navigate("/meeting-form")}>
+          Add a new meeting
+        </button>
+      )}
+
       {meetings.length ? (
         <>
           <ul>
@@ -45,7 +60,7 @@ function MeetingList() {
             <li>Date</li>
             <li>Time</li>
             <li>Duration</li>
-            <li>With</li>
+            <li>Mentee</li>
           </ul>
           {meetings.map((meeting) => (
             <ul key={meeting._id}>
@@ -53,11 +68,11 @@ function MeetingList() {
                 <Link to={`/meetings/${meeting._id}`}>{meeting.title}</Link>
               </li>
               {/* Update the date format */}
-              <li>{meeting.date}</li>
-              <li>{meeting.time}</li>
+              <li>{new Date(meeting.date).toLocaleDateString()}</li>
+              <li>{new Date(meeting.date).toLocaleTimeString()}</li>
               <li>{meeting.duration}</li>
               {/* TODO: render who the meeting was with */}
-              <li></li>
+              <li>{meeting.userId}</li>
             </ul>
           ))}
         </>
