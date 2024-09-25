@@ -1,8 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-
-import { mentors } from "../../data/mentors";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -11,14 +9,42 @@ function MeetingForm() {
 
   const [meetingFormData, setMeetingFormData] = useState({
     title: "",
-    mentorId: "",
+    advisor: "",
     date: "",
     time: "",
     duration: 30,
     notes: "",
   });
+  const [advisors, setAdvisors] = useState([]);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getAllAdvisors = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/profiles?role=advisor&field=name`, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        const result = await response.json();
+
+        if (result.error) {
+          throw new Error("Error when getting advisors");
+        }
+
+        setAdvisors(result.data.profiles);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getAllAdvisors()
+  }, [accessToken]);
 
   const handleMeetingInputChange = (e) => {
     const { name, value } = e.target;
@@ -59,31 +85,32 @@ function MeetingForm() {
     <main className="meeting">
       <form onSubmit={handleFormSubmit}>
         <h1>Add meeting</h1>
-        <p className="text-margin-0">Did you just meet with your mentor?</p>
+        <p className="text-margin-0">Did you just meet with your mentor or coach?</p>
         <p className="text-margin-0">Complete the form</p>
         <label htmlFor="title">Title</label>
         <input
           type="text"
           id="title"
           name="title"
-          placeholder="Short title"
+          required
+          placeholder="Add a short title"
           value={meetingFormData.title}
           onChange={handleMeetingInputChange}
         />
-        <label htmlFor="mentorId">Mentor</label>
+        <label htmlFor="advisor">Advisor</label>
         <select
-          name="mentorId"
-          id="mentorId"
+          name="advisor"
+          id="advisor"
           defaultValue="default"
           required
           onChange={handleMeetingInputChange}
         >
           <option value="default" disabled>
-            Select your mentor
+            Select your advisor
           </option>
-          {mentors.map((mentor) => (
-            <option key={mentor._id} value={mentor._id}>
-              {mentor.name.first}
+          {advisors && advisors.map((advisor) => (
+            <option key={advisor._id} value={advisor._id}>
+              {advisor.name.first}
             </option>
           ))}
         </select>
@@ -120,6 +147,7 @@ function MeetingForm() {
           id="notes"
           rows={4}
           cols={40}
+          required
           placeholder="Enter important notes here..."
           value={meetingFormData.notes}
           onChange={handleMeetingInputChange}
