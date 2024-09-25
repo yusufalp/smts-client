@@ -9,9 +9,9 @@ import Signup from "./components/Signup";
 import PrivateRoutes from "./components/PrivateRoutes";
 
 import Dashboard from "./components/Dashboard/Dashboard";
-import Profile from "./components/Profile/MenteeProfile";
+import Profile from "./components/Profile/LearnerProfile";
 import Meeting from "./components/Meeting";
-import Mentee from "./components/Mentee";
+import Learner from "./components/Learner";
 
 import MeetingForm from "./components/Forms/MeetingForm";
 import EmailForm from "./components/Forms/EmailForm";
@@ -31,7 +31,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/meetings/:meetingId" element={<Meeting />} />
-          <Route path="/mentees/:menteeId" element={<Mentee />} />
+          <Route path="/mentees/:menteeId" element={<Learner />} />
           <Route path="/meeting-form" element={<MeetingForm />} />
           <Route path="/email-form" element={<EmailForm />} />
           <Route path="/address-form" element={<AddressForm />} />
