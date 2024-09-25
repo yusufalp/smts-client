@@ -14,19 +14,20 @@ function MeetingList() {
 
   const { role } = userProfile;
 
-  const isLearner = role === "mentee" || role === "alumni";
-
   useEffect(() => {
     const getMeetings = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/meetings`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await fetch(
+          `${API_BASE_URL}/api/meetings/with?role=${role}`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
         const result = await response.json();
 
@@ -41,13 +42,13 @@ function MeetingList() {
     };
 
     getMeetings();
-  }, [accessToken]);
+  }, [accessToken, role]);
 
   return (
     <>
       <h2>Meetings</h2>
 
-      {isLearner && (
+      {role === "mentee" && (
         <button onClick={() => navigate("/meeting-form")}>
           Add a new meeting
         </button>
@@ -60,19 +61,19 @@ function MeetingList() {
             <li>Date</li>
             <li>Time</li>
             <li>Duration</li>
-            <li>Mentee</li>
+            <li>Advisor</li>
           </ul>
           {meetings.map((meeting) => (
             <ul key={meeting._id}>
               <li>
                 <Link to={`/meetings/${meeting._id}`}>{meeting.title}</Link>
               </li>
-              {/* Update the date format */}
               <li>{new Date(meeting.date).toLocaleDateString()}</li>
               <li>{new Date(meeting.date).toLocaleTimeString()}</li>
               <li>{meeting.duration}</li>
-              {/* TODO: render who the meeting was with */}
-              <li>{meeting.userId}</li>
+              <li>
+                {meeting.learner?.name?.first} {meeting.advisor?.name?.first}
+              </li>
             </ul>
           ))}
         </>
