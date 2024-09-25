@@ -6,27 +6,20 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function MenteeList() {
   const accessToken = useSelector((state) => state.auth.accessToken);
-  const userProfile = useSelector((state) => state.user.profile);
 
   const [mentees, setMentees] = useState([]);
 
-  const advisorId = userProfile.userId;
-  const advisorRole = userProfile.role;
-
   useEffect(() => {
-    const getMentees = async () => {
+    const getAssignedMentees = async () => {
       try {
-        const response = await fetch(
-          `${API_BASE_URL}/api/profiles/${advisorId}/${advisorRole}`,
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const response = await fetch(`${API_BASE_URL}/api/profiles/mentees`, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
 
         const result = await response.json();
 
@@ -40,8 +33,8 @@ function MenteeList() {
       }
     };
 
-    getMentees();
-  }, [accessToken, advisorId, advisorRole]);
+    getAssignedMentees();
+  }, [accessToken]);
 
   return (
     <>
