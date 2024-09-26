@@ -10,6 +10,8 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,6 +22,9 @@ function Login() {
     const body = { username, password };
 
     try {
+      setIsLoading(true);
+      setError("");
+
       const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
         credentials: "include",
@@ -44,7 +49,9 @@ function Login() {
 
       navigate("/dashboard");
     } catch (error) {
-      console.log(error);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -72,7 +79,12 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
+
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Logging in..." : "Login"}
+        </button>
+
+        {error && <p className="error">{error}</p>}
       </form>
       <p className="text-center">
         {bottomText} <Link to="/signup">Signup</Link>

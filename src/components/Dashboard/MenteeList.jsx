@@ -8,6 +8,8 @@ function MenteeList() {
   const accessToken = useSelector((state) => state.auth.accessToken);
 
   const [mentees, setMentees] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const getAssignedMentees = async () => {
@@ -29,7 +31,9 @@ function MenteeList() {
 
         setMentees(result.data.mentees);
       } catch (error) {
-        console.log(error);
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -39,25 +43,30 @@ function MenteeList() {
   return (
     <>
       <h2>Mentees</h2>
-      {mentees.length !== 0 && (
-        <ul>
-          <li>First Name</li>
-          <li>Last Name</li>
-          <li>Graduation</li>
-        </ul>
-      )}
-      {mentees.length !== 0 ? (
-        mentees.map((mentee) => (
-          <ul key={mentee._id}>
-            <li>
-              <Link to={`/mentees/${mentee._id}}`}>{mentee.name.first}</Link>
-            </li>
-            <li>{mentee.name.last}</li>
-            <li>{mentee.graduation}</li>
+
+      {isLoading && <p>Loading</p>}
+
+      {error && <p>{error}</p>}
+
+      {!isLoading && !error && mentees.length ? (
+        <>
+          <ul>
+            <li>First Name</li>
+            <li>Last Name</li>
+            <li>Graduation</li>
           </ul>
-        ))
+          {mentees.map((mentee) => (
+            <ul key={mentee._id}>
+              <li>
+                <Link to={`/mentees/${mentee._id}}`}>{mentee.name.first}</Link>
+              </li>
+              <li>{mentee.name.last}</li>
+              <li>{mentee.graduation}</li>
+            </ul>
+          ))}
+        </>
       ) : (
-        <p>There are no mentees assigned yet</p>
+        !isLoading && !error && <p>There are no mentees assigned yet</p>
       )}
     </>
   );

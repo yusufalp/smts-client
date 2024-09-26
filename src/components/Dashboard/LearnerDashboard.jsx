@@ -7,6 +7,8 @@ function LearnerDashboard() {
   const accessToken = useSelector((state) => state.auth.accessToken);
 
   const [assignedAdvisors, setAssignedAdvisors] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const getAssignedAdvisors = async () => {
@@ -22,15 +24,15 @@ function LearnerDashboard() {
 
         const result = await response.json();
 
-        console.log("result :>> ", result);
-
         if (result.error) {
           throw new Error(result.error.message);
         }
 
         setAssignedAdvisors(result.data.assigned);
       } catch (error) {
-        console.log(error);
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -39,14 +41,24 @@ function LearnerDashboard() {
 
   return (
     <div>
-      <p>
-        Your mentor is{" "}
-        {assignedAdvisors?.mentor?.name?.first || "will be assigned soon"}
-      </p>
-      <p>
-        Your coach is{" "}
-        {assignedAdvisors?.coach?.name?.first || "will be assigned soon"}
-      </p>
+      {isLoading && <p>Loading...</p>}
+
+      {error && <p>{error}</p>}
+
+      {!isLoading && !error && (
+        <>
+          <p>
+            {assignedAdvisors
+              ? `Your mentor is ${assignedAdvisors?.mentor?.name?.first}`
+              : "will be assigned soon"}
+          </p>
+          <p>
+            {assignedAdvisors
+              ? `Your coach is ${assignedAdvisors?.coach?.name?.first}`
+              : "will be assigned soon"}
+          </p>
+        </>
+      )}
     </div>
   );
 }

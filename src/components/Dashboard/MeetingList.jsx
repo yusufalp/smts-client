@@ -9,6 +9,8 @@ function MeetingList() {
   const userProfile = useSelector((state) => state.user.profile);
 
   const [meetings, setMeetings] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
@@ -37,7 +39,9 @@ function MeetingList() {
 
         setMeetings(result.data.meetings);
       } catch (error) {
-        console.log(error);
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -54,7 +58,11 @@ function MeetingList() {
         </button>
       )}
 
-      {meetings.length ? (
+      {isLoading && <p>Loading...</p>}
+
+      {error && <p>{error}</p>}
+
+      {!isLoading && !error && meetings.length ? (
         <>
           <ul>
             <li>Title</li>
@@ -78,7 +86,7 @@ function MeetingList() {
           ))}
         </>
       ) : (
-        <p>There are no meetings</p>
+        !isLoading && !error && <p>There are no meetings</p>
       )}
     </>
   );

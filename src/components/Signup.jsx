@@ -4,31 +4,65 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { login } from "../store/features/authSlice";
 import { addProfile } from "../store/features/userSlice";
+import { validatePassword } from "../utils/validations";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function Signup() {
-  const [first, setFirst] = useState("");
-  const [last, setLast] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [signupFormData, setSignupFormData] = useState({
+    first: "",
+    last: "",
+    username: "",
+    password: "",
+  });
+  const [signupFormErrors, setSignupFormErrors] = useState({
+    first: "",
+    last: "",
+    username: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const isFormValid = () => {
+    return !Object.values(signupFormErrors).some((error) => error !== "");
+  };
+
+  const handleSignupInputChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "password") {
+      setSignupFormErrors((prevErrors) => ({
+        ...prevErrors,
+        password: validatePassword(value),
+      }));
+    }
+
+    setSignupFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
 
-    const body = { first, last, username, password };
+    if (!isFormValid()) return
 
     try {
+      setIsLoading(true);
+      setError("");
+
       const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(signupFormData),
       });
 
       const result = await response.json();
@@ -46,7 +80,9 @@ function Signup() {
 
       navigate("/profile");
     } catch (error) {
-      console.log(error);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -62,37 +98,57 @@ function Signup() {
           name="first"
           id="first"
           required
-          value={first}
-          onChange={(e) => setFirst(e.target.value)}
+          value={signupFormData.first}
+          onChange={handleSignupInputChange}
         />
+        {signupFormErrors.first && (
+          <p className="error">{signupFormErrors.first}</p>
+        )}
+
         <label htmlFor="last">Last name</label>
         <input
           type="text"
           name="last"
           id="last"
           required
-          value={last}
-          onChange={(e) => setLast(e.target.value)}
+          value={signupFormData.last}
+          onChange={handleSignupInputChange}
         />
+        {signupFormErrors.last && (
+          <p className="error">{signupFormErrors.last}</p>
+        )}
+
         <label htmlFor="username">Username</label>
         <input
           type="text"
           name="username"
           id="username"
           required
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={signupFormData.username}
+          onChange={handleSignupInputChange}
         />
+        {signupFormErrors.username && (
+          <p className="error">{signupFormErrors.username}</p>
+        )}
+
         <label htmlFor="password">Password</label>
         <input
           type="password"
           name="password"
           id="password"
           required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={signupFormData.password}
+          onChange={handleSignupInputChange}
         />
-        <button type="submit">Create</button>
+        {signupFormErrors.password && (
+          <p className="error">{signupFormErrors.password}</p>
+        )}
+
+        <button type="submit" disabled={isLoading || !isFormValid()}>
+          {isLoading ? "Creating account..." : "Create"}
+        </button>
+
+        {error && <p className="error">{error}</p>}
       </form>
       <p className="text-center">
         {bottomText} <Link to="/login">Login</Link>
