@@ -13,24 +13,28 @@ function Header() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
 
-    const result = await response.json();
+      const result = await response.json();
 
-    if (result.error) {
-      throw new Error(result.error.message);
+      if (result.error) {
+        throw new Error(result.error.message);
+      }
+
+      dispatch(logout());
+      dispatch(removeProfile());
+
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
     }
-
-    dispatch(logout());
-    dispatch(removeProfile());
-
-    navigate("/login");
   };
 
   return (
