@@ -89,3 +89,7 @@ form textarea {
   align-items: center;
   flex: 1;
 }
+
+.error {
+  color: red;
+}
