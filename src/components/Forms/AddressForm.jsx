@@ -34,17 +34,19 @@ function AddressForm() {
   const handleAddressFormSubmit = async (e) => {
     e.preventDefault();
 
+    const body = { field: "address", value: addressFormData };
+
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/profiles/update-address`,
+        `${API_BASE_URL}/api/profiles/profile`,
         {
-          method: "POST",
+          method: "PATCH",
           credentials: "include",
           headers: {
             "Content-type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-          body: JSON.stringify(addressFormData),
+          body: JSON.stringify(body),
         }
       );
 

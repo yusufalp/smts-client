@@ -17,13 +17,13 @@ function EmailForm() {
   const handleEmailFormSubmit = async (e) => {
     e.preventDefault();
 
-    const body = { email };
+    const body = { field: "email", value: email };
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/profiles/update-email`,
+        `${API_BASE_URL}/api/profiles/profile`,
         {
-          method: "POST",
+          method: "PATCH",
           credentials: "include",
           headers: {
             "Content-type": "application/json",

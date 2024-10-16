@@ -30,17 +30,19 @@ function LinksForm() {
   const handleLinksFormSubmit = async (e) => {
     e.preventDefault();
 
+    const body = { field: "links", value: linksFormData };
+
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/profiles/update-links`,
+        `${API_BASE_URL}/api/profiles/profile`,
         {
-          method: "POST",
+          method: "PATCH",
           credentials: "include",
           headers: {
             "Content-type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-          body: JSON.stringify(linksFormData),
+          body: JSON.stringify(body),
         }
       );
 
