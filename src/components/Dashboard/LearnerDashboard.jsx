@@ -13,7 +13,7 @@ function LearnerDashboard() {
   useEffect(() => {
     const getAssignedAdvisors = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/profiles/advisors`, {
+        const response = await fetch(`${API_BASE_URL}/api/profiles/assigned/advisors`, {
           method: "GET",
           credentials: "include",
           headers: {
@@ -50,12 +50,12 @@ function LearnerDashboard() {
           <p>
             {assignedAdvisors
               ? `Your mentor is ${assignedAdvisors?.mentor?.name?.first}`
-              : "will be assigned soon"}
+              : "Your mentor will be assigned soon"}
           </p>
           <p>
             {assignedAdvisors
               ? `Your coach is ${assignedAdvisors?.coach?.name?.first}`
-              : "will be assigned soon"}
+              : "Your coach will be assigned soon"}
           </p>
         </>
       )}

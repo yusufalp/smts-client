@@ -7,14 +7,14 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 function MenteeList() {
   const accessToken = useSelector((state) => state.auth.accessToken);
 
-  const [mentees, setMentees] = useState([]);
+  const [assignedMentees, setAssignedMentees] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     const getAssignedMentees = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/profiles/mentees`, {
+        const response = await fetch(`${API_BASE_URL}/api/profiles/assigned/mentees`, {
           method: "GET",
           credentials: "include",
           headers: {
@@ -29,7 +29,7 @@ function MenteeList() {
           throw new Error(result.error.message);
         }
 
-        setMentees(result.data.mentees);
+        setAssignedMentees(result.data.mentees);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -48,14 +48,14 @@ function MenteeList() {
 
       {error && <p>{error}</p>}
 
-      {!isLoading && !error && mentees.length ? (
+      {!isLoading && !error && assignedMentees.length ? (
         <>
           <ul>
             <li>First Name</li>
             <li>Last Name</li>
             <li>Graduation</li>
           </ul>
-          {mentees.map((mentee) => (
+          {assignedMentees.map((mentee) => (
             <ul key={mentee._id}>
               <li>
                 <Link to={`/mentees/${mentee._id}}`}>{mentee.name.first}</Link>

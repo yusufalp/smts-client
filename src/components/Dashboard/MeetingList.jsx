@@ -20,7 +20,7 @@ function MeetingList() {
     const getMeetings = async () => {
       try {
         const response = await fetch(
-          `${API_BASE_URL}/api/meetings/with?role=${role}`,
+          `${API_BASE_URL}/api/meetings`,
           {
             method: "GET",
             credentials: "include",
