@@ -23,12 +23,9 @@ function MeetingForm() {
 
   useEffect(() => {
     const getAllAdvisors = async () => {
-      const role = "advisor";
-      const field = "name";
-
       try {
         const response = await fetch(
-          `${API_BASE_URL}/api/profiles/profile?role=${role}&field=${field}`,
+          `${API_BASE_URL}/api/profiles/advisors`,
           {
             method: "GET",
             credentials: "include",
@@ -45,7 +42,7 @@ function MeetingForm() {
           throw new Error("Error when getting advisors");
         }
 
-        setAdvisors(result.data.profiles);
+        setAdvisors(result.data.advisors);
       } catch (error) {
         console.log(error);
         setError(error.message);

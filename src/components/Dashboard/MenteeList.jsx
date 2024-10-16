@@ -48,7 +48,7 @@ function MenteeList() {
       assignedMentees.map((mentee) => (
         <ul key={mentee._id}>
           <li>
-            <Link to={`/mentees/${mentee._id}}`}>{mentee.name.first}</Link>
+            <Link to={`/mentees/${mentee._id}`}>{mentee.name.first}</Link>
           </li>
           <li>{mentee.name.last}</li>
           <li>{mentee.graduation}</li>

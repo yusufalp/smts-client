@@ -9,7 +9,7 @@ import Signup from "./components/Signup";
 import PrivateRoutes from "./components/PrivateRoutes";
 
 import Dashboard from "./components/Dashboard/Dashboard";
-import Profile from "./components/Profile/LearnerProfile";
+import Profile from "./components/Profile/Profile";
 import Meeting from "./components/Meeting";
 import Learner from "./components/Learner";
 
