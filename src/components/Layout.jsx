@@ -19,7 +19,6 @@ function Layout({ children }) {
     if (!accessToken || isTokenExpired) {
       dispatch(logout());
       dispatch(removeProfile());
-      navigate("/login");
     }
   }, [accessToken, dispatch, isTokenExpired, navigate]);
 
