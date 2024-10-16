@@ -16,20 +16,28 @@ function MeetingForm() {
     notes: "",
   });
   const [advisors, setAdvisors] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const getAllAdvisors = async () => {
+      const role = "advisor";
+      const field = "name";
+
       try {
-        const response = await fetch(`${API_BASE_URL}/api/profiles?role=advisor&field=name`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await fetch(
+          `${API_BASE_URL}/api/profiles/profile?role=${role}&field=${field}`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
         const result = await response.json();
 
@@ -40,10 +48,13 @@ function MeetingForm() {
         setAdvisors(result.data.profiles);
       } catch (error) {
         console.log(error);
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    getAllAdvisors()
+    getAllAdvisors();
   }, [accessToken]);
 
   const handleMeetingInputChange = (e) => {
@@ -59,6 +70,9 @@ function MeetingForm() {
     e.preventDefault();
 
     try {
+      setIsLoading(true);
+      setError("");
+
       const response = await fetch(`${API_BASE_URL}/api/meetings`, {
         method: "POST",
         credentials: "include",
@@ -78,83 +92,97 @@ function MeetingForm() {
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <main className="meeting">
-      <form onSubmit={handleFormSubmit}>
-        <h1>Add meeting</h1>
-        <p className="text-margin-0">Did you just meet with your mentor or coach?</p>
-        <p className="text-margin-0">Complete the form</p>
-        <label htmlFor="title">Title</label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          required
-          placeholder="Add a short title"
-          value={meetingFormData.title}
-          onChange={handleMeetingInputChange}
-        />
-        <label htmlFor="advisor">Advisor</label>
-        <select
-          name="advisor"
-          id="advisor"
-          defaultValue="default"
-          required
-          onChange={handleMeetingInputChange}
-        >
-          <option value="default" disabled>
-            Select your advisor
-          </option>
-          {advisors && advisors.map((advisor) => (
-            <option key={advisor._id} value={advisor._id}>
-              {advisor.name.first}
+      {isLoading && <p>Loading...</p>}
+
+      {error && <p>{error}</p>}
+
+      {!isLoading && !error && (
+        <form onSubmit={handleFormSubmit}>
+          <h1>Add meeting</h1>
+          <p className="text-margin-0">
+            Did you just meet with your mentor or coach?
+          </p>
+          <p className="text-margin-0">Complete the form</p>
+          <label htmlFor="title">Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            required
+            placeholder="Add a short title"
+            value={meetingFormData.title}
+            onChange={handleMeetingInputChange}
+          />
+          <label htmlFor="advisor">Advisor</label>
+          <select
+            name="advisor"
+            id="advisor"
+            defaultValue="default"
+            required
+            onChange={handleMeetingInputChange}
+          >
+            <option value="default" disabled>
+              Select your advisor
             </option>
-          ))}
-        </select>
-        <label htmlFor="date">Date</label>
-        <input
-          type="date"
-          id="date"
-          name="date"
-          required
-          value={meetingFormData.date}
-          onChange={handleMeetingInputChange}
-        />
-        <label htmlFor="time">Time</label>
-        <input
-          type="time"
-          id="time"
-          name="time"
-          required
-          value={meetingFormData.time}
-          onChange={handleMeetingInputChange}
-        />
-        <label htmlFor="duration">Duration (min)</label>
-        <input
-          type="number"
-          id="duration"
-          name="duration"
-          required
-          value={meetingFormData.duration}
-          onChange={handleMeetingInputChange}
-        />
-        <label htmlFor="noes">Notes about the meeting</label>
-        <textarea
-          name="notes"
-          id="notes"
-          rows={4}
-          cols={40}
-          required
-          placeholder="Enter important notes here..."
-          value={meetingFormData.notes}
-          onChange={handleMeetingInputChange}
-        />
-        <button type="submit">Submit</button>
-        <Link to="/dashboard">Cancel</Link>
-      </form>
+            {advisors &&
+              advisors.map((advisor) => (
+                <option key={advisor._id} value={advisor._id}>
+                  {advisor.name.first}
+                </option>
+              ))}
+          </select>
+          <label htmlFor="date">Date</label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            required
+            value={meetingFormData.date}
+            onChange={handleMeetingInputChange}
+          />
+          <label htmlFor="time">Time</label>
+          <input
+            type="time"
+            id="time"
+            name="time"
+            required
+            value={meetingFormData.time}
+            onChange={handleMeetingInputChange}
+          />
+          <label htmlFor="duration">Duration (min)</label>
+          <input
+            type="number"
+            id="duration"
+            name="duration"
+            required
+            value={meetingFormData.duration}
+            onChange={handleMeetingInputChange}
+          />
+          <label htmlFor="noes">Notes about the meeting</label>
+          <textarea
+            name="notes"
+            id="notes"
+            rows={4}
+            cols={40}
+            required
+            placeholder="Enter important notes here..."
+            value={meetingFormData.notes}
+            onChange={handleMeetingInputChange}
+          />
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Submitting" : "Submit"}
+          </button>
+          <Link to="/dashboard">Cancel</Link>
+        </form>
+      )}
     </main>
   );
 }
