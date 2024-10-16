@@ -19,17 +19,14 @@ function MeetingList() {
   useEffect(() => {
     const getMeetings = async () => {
       try {
-        const response = await fetch(
-          `${API_BASE_URL}/api/meetings`,
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const response = await fetch(`${API_BASE_URL}/api/meetings`, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
 
         const result = await response.json();
 
@@ -69,7 +66,7 @@ function MeetingList() {
             <li>Date</li>
             <li>Time</li>
             <li>Duration</li>
-            <li>Advisor</li>
+            <li>Participant</li>
           </ul>
           {meetings.map((meeting) => (
             <ul key={meeting._id}>
@@ -80,7 +77,8 @@ function MeetingList() {
               <li>{new Date(meeting.date).toLocaleTimeString()}</li>
               <li>{meeting.duration}</li>
               <li>
-                {meeting.learner?.name?.first} {meeting.advisor?.name?.first}
+                {role === "mentor" && meeting.learner?.name?.first}
+                {role === "mentee" && meeting.advisor?.name?.first}
               </li>
             </ul>
           ))}

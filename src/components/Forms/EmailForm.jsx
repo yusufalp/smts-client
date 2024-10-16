@@ -9,7 +9,7 @@ function EmailForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
   const userProfile = useSelector((state) => state.user.profile);
 
-  const [email, setEmail] = useState(userProfile.email || "");
+  const [email, setEmail] = useState(userProfile?.email || "");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

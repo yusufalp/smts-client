@@ -6,7 +6,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 function LearnerDashboard() {
   const accessToken = useSelector((state) => state.auth.accessToken);
 
-  const [assignedAdvisors, setAssignedAdvisors] = useState({});
+  const [assignedAdvisors, setAssignedAdvisors] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 

@@ -10,9 +10,9 @@ function LinksForm() {
   const userProfile = useSelector((state) => state.user.profile);
 
   const [linksFormData, setLinksFormData] = useState({
-    portfolio: userProfile.links?.portfolio || "",
-    linkedin: userProfile.links?.linkedin || "",
-    github: userProfile.links?.github || "",
+    portfolio: userProfile?.links?.portfolio || "",
+    linkedin: userProfile?.links?.linkedin || "",
+    github: userProfile?.links?.github || "",
   });
 
   const dispatch = useDispatch();
@@ -33,18 +33,15 @@ function LinksForm() {
     const body = { field: "links", value: linksFormData };
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/profiles/profile`,
-        {
-          method: "PATCH",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}/api/profiles/profile`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(body),
+      });
 
       const result = await response.json();
 

@@ -12,11 +12,11 @@ function AddressForm() {
   const userProfile = useSelector((state) => state.user.profile);
 
   const [addressFormData, setAddressFormData] = useState({
-    line1: userProfile.address?.street?.line1 || "",
-    line2: userProfile.address?.street?.line2 || "",
-    city: userProfile.address?.city || "",
-    state: userProfile.address?.state || "",
-    zip: userProfile.address?.zip || "",
+    line1: userProfile?.address?.street?.line1 || "",
+    line2: userProfile?.address?.street?.line2 || "",
+    city: userProfile?.address?.city || "",
+    state: userProfile?.address?.state || "",
+    zip: userProfile?.address?.zip || "",
   });
 
   const dispatch = useDispatch();
@@ -37,18 +37,15 @@ function AddressForm() {
     const body = { field: "address", value: addressFormData };
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/profiles/profile`,
-        {
-          method: "PATCH",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}/api/profiles/profile`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(body),
+      });
 
       const result = await response.json();
 
