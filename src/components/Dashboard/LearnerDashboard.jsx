@@ -40,7 +40,7 @@ function LearnerDashboard() {
   }, [accessToken]);
 
   return (
-    <div>
+    <main>
       {isLoading && <p>Loading...</p>}
 
       {error && <p>{error}</p>}
@@ -59,7 +59,7 @@ function LearnerDashboard() {
           </p>
         </>
       )}
-    </div>
+    </main>
   );
 }
 

@@ -1,8 +1,8 @@
 function AdminProfile() {
   return (
-    <div>
+    <main>
       <h1>Admin Profiles</h1>
-    </div>
+    </main>
   );
 }
 
