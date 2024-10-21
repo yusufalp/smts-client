@@ -34,23 +34,27 @@ function Signup() {
   const handleSignupInputChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "password") {
-      setSignupFormErrors((prevErrors) => ({
-        ...prevErrors,
-        password: validatePassword(value),
-      }));
-    }
-
     setSignupFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
+  const checkPassword = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "password") {
+      setSignupFormErrors((prevErrors) => ({
+        ...prevErrors,
+        password: validatePassword(value),
+      }));
+    }
+  };
+
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
 
-    if (!isFormValid()) return
+    if (!isFormValid()) return;
 
     try {
       setIsLoading(true);
@@ -85,8 +89,6 @@ function Signup() {
       setIsLoading(false);
     }
   };
-
-  const bottomText = "Already have an account?";
 
   return (
     <main>
@@ -139,6 +141,7 @@ function Signup() {
           required
           value={signupFormData.password}
           onChange={handleSignupInputChange}
+          onBlur={checkPassword}
         />
         {signupFormErrors.password && (
           <p className="error">{signupFormErrors.password}</p>
@@ -151,7 +154,7 @@ function Signup() {
         {error && <p className="error">{error}</p>}
       </form>
       <p className="text-center">
-        {bottomText} <Link to="/login">Login</Link>
+        {`Already have an account?`} <Link to="/login">Login</Link>
       </p>
     </main>
   );

@@ -18,9 +18,9 @@ function Login() {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-
+    
     const body = { username, password };
-
+    
     try {
       setIsLoading(true);
       setError("");
@@ -55,8 +55,6 @@ function Login() {
     }
   };
 
-  const bottomText = "Don't have an account?";
-
   return (
     <main>
       <form onSubmit={handleLoginSubmit}>
@@ -87,7 +85,7 @@ function Login() {
         {error && <p className="error">{error}</p>}
       </form>
       <p className="text-center">
-        {bottomText} <Link to="/signup">Signup</Link>
+        {`Don't have an account?`} <Link to="/signup">Signup</Link>
       </p>
     </main>
   );
