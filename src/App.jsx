@@ -30,8 +30,8 @@ function App() {
         <Route element={<PrivateRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/meetings/:meetingId" element={<Meeting />} />
-          <Route path="/mentees/:menteeId" element={<Learner />} />
+          <Route path="/meeting/:meetingId" element={<Meeting />} />
+          <Route path="/mentee/:menteeId" element={<Learner />} />
           <Route path="/meeting-form" element={<MeetingForm />} />
           <Route path="/email-form" element={<EmailForm />} />
           <Route path="/address-form" element={<AddressForm />} />

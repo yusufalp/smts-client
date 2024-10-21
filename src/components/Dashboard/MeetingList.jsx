@@ -71,7 +71,7 @@ function MeetingList() {
           {meetings.map((meeting) => (
             <ul key={meeting._id}>
               <li>
-                <Link to={`/meetings/${meeting._id}`}>{meeting.title}</Link>
+                <Link to={`/meeting/${meeting._id}`}>{meeting.title}</Link>
               </li>
               <li>{new Date(meeting.date).toLocaleDateString()}</li>
               <li>{new Date(meeting.date).toLocaleTimeString()}</li>
