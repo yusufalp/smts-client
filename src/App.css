@@ -13,11 +13,14 @@ header nav {
   justify-content: flex-end;
 }
 
+ul {
+  list-style: none;
+  padding: 0;
+}
+
 header ul {
   display: flex;
   justify-content: space-around;
-  list-style: none;
-  padding: 0;
   width: 320px;
 }
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -52,7 +52,25 @@ function Learner() {
       {error && <p>{error}</p>}
 
       {!isLoading && !error && mentee && (
-        <h1>{`You are viewing ${mentee?.name?.first}'s Profile`}</h1>
+        <>
+          <h1>{`You are viewing ${mentee?.name?.first}'s Profile`}</h1>
+          <p>Email: {mentee?.email}</p>
+          <p>Cohort: {mentee?.cohort}</p>
+          <p>Graduation: {mentee?.graduation}</p>
+          <p>Status: {mentee?.status}</p>
+          <h2>Links</h2>
+          <ul>
+            <li>
+              <Link to={mentee?.links?.portfolio}>Portfolio</Link>
+            </li>
+            <li>
+              <Link to={mentee?.links?.linkedin}>LinkedIn</Link>
+            </li>
+            <li>
+              <Link to={mentee?.links?.github}>GitHub</Link>
+            </li>
+          </ul>
+        </>
       )}
     </main>
   );
