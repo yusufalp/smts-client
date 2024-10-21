@@ -21,6 +21,7 @@ function Signup() {
     username: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -135,7 +136,7 @@ function Signup() {
 
         <label htmlFor="password">Password</label>
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           name="password"
           id="password"
           required
@@ -143,6 +144,17 @@ function Signup() {
           onChange={handleSignupInputChange}
           onBlur={checkPassword}
         />
+        <label htmlFor="show">
+          <input
+            type="checkbox"
+            name="show"
+            id="show"
+            checked={showPassword}
+            onChange={() => setShowPassword(!showPassword)}
+          />
+          Show Password
+        </label>
+
         {signupFormErrors.password && (
           <p className="error">{signupFormErrors.password}</p>
         )}

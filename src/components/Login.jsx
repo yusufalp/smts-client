@@ -10,6 +10,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -18,9 +19,9 @@ function Login() {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    
+
     const body = { username, password };
-    
+
     try {
       setIsLoading(true);
       setError("");
@@ -70,13 +71,23 @@ function Login() {
         />
         <label htmlFor="password">Password</label>
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           id="password"
           name="password"
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <label htmlFor="show">
+          <input
+            type="checkbox"
+            name="show"
+            id="show"
+            checked={showPassword}
+            onChange={() => setShowPassword(!showPassword)}
+          />
+          Show Password
+        </label>
 
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Logging in..." : "Login"}

@@ -6,9 +6,9 @@ export function validatePassword(value) {
   if (value === "") {
     return "Password cannot be blank";
   } else if (value.length < 8) {
-    return "Must be at least 8 characters";
+    return "Password must be at least 8 characters";
   } else if (!value.match(PASSWORD_REGEX)) {
-    return "Include an uppercase, a lowercase, a number and a special character: @ # $ % ^ & + ! =";
+    return "Password must include an uppercase, a lowercase, a number and a special character: @ # $ % ^ & + ! =";
   } else {
     return "";
   }
