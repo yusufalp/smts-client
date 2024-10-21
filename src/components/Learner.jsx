@@ -17,7 +17,7 @@ function Learner() {
     const getLearner = async () => {
       try {
         const response = await fetch(
-          `${API_BASE_URL}/api/profiles/assigned/mentees/${menteeId}`,
+          `${API_BASE_URL}/api/profiles/assigned/mentee/${menteeId}`,
           {
             method: "GET",
             credentials: "include",
