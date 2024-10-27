@@ -1,9 +1,17 @@
-function AdvisorProfile() {
+import PropTypes from "prop-types";
+function AdvisorProfile({ name }) {
   return (
-    <main>
+    <>
       <h1>Advisor Profile</h1>
-    </main>
+      <h2>
+        {name.first} {name.last}
+      </h2>
+    </>
   );
 }
+
+AdvisorProfile.propTypes = {
+  name: PropTypes.object,
+};
 
 export default AdvisorProfile;

@@ -1,9 +1,18 @@
-function AdminProfile() {
+import PropTypes from "prop-types";
+
+function AdminProfile({ name }) {
   return (
-    <main>
+    <>
       <h1>Admin Profiles</h1>
-    </main>
+      <h2>
+        {name.first} {name.last}
+      </h2>
+    </>
   );
 }
+
+AdminProfile.propTypes = {
+  name: PropTypes.object,
+};
 
 export default AdminProfile;
