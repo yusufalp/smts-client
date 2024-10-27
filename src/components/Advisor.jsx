@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-function Meeting() {
+function Advisor() {
   const accessToken = useSelector((state) => state.auth.accessToken);
 
-  const { meetingId } = useParams();
+  const { advisorId } = useParams();
 
-  const [meeting, setMeeting] = useState(null);
+  const [advisor, setAdvisor] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const getMeeting = async () => {
+    const getAdvisor = async () => {
       try {
         const response = await fetch(
-          `${API_BASE_URL}/api/meetings/${meetingId}`,
+          `${API_BASE_URL}/api/profiles/${advisorId}`,
           {
             method: "GET",
             credentials: "include",
@@ -34,7 +34,7 @@ function Meeting() {
           throw new Error(result.error.message);
         }
 
-        setMeeting(result.data.meeting);
+        setAdvisor(result.data.profile);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -42,10 +42,8 @@ function Meeting() {
       }
     };
 
-    getMeeting();
-  }, [accessToken, meetingId]);
-
-  console.log("meeting :>> ", meeting);
+    getAdvisor();
+  }, [accessToken, advisorId]);
 
   return (
     <main>
@@ -53,26 +51,13 @@ function Meeting() {
 
       {error && <p>{error}</p>}
 
-      {!isLoading && !error && meeting && (
+      {!isLoading && !error && advisor && (
         <>
-          <h1>{meeting.title}</h1>
-          <p>
-            Learner:{" "}
-            <Link to={`/mentee/${meeting.learner?._id}`}>
-              {meeting.learner?.name?.first}
-            </Link>
-          </p>
-          <p>
-            Advisor:{" "}
-            <Link to={`/advisor/${meeting.advisor?._id}`}>
-              {meeting.advisor?.name?.first}
-            </Link>
-          </p>
-          <p>Date: {meeting.date}</p>
+          <h1>{`You are viewing ${advisor?.name?.first}'s Profile`}</h1>
         </>
       )}
     </main>
   );
 }
 
-export default Meeting;
+export default Advisor;
