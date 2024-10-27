@@ -68,7 +68,9 @@ function Meeting() {
               {meeting.advisor?.name?.first}
             </Link>
           </p>
-          <p>Date: {meeting.date}</p>
+          <p>Date: {new Date(meeting.date).toLocaleDateString()}</p>
+          <p>Duration: {meeting.duration} min</p>
+          <p>{meeting.note}</p>
         </>
       )}
     </main>
