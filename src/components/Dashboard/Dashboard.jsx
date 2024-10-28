@@ -33,13 +33,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-
-/*
-
-TODO: What are the things to add to admin dashboard
-List of all users with filters
-  - Default is the active users
-List of all meetings with filters
-  - Default is the meetings in the last 6 months
-
-*/
