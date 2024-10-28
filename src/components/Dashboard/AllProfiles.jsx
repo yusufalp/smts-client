@@ -13,7 +13,6 @@ function AllProfiles() {
   useEffect(() => {
     const getAllProfiles = async () => {
       try {
-        console.log('profileStatus API:>> ', profileStatus);
         const response = await fetch(
           `${API_BASE_URL}/api/admin/profiles?status=${profileStatus}`,
           {
@@ -31,7 +30,6 @@ function AllProfiles() {
         if (result.error) {
           throw new Error(result.error);
         }
-        console.log('data. :>> ', result.data.profiles);
 
         setProfiles(result.data.profiles);
       } catch (error) {
@@ -41,8 +39,6 @@ function AllProfiles() {
 
     getAllProfiles();
   }, [accessToken, profileStatus]);
-
-  console.log('profileStatus :>> ', profileStatus);
 
   return (
     <>
