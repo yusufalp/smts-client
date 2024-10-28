@@ -12,14 +12,12 @@ function Signup() {
   const [signupFormData, setSignupFormData] = useState({
     first: "",
     last: "",
-    email: "",
     username: "",
     password: "",
   });
   const [signupFormErrors, setSignupFormErrors] = useState({
     first: "",
     last: "",
-    email: "",
     username: "",
     password: "",
   });
@@ -122,16 +120,6 @@ function Signup() {
         {signupFormErrors.last && (
           <p className="error">{signupFormErrors.last}</p>
         )}
-
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          required
-          value={signupFormData.email}
-          onChange={handleSignupInputChange}
-        />
 
         <label htmlFor="username">Username</label>
         <input

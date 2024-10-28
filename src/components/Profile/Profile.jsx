@@ -38,7 +38,6 @@ function Profile() {
       </div>
       <div>
         <h2>Email</h2>
-        <p>Note: Email is required to reset password</p>
         <p>{userProfile.email}</p>
         <button onClick={() => navigate("/email-form")}>
           {userProfile.email ? "Edit" : "Add"} Email
