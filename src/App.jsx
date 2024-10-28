@@ -18,6 +18,7 @@ import MeetingForm from "./components/Forms/MeetingForm";
 import EmailForm from "./components/Forms/EmailForm";
 import AddressForm from "./components/Forms/AddressForm";
 import LinksForm from "./components/Forms/LinksForm";
+import UpdateUser from "./components/UpdateUser";
 
 import "./App.css";
 
@@ -38,6 +39,7 @@ function App() {
           <Route path="/email-form" element={<EmailForm />} />
           <Route path="/address-form" element={<AddressForm />} />
           <Route path="/links-form" element={<LinksForm />} />
+          <Route path="/admin/update/profile/:userId" element={<UpdateUser />} />
         </Route>
         <Route path="*" element={<h1>Page not found</h1>} />
       </Routes>

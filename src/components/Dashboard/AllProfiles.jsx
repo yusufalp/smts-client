@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -9,6 +10,8 @@ function AllProfiles() {
   const [profiles, setProfiles] = useState([]);
 
   const [profileStatus, setProfileStatus] = useState("active");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getAllProfiles = async () => {
@@ -58,9 +61,28 @@ function AllProfiles() {
         </select>
       </div>
       <ul>
-        {profiles &&
-          profiles.map((profile) => <li key={profile._id}>{profile._id}</li>)}
+        <li>Name</li>
+        <li>Role</li>
+        <li>Status</li>
+        <li>Last Updated</li>
+        <li>Action</li>
       </ul>
+      {profiles &&
+        profiles.map((profile) => (
+          <ul key={profile._id}>
+            <li>{profile.name.first}</li>
+            <li>{profile.role}</li>
+            <li>{profile.status}</li>
+            <li>{new Date(profile.updatedAt).toLocaleDateString()}</li>
+            <li>
+              <button
+                onClick={() => navigate(`/admin/update/profile/${profile.userId}`)}
+              >
+                Update
+              </button>
+            </li>
+          </ul>
+        ))}
     </>
   );
 }
