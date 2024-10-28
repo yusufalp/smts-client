@@ -76,7 +76,7 @@ form textarea {
   margin: 0;
 }
 
-.dashboard ul {
+/* .dashboard ul {
   display: flex;
   list-style: none;
   padding: 0;
@@ -91,7 +91,7 @@ form textarea {
   display: flex;
   align-items: center;
   flex: 1;
-}
+} */
 
 .error {
   color: red;
