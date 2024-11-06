@@ -27,9 +27,9 @@ function App() {
     <Layout>
       <Header />
       <Routes>
-        <Route path="/login" index element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
         <Route element={<PrivateRoutes />}>
+          <Route path="/login" index element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/advisor/:advisorId" element={<Advisor />} />
@@ -39,7 +39,10 @@ function App() {
           <Route path="/email-form" element={<EmailForm />} />
           <Route path="/address-form" element={<AddressForm />} />
           <Route path="/links-form" element={<LinksForm />} />
-          <Route path="/admin/update/profile/:userId" element={<UpdateUser />} />
+          <Route
+            path="/admin/update/profile/:userId"
+            element={<UpdateUser />}
+          />
         </Route>
         <Route path="*" element={<h1>Page not found</h1>} />
       </Routes>
