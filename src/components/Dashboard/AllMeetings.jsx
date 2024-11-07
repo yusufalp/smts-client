@@ -14,18 +14,21 @@ function AllMeetings() {
 
   useEffect(() => {
     const getAllMeetings = async () => {
+      const url = new URL(`${API_BASE_URL}/api/admin/meetings`);
+
+      if (learner) url.searchParams.append("learner", learner);
+      if (advisor) url.searchParams.append("advisor", advisor);
+      if (date) url.searchParams.append("date", date);
+
       try {
-        const response = await fetch(
-          `${API_BASE_URL}/api/admin/meetings?learner=${learner}&advisor=${advisor}&date=${date}`,
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const response = await fetch(url.toString(), {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
 
         const result = await response.json();
 
