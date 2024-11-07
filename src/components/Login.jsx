@@ -20,12 +20,12 @@ function Login() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+    setError("");
+
     const body = { username, password };
 
     try {
-      setIsLoading(true);
-      setError("");
-
       const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
         credentials: "include",

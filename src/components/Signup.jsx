@@ -57,10 +57,10 @@ function Signup() {
 
     if (!isFormValid()) return;
 
-    try {
-      setIsLoading(true);
-      setError("");
+    setIsLoading(true);
+    setError("");
 
+    try {
       const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
         method: "POST",
         credentials: "include",
