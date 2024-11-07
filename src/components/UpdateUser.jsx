@@ -15,6 +15,10 @@ function UpdateUser() {
   const [profile, setProfile] = useState(null);
   const [updateValue, setUpdateValue] = useState("role");
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
   useEffect(() => {
     const getProfile = async () => {
       try {
@@ -35,7 +39,9 @@ function UpdateUser() {
 
         setProfile(result.data.profile);
       } catch (error) {
-        console.log(error);
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -45,13 +51,15 @@ function UpdateUser() {
   const handleUpdateUserFormSubmit = async (e) => {
     e.preventDefault();
 
+    setIsSubmitting(true);
+    setError("");
+
     const body =
       updateValue === "role"
         ? { field: "role", value: e.target.role.value }
         : { field: "status", value: e.target.status.value };
 
     body.userId = userId;
-
 
     try {
       const response = await fetch(`${API_BASE_URL}/api/admin/profile`, {
@@ -72,44 +80,57 @@ function UpdateUser() {
 
       navigate("/dashboard");
     } catch (error) {
-      console.log(error);
+      setError(error.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <main>
-      <h1>{profile?.name?.first}</h1>
-      <div>
-        <button onClick={() => setUpdateValue("role")}>Role</button>
-        <button onClick={() => setUpdateValue("status")}>Status</button>
-      </div>
-      <form onSubmit={handleUpdateUserFormSubmit}>
-        {updateValue === "role" && (
-          <>
-            <label htmlFor="role">Role</label>
-            <select name="role" id="role">
-              {Object.keys(ROLES).map((role) => (
-                <option key={role} value={role}>
-                  {role}
-                </option>
-              ))}
-            </select>
-          </>
-        )}
-        {updateValue === "status" && (
-          <>
-            <label htmlFor="status">Status</label>
-            <select name="status" id="status">
-              {Object.keys(STATUSES).map((status) => (
-                <option key={status} value={status}>
-                  {status}
-                </option>
-              ))}
-            </select>
-          </>
-        )}
-        <button type="submit">Update</button>
-      </form>
+      {isLoading && <p>Loading...</p>}
+
+      {error && <p>{error}</p>}
+
+      {!isLoading && !error && (
+        <>
+          <h1>{profile?.name?.first}</h1>
+          <div>
+            <button onClick={() => setUpdateValue("role")}>Role</button>
+            <button onClick={() => setUpdateValue("status")}>Status</button>
+          </div>
+          <form onSubmit={handleUpdateUserFormSubmit}>
+            {updateValue === "role" && (
+              <>
+                <label htmlFor="role">Role</label>
+                <select name="role" id="role">
+                  {Object.keys(ROLES).map((role) => (
+                    <option key={role} value={role}>
+                      {role}
+                    </option>
+                  ))}
+                </select>
+              </>
+            )}
+            {updateValue === "status" && (
+              <>
+                <label htmlFor="status">Status</label>
+                <select name="status" id="status">
+                  {Object.keys(STATUSES).map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+              </>
+            )}
+            <button type="submit" disabled={isSubmitting}>
+              {" "}
+              {isSubmitting ? "Updating" : "Update"}
+            </button>
+          </form>
+        </>
+      )}
     </main>
   );
 }

@@ -18,23 +18,21 @@ function MeetingForm() {
   const [advisors, setAdvisors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const getAllAdvisors = async () => {
       try {
-        const response = await fetch(
-          `${API_BASE_URL}/api/profiles/advisors`,
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const response = await fetch(`${API_BASE_URL}/api/profiles/advisors`, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
 
         const result = await response.json();
 
@@ -44,7 +42,6 @@ function MeetingForm() {
 
         setAdvisors(result.data.advisors);
       } catch (error) {
-        console.log(error);
         setError(error.message);
       } finally {
         setIsLoading(false);
@@ -66,10 +63,10 @@ function MeetingForm() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      setIsLoading(true);
-      setError("");
+    setIsSubmitting(true);
+    setError("");
 
+    try {
       const response = await fetch(`${API_BASE_URL}/api/meetings`, {
         method: "POST",
         credentials: "include",
@@ -88,10 +85,9 @@ function MeetingForm() {
 
       navigate("/dashboard");
     } catch (error) {
-      console.log(error);
       setError(error.message);
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -174,8 +170,8 @@ function MeetingForm() {
             value={meetingFormData.notes}
             onChange={handleMeetingInputChange}
           />
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? "Submitting" : "Submit"}
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Submitting" : "Submit"}
           </button>
           <Link to="/dashboard">Cancel</Link>
         </form>

@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { addProfile } from "../../store/features/userSlice";
@@ -16,6 +16,9 @@ function LinksForm() {
     github: userProfile?.links?.github || "",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -30,6 +33,8 @@ function LinksForm() {
 
   const handleLinksFormSubmit = async (e) => {
     e.preventDefault();
+
+    setIsSubmitting(true);
 
     const body = { field: "links", value: linksFormData };
 
@@ -55,43 +60,51 @@ function LinksForm() {
       dispatch(addProfile({ profile }));
       navigate("/profile");
     } catch (error) {
-      console.log(error);
+      setError(error.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <form onSubmit={handleLinksFormSubmit}>
-      <h2>Please enter personal links</h2>
-      <label htmlFor="portfolio">Portfolio</label>
-      <input
-        type="url"
-        name="portfolio"
-        id="portfolio"
-        placeholder="e.g. https://www.johnwick.com"
-        value={linksFormData.portfolio}
-        onChange={handleLinksInputChange}
-      />
-      <label htmlFor="linkedin">LinkedIn</label>
-      <input
-        type="url"
-        name="linkedin"
-        id="linkedin"
-        placeholder="e.g. https://www.linkedin.com/in/john-wick"
-        value={linksFormData.linkedin}
-        onChange={handleLinksInputChange}
-      />
-      <label htmlFor="github">GitHub</label>
-      <input
-        type="url"
-        name="github"
-        id="github"
-        placeholder="e.g. https://www.github.com/john-wick"
-        value={linksFormData.github}
-        onChange={handleLinksInputChange}
-      />
-      <button type="submit">Update</button>
-      <Link to="/profile">Cancel</Link>
-    </form>
+    <>
+      <form onSubmit={handleLinksFormSubmit}>
+        <h2>Please enter personal links</h2>
+        <label htmlFor="portfolio">Portfolio</label>
+        <input
+          type="url"
+          name="portfolio"
+          id="portfolio"
+          placeholder="e.g. https://www.johnwick.com"
+          value={linksFormData.portfolio}
+          onChange={handleLinksInputChange}
+        />
+        <label htmlFor="linkedin">LinkedIn</label>
+        <input
+          type="url"
+          name="linkedin"
+          id="linkedin"
+          placeholder="e.g. https://www.linkedin.com/in/john-wick"
+          value={linksFormData.linkedin}
+          onChange={handleLinksInputChange}
+        />
+        <label htmlFor="github">GitHub</label>
+        <input
+          type="url"
+          name="github"
+          id="github"
+          placeholder="e.g. https://www.github.com/john-wick"
+          value={linksFormData.github}
+          onChange={handleLinksInputChange}
+        />
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Updating" : "Update"}
+        </button>
+        <Link to="/profile">Cancel</Link>
+      </form>
+
+      {error && <p>{error}</p>}
+    </>
   );
 }
 

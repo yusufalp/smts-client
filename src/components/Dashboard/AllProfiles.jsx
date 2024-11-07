@@ -8,8 +8,9 @@ function AllProfiles() {
   const accessToken = useSelector((state) => state.auth.accessToken);
 
   const [profiles, setProfiles] = useState([]);
-
   const [profileStatus, setProfileStatus] = useState("active");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
@@ -36,7 +37,9 @@ function AllProfiles() {
 
         setProfiles(result.data.profiles);
       } catch (error) {
-        console.log(error);
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -45,44 +48,54 @@ function AllProfiles() {
 
   return (
     <>
-      <h1>All Profiles</h1>
-      <div>
-        <label htmlFor="status">Status: </label>
-        <select
-          name="status"
-          id="status"
-          defaultValue="active"
-          onChange={(e) => setProfileStatus(e.target.value)}
-        >
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-          <option value="graduated">Graduated</option>
-          <option value="all">All</option>
-        </select>
-      </div>
-      <ul>
-        <li>Name</li>
-        <li>Role</li>
-        <li>Status</li>
-        <li>Last Updated</li>
-        <li>Action</li>
-      </ul>
-      {profiles &&
-        profiles.map((profile) => (
-          <ul key={profile._id}>
-            <li>{profile.name.first}</li>
-            <li>{profile.role}</li>
-            <li>{profile.status}</li>
-            <li>{new Date(profile.updatedAt).toLocaleDateString()}</li>
-            <li>
-              <button
-                onClick={() => navigate(`/admin/update/profile/${profile.userId}`)}
-              >
-                Update
-              </button>
-            </li>
+      {isLoading && <p>Loading...</p>}
+
+      {error && <p>{error}</p>}
+
+      {!isLoading && !error && (
+        <>
+          <h1>All Profiles</h1>
+          <div>
+            <label htmlFor="status">Status: </label>
+            <select
+              name="status"
+              id="status"
+              defaultValue="active"
+              onChange={(e) => setProfileStatus(e.target.value)}
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="graduated">Graduated</option>
+              <option value="all">All</option>
+            </select>
+          </div>
+          <ul>
+            <li>Name</li>
+            <li>Role</li>
+            <li>Status</li>
+            <li>Last Updated</li>
+            <li>Action</li>
           </ul>
-        ))}
+          {profiles &&
+            profiles.map((profile) => (
+              <ul key={profile._id}>
+                <li>{profile.name.first}</li>
+                <li>{profile.role}</li>
+                <li>{profile.status}</li>
+                <li>{new Date(profile.updatedAt).toLocaleDateString()}</li>
+                <li>
+                  <button
+                    onClick={() =>
+                      navigate(`/admin/update/profile/${profile.userId}`)
+                    }
+                  >
+                    Update
+                  </button>
+                </li>
+              </ul>
+            ))}
+        </>
+      )}
     </>
   );
 }

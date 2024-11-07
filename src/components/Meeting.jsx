@@ -45,8 +45,6 @@ function Meeting() {
     getMeeting();
   }, [accessToken, meetingId]);
 
-  console.log("meeting :>> ", meeting);
-
   return (
     <main>
       {isLoading && <p>Loading...</p>}

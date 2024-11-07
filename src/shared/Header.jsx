@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -12,7 +13,13 @@ function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const handleLogout = async () => {
+    setIsLoading(true);
+    setError("");
+
     try {
       const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
         method: "POST",
@@ -33,7 +40,9 @@ function Header() {
 
       navigate("/login");
     } catch (error) {
-      console.log(error);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -49,7 +58,7 @@ function Header() {
               <Link to="/profile">Profile</Link>
             </li>
             <li onClick={handleLogout}>
-              <Link>Logout</Link>
+              <Link disabled={isLoading}>Logout</Link>
             </li>
           </ul>
         ) : (
@@ -63,6 +72,8 @@ function Header() {
           </ul>
         )}
       </nav>
+
+      {error && <p>{error}</p>}
     </header>
   );
 }
