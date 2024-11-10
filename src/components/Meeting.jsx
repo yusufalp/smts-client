@@ -6,12 +6,17 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function Meeting() {
   const accessToken = useSelector((state) => state.auth.accessToken);
+  const userProfile = useSelector((state) => state.user.profile);
 
   const { meetingId } = useParams();
 
   const [meeting, setMeeting] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const { role } = userProfile;
+
+  const isLearner = role === "mentee" || role === "alumni";
 
   useEffect(() => {
     const getMeeting = async () => {
@@ -54,21 +59,21 @@ function Meeting() {
       {!isLoading && !error && meeting && (
         <>
           <h1>{meeting.title}</h1>
-          <p>
-            Learner:{" "}
-            <Link to={`/mentee/${meeting.learner?._id}`}>
-              {meeting.learner?.name?.first}
-            </Link>
-          </p>
-          <p>
-            Advisor:{" "}
-            <Link to={`/advisor/${meeting.advisor?._id}`}>
-              {meeting.advisor?.name?.first}
-            </Link>
-          </p>
+          {isLearner ? (
+            <p>
+              Advisor: <span>{meeting.advisor?.name?.first}</span>
+            </p>
+          ) : (
+            <p>
+              Learner:{" "}
+              <Link to={`/mentee/${meeting.learner?._id}`}>
+                {meeting.learner?.name?.first}
+              </Link>
+            </p>
+          )}
           <p>Date: {new Date(meeting.date).toLocaleDateString()}</p>
           <p>Duration: {meeting.duration} min</p>
-          <p>{meeting.note}</p>
+          <p>Notes: {meeting.notes || "Notes are not recorded"}</p>
         </>
       )}
     </main>
