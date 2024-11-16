@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { ROLES } from "../data/roles";
-import { STATUSES } from "../data/statuses";
+import { ROLES } from "../constants/roles";
+import { STATUSES } from "../constants/statuses";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
