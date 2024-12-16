@@ -8,7 +8,7 @@ import LearnerProfile from "./LearnerProfile";
 
 function Profile() {
   const profile = useSelector((state) => state.user.profile);
-  const { role } = profile;
+  const { role, name } = profile;
 
   const navigate = useNavigate();
 
@@ -22,32 +22,38 @@ function Profile() {
 
   return (
     <main>
-      {isAdmin && <AdminProfile name={profile.name} />}
-      {isAdvisor && <AdvisorProfile name={profile.name} />}
+      <h1>My Profile</h1>
+      <section>
+        <h2>
+          {name.first} {name.last}
+        </h2>
+        <button onClick={() => navigate("/name-form")}>Edit Name</button>
+      </section>
+
+      {isAdmin && <AdminProfile />}
+      {isAdvisor && <AdvisorProfile />}
       {isLearner && (
         <LearnerProfile
-          name={profile.name}
           cohort={profile.cohort}
           graduation={profile.graduation}
         />
       )}
 
-      <div>
+      <section>
         <p>Role: {profile.role}</p>
         <p>Status: {profile.status}</p>
-      </div>
-      <div>
+      </section>
+      <section>
         <h2>Email</h2>
         <p>{profile.email}</p>
         <button onClick={() => navigate("/email-form")}>
           {profile.email ? "Edit" : "Add"} Email
         </button>
-      </div>
-      <div>
+      </section>
+      <section>
         <h2>Address</h2>
         <p>
-          {profile.address?.street?.line1}{" "}
-          {profile.address?.street?.line2}
+          {profile.address?.street?.line1} {profile.address?.street?.line2}
         </p>
         <p>
           <span>{profile.address?.city} </span>
@@ -57,8 +63,8 @@ function Profile() {
         <button onClick={() => navigate("/address-form")}>
           {profile.address ? "Edit" : "Add"} Address
         </button>
-      </div>
-      <div>
+      </section>
+      <section>
         <h2>Links</h2>
         {profile.links?.portfolio && (
           <p>
@@ -78,7 +84,7 @@ function Profile() {
         <button onClick={() => navigate("/links-form")}>
           {profile.links ? "Edit" : "Add"} Links
         </button>
-      </div>
+      </section>
     </main>
   );
 }
