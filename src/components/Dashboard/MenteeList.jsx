@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function MenteeList() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -15,7 +15,7 @@ function MenteeList() {
     const getAssignedMentees = async () => {
       try {
         const response = await fetch(
-          `${API_BASE_URL}/api/profiles/assigned/mentees`,
+          `${API_SERVER_URL}/api/profiles/assigned/mentees`,
           {
             method: "GET",
             credentials: "include",

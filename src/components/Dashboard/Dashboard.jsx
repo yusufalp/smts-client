@@ -7,9 +7,9 @@ import LearnerDashboard from "./LearnerDashboard";
 import MeetingList from "./MeetingList";
 
 function Dashboard() {
-  const userProfile = useSelector((state) => state.user.profile);
+  const profile = useSelector((state) => state.user.profile);
 
-  const { role, name } = userProfile;
+  const { role, name } = profile;
 
   const { isAdmin, isLearner, isAdvisor } = useMemo(() => {
     return {

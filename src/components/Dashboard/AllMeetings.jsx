@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import { PAGINATION_VALUES } from "../../constants/paginationValues";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function AllMeetings() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -23,13 +23,12 @@ function AllMeetings() {
 
   useEffect(() => {
     const getAllMeetings = async () => {
-      const url = new URL(`${API_BASE_URL}/api/admin/meetings`);
+      const url = new URL(`${API_SERVER_URL}/api/admin/meetings`);
 
       Object.entries(query).forEach(([key, value]) => {
         if (value) url.searchParams.append(key, value);
       });
 
-      console.log("url :>> ", url);
       // TODO: update search parameters and call API 3 seconds after the type is complete
 
       try {

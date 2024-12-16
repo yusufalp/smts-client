@@ -2,21 +2,21 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import { addProfile } from "../../store/features/userSlice";
+import { setProfile } from "../../store/features/userSlice";
 import { STATES } from "../../constants/states";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function AddressForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
-  const userProfile = useSelector((state) => state.user.profile);
+  const profile = useSelector((state) => state.user.profile);
 
   const [addressFormData, setAddressFormData] = useState({
-    line1: userProfile?.address?.street?.line1 || "",
-    line2: userProfile?.address?.street?.line2 || "",
-    city: userProfile?.address?.city || "",
-    state: userProfile?.address?.state || "",
-    zip: userProfile?.address?.zip || "",
+    line1: profile?.address?.street?.line1 || "",
+    line2: profile?.address?.street?.line2 || "",
+    city: profile?.address?.city || "",
+    state: profile?.address?.state || "",
+    zip: profile?.address?.zip || "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,7 +42,7 @@ function AddressForm() {
     const body = { field: "address", value: addressFormData };
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/profiles/profile`, {
+      const response = await fetch(`${API_SERVER_URL}/api/profiles/profile`, {
         method: "PATCH",
         credentials: "include",
         headers: {
@@ -60,7 +60,7 @@ function AddressForm() {
 
       const profile = result.data.profile;
 
-      dispatch(addProfile({ profile }));
+      dispatch(setProfile({ profile }));
       navigate("/profile");
     } catch (error) {
       setError(error.message);

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { PAGINATION_VALUES } from "../../constants/paginationValues";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function AllProfiles() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -24,14 +24,11 @@ function AllProfiles() {
 
   useEffect(() => {
     const getAllProfiles = async () => {
-      const url = new URL(`${API_BASE_URL}/api/admin/profiles`);
+      const url = new URL(`${API_SERVER_URL}/api/admin/profiles`);
 
       Object.entries(query).forEach(([key, value]) => {
-        console.log(key, value);
         if (value) url.searchParams.append(key, value);
       });
-
-      console.log("url :>> ", url);
 
       try {
         setIsLoading(true);

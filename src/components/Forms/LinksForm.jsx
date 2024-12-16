@@ -2,18 +2,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { addProfile } from "../../store/features/userSlice";
+import { setProfile } from "../../store/features/userSlice";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function LinksForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
-  const userProfile = useSelector((state) => state.user.profile);
+  const profile = useSelector((state) => state.user.profile);
 
   const [linksFormData, setLinksFormData] = useState({
-    portfolio: userProfile?.links?.portfolio || "",
-    linkedin: userProfile?.links?.linkedin || "",
-    github: userProfile?.links?.github || "",
+    portfolio: profile?.links?.portfolio || "",
+    linkedin: profile?.links?.linkedin || "",
+    github: profile?.links?.github || "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,7 +39,7 @@ function LinksForm() {
     const body = { field: "links", value: linksFormData };
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/profiles/profile`, {
+      const response = await fetch(`${API_SERVER_URL}/api/profiles/profile`, {
         method: "PATCH",
         credentials: "include",
         headers: {
@@ -57,7 +57,7 @@ function LinksForm() {
 
       const profile = result.data.profile;
 
-      dispatch(addProfile({ profile }));
+      dispatch(setProfile({ profile }));
       navigate("/profile");
     } catch (error) {
       setError(error.message);

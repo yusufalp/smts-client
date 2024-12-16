@@ -5,11 +5,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ROLES } from "../constants/roles";
 import { STATUSES } from "../constants/statuses";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function UpdateUser() {
   const accessToken = useSelector((state) => state.auth.accessToken);
   const { userId } = useParams();
+  
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState(null);
@@ -22,7 +23,7 @@ function UpdateUser() {
   useEffect(() => {
     const getProfile = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/profiles/${userId}`, {
+        const response = await fetch(`${API_SERVER_URL}/api/profiles/${userId}`, {
           method: "GET",
           credentials: "include",
           headers: {
@@ -62,7 +63,7 @@ function UpdateUser() {
     body.userId = userId;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/profile`, {
+      const response = await fetch(`${API_SERVER_URL}/api/admin/profile`, {
         method: "POST",
         credentials: "include",
         headers: {

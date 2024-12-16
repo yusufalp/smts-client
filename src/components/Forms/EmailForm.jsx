@@ -2,15 +2,15 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import { addProfile } from "../../store/features/userSlice";
+import { setProfile } from "../../store/features/userSlice";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function EmailForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
-  const userProfile = useSelector((state) => state.user.profile);
+  const profile = useSelector((state) => state.user.profile);
 
-  const [email, setEmail] = useState(userProfile?.email || "");
+  const [email, setEmail] = useState(profile?.email || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -25,7 +25,7 @@ function EmailForm() {
     const body = { field: "email", value: email };
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/profiles/profile`, {
+      const response = await fetch(`${API_SERVER_URL}/api/profiles/profile`, {
         method: "PATCH",
         credentials: "include",
         headers: {
@@ -43,7 +43,7 @@ function EmailForm() {
 
       const profile = result.data.profile;
 
-      dispatch(addProfile({ profile }));
+      dispatch(setProfile({ profile }));
       navigate("/profile");
     } catch (error) {
       setError(error.message);

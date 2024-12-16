@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function Meeting() {
   const accessToken = useSelector((state) => state.auth.accessToken);
-  const userProfile = useSelector((state) => state.user.profile);
+  const profile = useSelector((state) => state.user.profile);
 
   const { meetingId } = useParams();
 
@@ -14,7 +14,7 @@ function Meeting() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const { role } = userProfile;
+  const { role } = profile;
 
   const isLearner = role === "mentee" || role === "alumni";
 
@@ -22,7 +22,7 @@ function Meeting() {
     const getMeeting = async () => {
       try {
         const response = await fetch(
-          `${API_BASE_URL}/api/meetings/${meetingId}`,
+          `${API_SERVER_URL}/api/meetings/${meetingId}`,
           {
             method: "GET",
             credentials: "include",

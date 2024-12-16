@@ -5,10 +5,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../store/features/authSlice";
 import { removeProfile } from "../store/features/userSlice";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_AUTH_URL = import.meta.env.VITE_AUTH_URL;
 
 function Header() {
-  const userProfile = useSelector((state) => state.user.profile);
+  const accessToken = useSelector((state) => state.auth.accessToken);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ function Header() {
     setError("");
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
+      const response = await fetch(`${API_AUTH_URL}/auth/logout`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -49,7 +49,7 @@ function Header() {
   return (
     <header>
       <nav>
-        {userProfile ? (
+        {accessToken ? (
           <ul>
             <li>
               <Link to="/dashboard">Dashboard</Link>

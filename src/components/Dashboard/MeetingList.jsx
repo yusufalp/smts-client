@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function MeetingList() {
   const accessToken = useSelector((state) => state.auth.accessToken);
-  const userProfile = useSelector((state) => state.user.profile);
+  const profile = useSelector((state) => state.user.profile);
 
   const [meetings, setMeetings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -14,12 +14,12 @@ function MeetingList() {
 
   const navigate = useNavigate();
 
-  const { role } = userProfile;
+  const { role } = profile;
 
   useEffect(() => {
     const getMeetings = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/meetings`, {
+        const response = await fetch(`${API_SERVER_URL}/api/meetings`, {
           method: "GET",
           credentials: "include",
           headers: {
