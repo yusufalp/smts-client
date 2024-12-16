@@ -13,14 +13,17 @@ function LearnerDashboard() {
   useEffect(() => {
     const getAssignedAdvisors = async () => {
       try {
-        const response = await fetch(`${API_SERVER_URL}/api/profiles/assigned/advisors`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await fetch(
+          `${API_SERVER_URL}/api/profiles/assigned/advisors`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
         const result = await response.json();
 
@@ -39,6 +42,16 @@ function LearnerDashboard() {
     getAssignedAdvisors();
   }, [accessToken]);
 
+  const renderAdvisorInfo = (advisorRole, advisor) => {
+    return (
+      <p>
+        {`Your ${advisorRole} ${
+          advisor ? `is ${advisor?.name?.first}` : "will be assigned soon"
+        }`}
+      </p>
+    );
+  };
+
   return (
     <>
       {isLoading && <p>Loading...</p>}
@@ -47,16 +60,8 @@ function LearnerDashboard() {
 
       {!isLoading && !error && (
         <>
-          <p>
-            {assignedAdvisors
-              ? `Your mentor is ${assignedAdvisors?.mentor?.name?.first}`
-              : "Your mentor will be assigned soon"}
-          </p>
-          <p>
-            {assignedAdvisors
-              ? `Your coach is ${assignedAdvisors?.coach?.name?.first}`
-              : "Your coach will be assigned soon"}
-          </p>
+          {renderAdvisorInfo("mentor", assignedAdvisors?.mentor)}
+          {renderAdvisorInfo("coach", assignedAdvisors?.coach)}
         </>
       )}
     </>
