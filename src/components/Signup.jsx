@@ -3,21 +3,16 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { login } from "../store/features/authSlice";
-import { addProfile } from "../store/features/userSlice";
 import { validatePassword } from "../utils/validations";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_AUTH_URL = import.meta.env.VITE_AUTH_URL;
 
 function Signup() {
   const [signupFormData, setSignupFormData] = useState({
-    first: "",
-    last: "",
     username: "",
     password: "",
   });
   const [signupFormErrors, setSignupFormErrors] = useState({
-    first: "",
-    last: "",
     username: "",
     password: "",
   });
@@ -59,9 +54,9 @@ function Signup() {
 
     setIsLoading(true);
     setError("");
-
+    
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
+      const response = await fetch(`${API_AUTH_URL}/auth/signup`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -76,14 +71,11 @@ function Signup() {
         throw new Error(result.error.message);
       }
 
-      const accessToken = result.data.accessToken;
-      const expiresAt = result.data.expiresAt;
-      const profile = result.data.profile;
+      const { accessToken, expiresAt } = result.data;
 
       dispatch(login({ accessToken, expiresAt }));
-      dispatch(addProfile({ profile }));
-
-      navigate("/profile");
+      
+      navigate("/create-profile");
     } catch (error) {
       setError(error.message);
     } finally {
@@ -95,31 +87,6 @@ function Signup() {
     <main>
       <form onSubmit={handleSignupSubmit}>
         <h1>Create an account</h1>
-        <label htmlFor="first">First name</label>
-        <input
-          type="text"
-          name="first"
-          id="first"
-          required
-          value={signupFormData.first}
-          onChange={handleSignupInputChange}
-        />
-        {signupFormErrors.first && (
-          <p className="error">{signupFormErrors.first}</p>
-        )}
-
-        <label htmlFor="last">Last name</label>
-        <input
-          type="text"
-          name="last"
-          id="last"
-          required
-          value={signupFormData.last}
-          onChange={handleSignupInputChange}
-        />
-        {signupFormErrors.last && (
-          <p className="error">{signupFormErrors.last}</p>
-        )}
 
         <label htmlFor="username">Username</label>
         <input
