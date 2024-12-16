@@ -21,13 +21,17 @@ function Dashboard() {
 
   return (
     <main className="dashboard">
-      <h1>Welcome {name.first}</h1>
+      <section>
+        <h1>Welcome {name.first}</h1>
+      </section>
 
-      {isAdmin && <AdminDashboard />}
-      {isAdvisor && <AdvisorDashboard />}
-      {isLearner && <LearnerDashboard />}
+      <section>
+        {isAdmin && <AdminDashboard />}
+        {isAdvisor && <AdvisorDashboard />}
+        {isLearner && <LearnerDashboard />}
+      </section>
 
-      {(isAdvisor || isLearner) && <MeetingList />}
+      <section>{(isAdvisor || isLearner) && <MeetingList />}</section>
     </main>
   );
 }
