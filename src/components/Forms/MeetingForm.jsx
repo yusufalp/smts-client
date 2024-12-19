@@ -128,7 +128,7 @@ function MeetingForm() {
             {advisors &&
               advisors.map((advisor) => (
                 <option key={advisor._id} value={advisor._id}>
-                  {advisor.name.first}
+                  {advisor.name.first} {advisor.name.last}
                 </option>
               ))}
           </select>
