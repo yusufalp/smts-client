@@ -44,8 +44,6 @@ function Login() {
 
       const { accessToken, expiresAt } = loginResult.data;
 
-      dispatch(login({ accessToken, expiresAt }));
-
       const profileResponse = await fetch(
         `${API_SERVER_URL}/api/profiles/profile`,
         {
@@ -61,13 +59,15 @@ function Login() {
       const profileResult = await profileResponse.json();
 
       if (profileResult.error) {
-        navigate("/create-profile");
-      } else {
-        const { profile } = profileResult.data;
-
-        dispatch(setProfile({ profile }));
-        navigate("/dashboard");
+        throw new Error(profileResult.error.message);
       }
+
+      const { profile } = profileResult.data;
+
+      dispatch(login({ accessToken, expiresAt }));
+      dispatch(setProfile({ profile }));
+      
+      navigate("/dashboard");
     } catch (error) {
       setError(error.message);
     } finally {
