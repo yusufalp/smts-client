@@ -118,8 +118,8 @@ function AllMeetings() {
                 <li>{new Date(meeting.date).toLocaleDateString()}</li>
                 <li>{new Date(meeting.date).toLocaleTimeString()}</li>
                 <li>{meeting.duration}</li>
-                <li>{meeting.advisor.name.first}</li>
-                <li>{meeting.learner.name.first}</li>
+                <li>{meeting.advisor.name.first} {meeting.advisor.name.last}</li>
+                <li>{meeting.learner.name.first} {meeting.learner.name.last}</li>
               </ul>
             ))}
         </>

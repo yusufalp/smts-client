@@ -107,7 +107,8 @@ function AllProfiles() {
       ) : (
         <>
           <ul>
-            <li>Name</li>
+            <li>First Name</li>
+            <li>Last Name</li>
             <li>Role</li>
             <li>Status</li>
             <li>Last Updated</li>
@@ -117,13 +118,14 @@ function AllProfiles() {
             profiles.map((profile) => (
               <ul key={profile._id}>
                 <li>{profile.name.first}</li>
+                <li>{profile.name.last}</li>
                 <li>{profile.role}</li>
                 <li>{profile.status}</li>
                 <li>{new Date(profile.updatedAt).toLocaleDateString()}</li>
                 <li>
                   <button
                     onClick={() =>
-                      navigate(`/admin/update/profile/${profile.userId}`)
+                      navigate(`/admin/update/profile/${profile._id}`)
                     }
                   >
                     Update
