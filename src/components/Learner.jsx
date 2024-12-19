@@ -58,36 +58,40 @@ function Learner() {
           <p>Cohort: {mentee?.cohort}</p>
           <p>Graduation: {mentee?.graduation}</p>
           <p>Status: {mentee?.status}</p>
-          <h2>Links</h2>
-          <ul>
-            <li>
-              <Link
-                to={mentee?.links?.portfolio}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Portfolio
-              </Link>
-            </li>
-            <li>
-              <Link
-                to={mentee?.links?.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn
-              </Link>
-            </li>
-            <li>
-              <Link
-                to={mentee?.links?.github}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GitHub
-              </Link>
-            </li>
-          </ul>
+          {mentee.links && (
+            <>
+              <h2>Links</h2>
+              <ul>
+                <li>
+                  <Link
+                    to={mentee?.links?.portfolio}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Portfolio
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to={mentee?.links?.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    LinkedIn
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to={mentee?.links?.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    GitHub
+                  </Link>
+                </li>
+              </ul>
+            </>
+          )}
         </>
       )}
     </main>
