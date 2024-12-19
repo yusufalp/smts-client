@@ -24,7 +24,7 @@ function UpdateUser() {
     const getProfile = async () => {
       try {
         const response = await fetch(
-          `${API_SERVER_URL}/api/profiles/profile/${profileId}`,
+          `${API_SERVER_URL}/api/admin/profiles/profile/${profileId}`,
           {
             method: "GET",
             credentials: "include",
