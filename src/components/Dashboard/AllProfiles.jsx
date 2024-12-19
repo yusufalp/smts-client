@@ -16,6 +16,7 @@ function AllProfiles() {
 
   const [query, setQuery] = useState({
     status: "active",
+    role: "all",
     page: PAGINATION_VALUES.PAGE.value,
     limit: PAGINATION_VALUES.SIZE.value,
   });
@@ -81,6 +82,21 @@ function AllProfiles() {
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
           <option value="graduated">Graduated</option>
+        </select>
+
+        <label htmlFor="role">Role:</label>
+        <select
+          name="role"
+          id="role"
+          value={query.role}
+          onChange={(e) => updateQuery({ role: e.target.value })}
+        >
+          <option value="all">All</option>
+          <option value="admin">Admin</option>
+          <option value="mentor">Mentor</option>
+          <option value="coach">Coach</option>
+          <option value="mentee">Mentee</option>
+          <option value="alumni">Alumni</option>
         </select>
       </div>
 
