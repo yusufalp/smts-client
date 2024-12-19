@@ -44,7 +44,7 @@ function App() {
           <Route path="/address-form" element={<AddressForm />} />
           <Route path="/links-form" element={<LinksForm />} />
           <Route
-            path="/admin/update/profile/:userId"
+            path="/admin/update/profile/:profileId"
             element={<UpdateUser />}
           />
         </Route>

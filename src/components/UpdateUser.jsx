@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { ROLES } from "../constants/roles";
 import { STATUSES } from "../constants/statuses";
@@ -9,11 +9,11 @@ const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function UpdateUser() {
   const accessToken = useSelector((state) => state.auth.accessToken);
-  const { userId } = useParams();
-  
+  const { profileId } = useParams();
+
   const navigate = useNavigate();
 
-  const [profile, setProfile] = useState(null);
+  const [searchedProfile, setSearchedProfile] = useState(null);
   const [updateValue, setUpdateValue] = useState("role");
 
   const [isLoading, setIsLoading] = useState(true);
@@ -23,14 +23,17 @@ function UpdateUser() {
   useEffect(() => {
     const getProfile = async () => {
       try {
-        const response = await fetch(`${API_SERVER_URL}/api/profiles/${userId}`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await fetch(
+          `${API_SERVER_URL}/api/profiles/profile/${profileId}`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
         const result = await response.json();
 
@@ -38,7 +41,7 @@ function UpdateUser() {
           throw new Error(result.error.message);
         }
 
-        setProfile(result.data.profile);
+        setSearchedProfile(result.data.profile);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -47,7 +50,7 @@ function UpdateUser() {
     };
 
     getProfile();
-  }, [accessToken, userId]);
+  }, [accessToken, profileId]);
 
   const handleUpdateUserFormSubmit = async (e) => {
     e.preventDefault();
@@ -60,7 +63,7 @@ function UpdateUser() {
         ? { field: "role", value: e.target.role.value }
         : { field: "status", value: e.target.status.value };
 
-    body.userId = userId;
+    body.profileId = profileId;
 
     try {
       const response = await fetch(`${API_SERVER_URL}/api/admin/profile`, {
@@ -95,7 +98,7 @@ function UpdateUser() {
 
       {!isLoading && !error && (
         <>
-          <h1>{profile?.name?.first}</h1>
+          <h1>{`${searchedProfile?.name?.first}'s Details`}</h1>
           <div>
             <button onClick={() => setUpdateValue("role")}>Role</button>
             <button onClick={() => setUpdateValue("status")}>Status</button>
@@ -126,9 +129,10 @@ function UpdateUser() {
               </>
             )}
             <button type="submit" disabled={isSubmitting}>
-              {" "}
               {isSubmitting ? "Updating" : "Update"}
             </button>
+
+            <Link to="/dashboard">Cancel</Link>
           </form>
         </>
       )}
