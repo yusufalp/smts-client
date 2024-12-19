@@ -61,17 +61,21 @@ function Meeting() {
           <h1>{meeting.title}</h1>
           {isLearner ? (
             <p>
-              Advisor: <span>{meeting.advisor?.name?.first}</span>
+              Advisor:{" "}
+              <span>
+                {meeting.advisor?.name?.first} {meeting.advisor?.name?.last}
+              </span>
             </p>
           ) : (
             <p>
               Learner:{" "}
               <Link to={`/mentee/${meeting.learner?._id}`}>
-                {meeting.learner?.name?.first}
+                {meeting.learner?.name?.first} {meeting.learner?.name?.last}
               </Link>
             </p>
           )}
           <p>Date: {new Date(meeting.date).toLocaleDateString()}</p>
+          <p>Time: {new Date(meeting.date).toLocaleTimeString()}</p>
           <p>Duration: {meeting.duration} min</p>
           <p>Notes: {meeting.notes || "Notes are not recorded"}</p>
         </>
