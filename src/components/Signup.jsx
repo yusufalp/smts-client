@@ -3,16 +3,24 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { login } from "../store/features/authSlice";
-import { validatePassword } from "../utils/validations";
+import { validateEmail, validatePassword } from "../utils/validations";
+import { setProfile } from "../store/features/userSlice";
 
 const API_AUTH_URL = import.meta.env.VITE_AUTH_URL;
+const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function Signup() {
   const [signupFormData, setSignupFormData] = useState({
+    first: "",
+    last: "",
+    email: "",
     username: "",
     password: "",
   });
   const [signupFormErrors, setSignupFormErrors] = useState({
+    first: "",
+    last: "",
+    email: "",
     username: "",
     password: "",
   });
@@ -45,6 +53,13 @@ function Signup() {
         password: validatePassword(value),
       }));
     }
+
+    if (name === "email") {
+      setSignupFormErrors((prevErrors) => ({
+        ...prevErrors,
+        email: validateEmail(value),
+      }));
+    }
   };
 
   const handleSignupSubmit = async (e) => {
@@ -54,9 +69,9 @@ function Signup() {
 
     setIsLoading(true);
     setError("");
-    
+
     try {
-      const response = await fetch(`${API_AUTH_URL}/auth/signup`, {
+      const signupResponse = await fetch(`${API_AUTH_URL}/auth/signup`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -65,17 +80,39 @@ function Signup() {
         body: JSON.stringify(signupFormData),
       });
 
-      const result = await response.json();
+      const signupResult = await signupResponse.json();
 
-      if (result.error) {
-        throw new Error(result.error.message);
+      if (signupResult.error) {
+        throw new Error(signupResult.error.message);
       }
 
-      const { accessToken, expiresAt } = result.data;
+      const { accessToken, expiresAt } = signupResult.data;
+
+      const profileResponse = await fetch(
+        `${API_SERVER_URL}/api/profiles/profile`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(signupFormData),
+        }
+      );
+
+      const profileResult = await profileResponse.json();
+
+      if (profileResult.error) {
+        throw new Error(profileResult.error.message);
+      }
+
+      const { profile } = profileResult.data;
 
       dispatch(login({ accessToken, expiresAt }));
+      dispatch(setProfile({ profile }));
       
-      navigate("/create-profile");
+      navigate("/dashboard");
     } catch (error) {
       setError(error.message);
     } finally {
@@ -87,6 +124,39 @@ function Signup() {
     <main>
       <form onSubmit={handleSignupSubmit}>
         <h1>Create an account</h1>
+
+        <label htmlFor="first">First Name</label>
+        <input
+          type="text"
+          name="first"
+          id="first"
+          required
+          value={signupFormData.first}
+          onChange={handleSignupInputChange}
+        />
+
+        <label htmlFor="last">Last Name</label>
+        <input
+          type="text"
+          name="last"
+          id="last"
+          required
+          value={signupFormData.last}
+          onChange={handleSignupInputChange}
+        />
+
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          required
+          value={signupFormData.email}
+          onChange={handleSignupInputChange}
+        />
+        {signupFormErrors.email && (
+          <p className="error">{signupFormErrors.email}</p>
+        )}
 
         <label htmlFor="username">Username</label>
         <input
