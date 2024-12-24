@@ -4,14 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { setProfile } from "../../store/features/userSlice";
 
-const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
+const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
 function NameForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
 
   const [nameFormData, setNameFormData] = useState({
-    first: "",
-    last: "",
+    firstName: "",
+    lastName: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -36,15 +36,18 @@ function NameForm() {
     const body = { field: "name", value: nameFormData };
 
     try {
-      const response = await fetch(`${API_SERVER_URL}/api/profiles/profile`, {
-        method: "PATCH",
-        credentials: "include",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        `${PROFILE_SERVICE_URL}/api/profiles/profile`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(body),
+        }
+      );
 
       const result = await response.json();
 
@@ -66,23 +69,23 @@ function NameForm() {
   return (
     <>
       <form onSubmit={handleNameFormSubmit}>
-        <label htmlFor="first">First name</label>
+        <label htmlFor="firstName">First name</label>
         <input
           type="text"
-          name="first"
-          id="first"
+          name="firstName"
+          id="firstName"
           required
-          value={nameFormData.first}
+          value={nameFormData.firstName}
           onChange={handleNameInputChange}
         />
 
-        <label htmlFor="last">Last name</label>
+        <label htmlFor="lastName">Last name</label>
         <input
           type="text"
-          name="last"
-          id="last"
+          name="lastName"
+          id="lastName"
           required
-          value={nameFormData.last}
+          value={nameFormData.lastName}
           onChange={handleNameInputChange}
         />
 

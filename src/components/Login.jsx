@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 import { login } from "../store/features/authSlice";
 import { setProfile } from "../store/features/userSlice";
 
-const API_AUTH_URL = import.meta.env.VITE_AUTH_URL;
-const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
+const USER_SERVICE_URL = import.meta.env.VITE_USER_SERVICE_URL;
+const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -27,7 +27,7 @@ function Login() {
     const body = { username, password };
 
     try {
-      const loginResponse = await fetch(`${API_AUTH_URL}/auth/login`, {
+      const loginResponse = await fetch(`${USER_SERVICE_URL}/users/login`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -45,7 +45,7 @@ function Login() {
       const { accessToken, expiresAt } = loginResult.data;
 
       const profileResponse = await fetch(
-        `${API_SERVER_URL}/api/profiles/profile`,
+        `${PROFILE_SERVICE_URL}/api/profiles/profile`,
         {
           method: "GET",
           credentials: "include",

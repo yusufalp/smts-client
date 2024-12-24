@@ -6,20 +6,20 @@ import { login } from "../store/features/authSlice";
 import { validateEmail, validatePassword } from "../utils/validations";
 import { setProfile } from "../store/features/userSlice";
 
-const API_AUTH_URL = import.meta.env.VITE_AUTH_URL;
-const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
+const USER_SERVICE_URL = import.meta.env.VITE_USER_SERVICE_URL;
+const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
 function Signup() {
   const [signupFormData, setSignupFormData] = useState({
-    first: "",
-    last: "",
+    firstName: "",
+    lastName: "",
     email: "",
     username: "",
     password: "",
   });
   const [signupFormErrors, setSignupFormErrors] = useState({
-    first: "",
-    last: "",
+    firstName: "",
+    lastName: "",
     email: "",
     username: "",
     password: "",
@@ -71,7 +71,7 @@ function Signup() {
     setError("");
 
     try {
-      const signupResponse = await fetch(`${API_AUTH_URL}/auth/signup`, {
+      const signupResponse = await fetch(`${USER_SERVICE_URL}/users/signup`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -89,7 +89,7 @@ function Signup() {
       const { accessToken, expiresAt } = signupResult.data;
 
       const profileResponse = await fetch(
-        `${API_SERVER_URL}/api/profiles/profile`,
+        `${PROFILE_SERVICE_URL}/api/profiles`,
         {
           method: "POST",
           credentials: "include",
@@ -111,7 +111,7 @@ function Signup() {
 
       dispatch(login({ accessToken, expiresAt }));
       dispatch(setProfile({ profile }));
-      
+
       navigate("/dashboard");
     } catch (error) {
       setError(error.message);
@@ -125,23 +125,23 @@ function Signup() {
       <form onSubmit={handleSignupSubmit}>
         <h1>Create an account</h1>
 
-        <label htmlFor="first">First Name</label>
+        <label htmlFor="firstName">First Name</label>
         <input
           type="text"
-          name="first"
-          id="first"
+          name="firstName"
+          id="firstName"
           required
-          value={signupFormData.first}
+          value={signupFormData.firstName}
           onChange={handleSignupInputChange}
         />
 
-        <label htmlFor="last">Last Name</label>
+        <label htmlFor="lastName">Last Name</label>
         <input
           type="text"
-          name="last"
-          id="last"
+          name="lastName"
+          id="lastName"
           required
-          value={signupFormData.last}
+          value={signupFormData.lastName}
           onChange={handleSignupInputChange}
         />
 
