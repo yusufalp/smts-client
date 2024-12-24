@@ -25,7 +25,7 @@ function Profile() {
       <h1>My Profile</h1>
       <section>
         <h2>
-          {name.first} {name.last}
+          {name.firstName} {name.lastName}
         </h2>
         <button onClick={() => navigate("/name-form")}>Edit Name</button>
       </section>
@@ -35,13 +35,13 @@ function Profile() {
       {isLearner && (
         <LearnerProfile
           cohort={profile.cohort}
-          graduation={profile.graduation}
+          graduation={profile.graduationDate}
         />
       )}
 
       <section>
         <p>Role: {profile.role}</p>
-        <p>Status: {profile.status}</p>
+        <p>Status: {profile.accountStatus}</p>
       </section>
       <section>
         <h2>Email</h2>
@@ -58,7 +58,7 @@ function Profile() {
         <p>
           <span>{profile.address?.city} </span>
           <span>{profile.address?.state} </span>
-          <span>{profile.address?.zip}</span>
+          <span>{profile.address?.postalCode}</span>
         </p>
         <button onClick={() => navigate("/address-form")}>
           {profile.address ? "Edit" : "Add"} Address
@@ -66,19 +66,19 @@ function Profile() {
       </section>
       <section>
         <h2>Links</h2>
-        {profile.links?.portfolio && (
+        {profile.links?.portfolioUrl && (
           <p>
-            <Link to={profile.links?.portfolio}>Portfolio</Link>
+            <Link to={profile.links?.portfolioUrl}>Portfolio</Link>
           </p>
         )}
-        {profile.links?.linkedin && (
+        {profile.links?.linkedinUrl && (
           <p>
-            <Link to={profile.links?.linkedin}>LinkedIn</Link>
+            <Link to={profile.links?.linkedinUrl}>LinkedIn</Link>
           </p>
         )}
-        {profile.links?.github && (
+        {profile.links?.githubUrl && (
           <p>
-            <Link to={profile.links?.github}>GitHub</Link>
+            <Link to={profile.links?.githubUrl}>GitHub</Link>
           </p>
         )}
         <button onClick={() => navigate("/links-form")}>
