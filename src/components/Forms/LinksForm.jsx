@@ -11,9 +11,9 @@ function LinksForm() {
   const profile = useSelector((state) => state.user.profile);
 
   const [linksFormData, setLinksFormData] = useState({
-    portfolio: profile?.links?.portfolio || "",
-    linkedin: profile?.links?.linkedin || "",
-    github: profile?.links?.github || "",
+    portfolioUrl: profile?.links?.portfolioUrl || "",
+    linkedinUrl: profile?.links?.linkedinUrl || "",
+    githubUrl: profile?.links?.githubUrl || "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,15 +39,18 @@ function LinksForm() {
     const body = { field: "links", value: linksFormData };
 
     try {
-      const response = await fetch(`${PROFILE_SERVICE_URL}/api/profiles/profile`, {
-        method: "PATCH",
-        credentials: "include",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        `${PROFILE_SERVICE_URL}/api/profiles/profile`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(body),
+        }
+      );
 
       const result = await response.json();
 
@@ -70,31 +73,31 @@ function LinksForm() {
     <>
       <form onSubmit={handleLinksFormSubmit}>
         <h2>Please enter personal links</h2>
-        <label htmlFor="portfolio">Portfolio</label>
+        <label htmlFor="portfolioUrl">Portfolio</label>
         <input
           type="url"
-          name="portfolio"
-          id="portfolio"
+          name="portfolioUrl"
+          id="portfolioUrl"
           placeholder="e.g. https://www.johnwick.com"
-          value={linksFormData.portfolio}
+          value={linksFormData.portfolioUrl}
           onChange={handleLinksInputChange}
         />
-        <label htmlFor="linkedin">LinkedIn</label>
+        <label htmlFor="linkedinUrl">LinkedIn</label>
         <input
           type="url"
-          name="linkedin"
-          id="linkedin"
+          name="linkedinUrl"
+          id="linkedinUrl"
           placeholder="e.g. https://www.linkedin.com/in/john-wick"
-          value={linksFormData.linkedin}
+          value={linksFormData.linkedinUrl}
           onChange={handleLinksInputChange}
         />
-        <label htmlFor="github">GitHub</label>
+        <label htmlFor="githubUrl">GitHub</label>
         <input
           type="url"
-          name="github"
-          id="github"
+          name="githubUrl"
+          id="githubUrl"
           placeholder="e.g. https://www.github.com/john-wick"
-          value={linksFormData.github}
+          value={linksFormData.githubUrl}
           onChange={handleLinksInputChange}
         />
         <button type="submit" disabled={isSubmitting}>

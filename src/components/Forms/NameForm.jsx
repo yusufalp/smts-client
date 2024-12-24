@@ -8,10 +8,11 @@ const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
 function NameForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
+  const profile = useSelector((state) => state.user.profile);
 
   const [nameFormData, setNameFormData] = useState({
-    firstName: "",
-    lastName: "",
+    firstName: profile?.name?.firstName || "",
+    lastName: profile?.name?.lastName || "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -84,7 +85,6 @@ function NameForm() {
           type="text"
           name="lastName"
           id="lastName"
-          required
           value={nameFormData.lastName}
           onChange={handleNameInputChange}
         />

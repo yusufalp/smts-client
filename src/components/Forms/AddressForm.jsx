@@ -16,7 +16,7 @@ function AddressForm() {
     line2: profile?.address?.street?.line2 || "",
     city: profile?.address?.city || "",
     state: profile?.address?.state || "",
-    zip: profile?.address?.zip || "",
+    postalCode: profile?.address?.postalCode || "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,15 +42,18 @@ function AddressForm() {
     const body = { field: "address", value: addressFormData };
 
     try {
-      const response = await fetch(`${PROFILE_SERVICE_URL}/api/profiles/profile`, {
-        method: "PATCH",
-        credentials: "include",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        `${PROFILE_SERVICE_URL}/api/profiles/profile`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(body),
+        }
+      );
 
       const result = await response.json();
 
@@ -116,14 +119,14 @@ function AddressForm() {
             </option>
           ))}
         </select>
-        <label htmlFor="zip">Zip Code</label>
+        <label htmlFor="postalCode">Postal Code</label>
         <input
           type="text"
-          name="zip"
-          id="zip"
+          name="postalCode"
+          id="postalCode"
           pattern="[0-9]{5}"
           placeholder="e.g 02113"
-          value={addressFormData.zip}
+          value={addressFormData.postalCode}
           onChange={handleAddressInputChange}
         />
         <button type="submit" disabled={isSubmitting}>
