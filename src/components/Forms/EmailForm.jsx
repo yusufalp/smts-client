@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { setProfile } from "../../store/features/userSlice";
 
-const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
+const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
 function EmailForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -25,7 +25,7 @@ function EmailForm() {
     const body = { field: "email", value: email };
 
     try {
-      const response = await fetch(`${API_SERVER_URL}/api/profiles/profile`, {
+      const response = await fetch(`${PROFILE_SERVICE_URL}/api/profiles/profile`, {
         method: "PATCH",
         credentials: "include",
         headers: {

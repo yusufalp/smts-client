@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils/validations";
 import { setProfile } from "../../store/features/userSlice";
 
-const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
+const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
 function CreateProfile() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -58,7 +58,7 @@ function CreateProfile() {
     setError("");
 
     try {
-      const response = await fetch(`${API_SERVER_URL}/api/profiles/profile`, {
+      const response = await fetch(`${PROFILE_SERVICE_URL}/api/profiles/profile`, {
         method: "POST",
         credentials: "include",
         headers: {

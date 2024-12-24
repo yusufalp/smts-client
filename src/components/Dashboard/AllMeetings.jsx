@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import { PAGINATION_VALUES } from "../../constants/paginationValues";
 
-const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
+const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
 function AllMeetings() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -23,7 +23,7 @@ function AllMeetings() {
 
   useEffect(() => {
     const getAllMeetings = async () => {
-      const url = new URL(`${API_SERVER_URL}/api/admin/meetings`);
+      const url = new URL(`${PROFILE_SERVICE_URL}/api/admin/meetings`);
 
       Object.entries(query).forEach(([key, value]) => {
         if (value) url.searchParams.append(key, value);

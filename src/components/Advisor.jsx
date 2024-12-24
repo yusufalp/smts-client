@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
+const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
 function Advisor() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -17,7 +17,7 @@ function Advisor() {
     const getAdvisor = async () => {
       try {
         const response = await fetch(
-          `${API_SERVER_URL}/api/profiles/${advisorId}`,
+          `${PROFILE_SERVICE_URL}/api/profiles/${advisorId}`,
           {
             method: "GET",
             credentials: "include",

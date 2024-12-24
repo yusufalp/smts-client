@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
-const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
+const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
 function Meeting() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -22,7 +22,7 @@ function Meeting() {
     const getMeeting = async () => {
       try {
         const response = await fetch(
-          `${API_SERVER_URL}/api/meetings/${meetingId}`,
+          `${PROFILE_SERVICE_URL}/api/meetings/${meetingId}`,
           {
             method: "GET",
             credentials: "include",

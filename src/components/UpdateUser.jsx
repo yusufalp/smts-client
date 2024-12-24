@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { ROLES } from "../constants/roles";
 import { STATUSES } from "../constants/statuses";
 
-const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
+const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
 function UpdateUser() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -24,7 +24,7 @@ function UpdateUser() {
     const getProfile = async () => {
       try {
         const response = await fetch(
-          `${API_SERVER_URL}/api/admin/profiles/profile/${profileId}`,
+          `${PROFILE_SERVICE_URL}/api/admin/profiles/profile/${profileId}`,
           {
             method: "GET",
             credentials: "include",
@@ -66,7 +66,7 @@ function UpdateUser() {
     body.profileId = profileId;
 
     try {
-      const response = await fetch(`${API_SERVER_URL}/api/admin/profile`, {
+      const response = await fetch(`${PROFILE_SERVICE_URL}/api/admin/profile`, {
         method: "POST",
         credentials: "include",
         headers: {

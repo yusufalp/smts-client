@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-const API_SERVER_URL = import.meta.env.VITE_SERVER_URL;
+const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
 function MeetingForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -25,7 +25,7 @@ function MeetingForm() {
   useEffect(() => {
     const getAllAdvisors = async () => {
       try {
-        const response = await fetch(`${API_SERVER_URL}/api/profiles/advisors`, {
+        const response = await fetch(`${PROFILE_SERVICE_URL}/api/profiles/advisors`, {
           method: "GET",
           credentials: "include",
           headers: {
@@ -67,7 +67,7 @@ function MeetingForm() {
     setError("");
 
     try {
-      const response = await fetch(`${API_SERVER_URL}/api/meetings`, {
+      const response = await fetch(`${PROFILE_SERVICE_URL}/api/meetings`, {
         method: "POST",
         credentials: "include",
         headers: {

@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../store/features/authSlice";
 import { removeProfile } from "../store/features/userSlice";
 
-const API_AUTH_URL = import.meta.env.VITE_AUTH_URL;
+const USER_SERVICE_URL = import.meta.env.VITE_USER_SERVICE_URL;
 
 function Header() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -21,7 +21,7 @@ function Header() {
     setError("");
 
     try {
-      const response = await fetch(`${API_AUTH_URL}/auth/logout`, {
+      const response = await fetch(`${USER_SERVICE_URL}/users/logout`, {
         method: "POST",
         credentials: "include",
         headers: {
