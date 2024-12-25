@@ -3,10 +3,11 @@ import { useSelector } from "react-redux";
 
 import { PAGINATION_VALUES } from "../../constants/paginationValues";
 
-const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
+const MEETING_SERVICE_URL = import.meta.env.VITE_MEETING_SERVICE_URL;
 
 function AllMeetings() {
   const accessToken = useSelector((state) => state.auth.accessToken);
+  const profile = useSelector((state) => state.user.profile);
 
   const [meetings, setMeetings] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
@@ -21,9 +22,13 @@ function AllMeetings() {
     limit: PAGINATION_VALUES.SIZE.value,
   });
 
+  const { role } = profile;
+
   useEffect(() => {
     const getAllMeetings = async () => {
-      const url = new URL(`${PROFILE_SERVICE_URL}/api/admin/meetings`);
+      const url = new URL(`${MEETING_SERVICE_URL}/api/admin/meetings`);
+
+      url.searchParams.append("role", role);
 
       Object.entries(query).forEach(([key, value]) => {
         if (value) url.searchParams.append(key, value);
@@ -60,7 +65,7 @@ function AllMeetings() {
     };
 
     getAllMeetings();
-  }, [accessToken, query]);
+  }, [accessToken, role, query]);
 
   const updateQuery = (updates) => {
     setQuery((prev) => ({ ...prev, ...updates }));
@@ -69,7 +74,7 @@ function AllMeetings() {
   return (
     <>
       <h1>All Meetings</h1>
-      
+
       <div>
         <label htmlFor="learner">Learner</label>
         <input
@@ -111,17 +116,26 @@ function AllMeetings() {
             <li>Advisor</li>
             <li>Learner</li>
           </ul>
-          {meetings &&
+          {meetings.length === 0 ? (
+            <p>There no meetings scheduled</p>
+          ) : (
             meetings.map((meeting) => (
               <ul key={meeting._id}>
                 <li>{meeting.title}</li>
-                <li>{new Date(meeting.date).toLocaleDateString()}</li>
-                <li>{new Date(meeting.date).toLocaleTimeString()}</li>
-                <li>{meeting.duration}</li>
-                <li>{meeting.advisor.name.first} {meeting.advisor.name.last}</li>
-                <li>{meeting.learner.name.first} {meeting.learner.name.last}</li>
+                <li>{new Date(meeting.scheduledDate).toLocaleDateString()}</li>
+                <li>{new Date(meeting.scheduledDate).toLocaleTimeString()}</li>
+                <li>{meeting.durationMinutes}</li>
+                <li>
+                  {meeting.advisor.name.firstName}{" "}
+                  {meeting.advisor.name.lastName}
+                </li>
+                <li>
+                  {meeting.learner.name.firstName}{" "}
+                  {meeting.learner.name.lastName}
+                </li>
               </ul>
-            ))}
+            ))
+          )}
         </>
       )}
 

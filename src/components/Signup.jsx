@@ -89,7 +89,7 @@ function Signup() {
       const { accessToken, expiresAt } = signupResult.data;
 
       const profileResponse = await fetch(
-        `${PROFILE_SERVICE_URL}/api/profiles`,
+        `${PROFILE_SERVICE_URL}/api/profiles/profile`,
         {
           method: "POST",
           credentials: "include",

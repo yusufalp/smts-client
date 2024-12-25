@@ -24,7 +24,7 @@ function UpdateUser() {
     const getProfile = async () => {
       try {
         const response = await fetch(
-          `${PROFILE_SERVICE_URL}/api/admin/profiles/profile/${profileId}`,
+          `${PROFILE_SERVICE_URL}/api/admin/profiles/${profileId}`,
           {
             method: "GET",
             credentials: "include",
@@ -66,8 +66,8 @@ function UpdateUser() {
     body.profileId = profileId;
 
     try {
-      const response = await fetch(`${PROFILE_SERVICE_URL}/api/admin/profile`, {
-        method: "POST",
+      const response = await fetch(`${PROFILE_SERVICE_URL}/api/admin/profiles/${searchedProfile._id}`, {
+        method: "PATCH",
         credentials: "include",
         headers: {
           "Content-type": "application/json",
@@ -98,7 +98,7 @@ function UpdateUser() {
 
       {!isLoading && !error && (
         <>
-          <h1>{`${searchedProfile?.name?.first}'s Details`}</h1>
+          <h1>{`${searchedProfile?.name?.firstName}'s Details`}</h1>
           <div>
             <button onClick={() => setUpdateValue("role")}>Role</button>
             <button onClick={() => setUpdateValue("status")}>Status</button>
