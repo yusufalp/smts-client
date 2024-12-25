@@ -41,7 +41,7 @@ function Profile() {
 
       <section>
         <p>Role: {profile.role}</p>
-        <p>Status: {profile.accountStatus}</p>
+        <p>Status: {profile.status}</p>
       </section>
       <section>
         <h2>Email</h2>
