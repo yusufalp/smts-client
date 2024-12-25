@@ -4,18 +4,20 @@ import AllMeetings from "./AllMeetings";
 import AllProfiles from "./AllProfiles";
 
 function AdminDashboard() {
-  const [currentComponent, setCurrentComponent] = useState("users");
+  const [currentComponent, setCurrentComponent] = useState("profiles");
 
   return (
     <>
       <div>
-        <button onClick={() => setCurrentComponent("users")}>Users</button>
+        <button onClick={() => setCurrentComponent("profiles")}>
+          Profiles
+        </button>
         <button onClick={() => setCurrentComponent("meetings")}>
           Meetings
         </button>
       </div>
 
-      {currentComponent === "users" && <AllProfiles />}
+      {currentComponent === "profiles" && <AllProfiles />}
       {currentComponent === "meetings" && <AllMeetings />}
     </>
   );
