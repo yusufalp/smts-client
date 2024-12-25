@@ -7,9 +7,9 @@ const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 function Learner() {
   const accessToken = useSelector((state) => state.auth.accessToken);
 
-  const { menteeId } = useParams();
+  const { learnerId } = useParams();
 
-  const [mentee, setMentee] = useState(null);
+  const [learner, setLearner] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -17,7 +17,7 @@ function Learner() {
     const getLearner = async () => {
       try {
         const response = await fetch(
-          `${PROFILE_SERVICE_URL}/api/profiles/assigned/mentee/${menteeId}`,
+          `${PROFILE_SERVICE_URL}/api/profiles/assigned/learner/${learnerId}`,
           {
             method: "GET",
             credentials: "include",
@@ -34,7 +34,7 @@ function Learner() {
           throw new Error(result.error.message);
         }
 
-        setMentee(result.data.mentee);
+        setLearner(result.data.learner);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -43,7 +43,7 @@ function Learner() {
     };
 
     getLearner();
-  }, [accessToken, menteeId]);
+  }, [accessToken, learnerId]);
 
   return (
     <main>
@@ -51,20 +51,20 @@ function Learner() {
 
       {error && <p>{error}</p>}
 
-      {!isLoading && !error && mentee && (
+      {!isLoading && !error && learner && (
         <>
-          <h1>{`You are viewing ${mentee?.name?.first}'s Profile`}</h1>
-          <p>Email: {mentee?.email}</p>
-          <p>Cohort: {mentee?.cohort}</p>
-          <p>Graduation: {mentee?.graduation}</p>
-          <p>Status: {mentee?.status}</p>
-          {mentee.links && (
+          <h1>{`You are viewing ${learner?.name?.firstName}'s Profile`}</h1>
+          <p>Email: {learner?.email}</p>
+          <p>Cohort: {learner?.cohort}</p>
+          <p>Graduation: {learner?.graduationDate}</p>
+          <p>Status: {learner?.status}</p>
+          {learner.links && (
             <>
               <h2>Links</h2>
               <ul>
                 <li>
                   <Link
-                    to={mentee?.links?.portfolio}
+                    to={learner?.links?.portfolioUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -73,7 +73,7 @@ function Learner() {
                 </li>
                 <li>
                   <Link
-                    to={mentee?.links?.linkedin}
+                    to={learner?.links?.linkedinUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -82,7 +82,7 @@ function Learner() {
                 </li>
                 <li>
                   <Link
-                    to={mentee?.links?.github}
+                    to={learner?.links?.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

@@ -7,15 +7,15 @@ const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 function MenteeList() {
   const accessToken = useSelector((state) => state.auth.accessToken);
 
-  const [assignedMentees, setAssignedMentees] = useState([]);
+  const [assignedLearners, setAssignedLearners] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const getAssignedMentees = async () => {
+    const getAssignedLearners = async () => {
       try {
         const response = await fetch(
-          `${PROFILE_SERVICE_URL}/api/profiles/assigned/mentees`,
+          `${PROFILE_SERVICE_URL}/api/profiles/assigned/learners`,
           {
             method: "GET",
             credentials: "include",
@@ -32,7 +32,7 @@ function MenteeList() {
           throw new Error(result.error.message);
         }
 
-        setAssignedMentees(result.data.mentees);
+        setAssignedLearners(result.data.learners);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -40,22 +40,22 @@ function MenteeList() {
       }
     };
 
-    getAssignedMentees();
+    getAssignedLearners();
   }, [accessToken]);
 
   const menteeList = useMemo(
     () =>
-      assignedMentees.map((mentee) => (
+      assignedLearners.map((mentee) => (
         <ul key={mentee._id}>
           <li>
-            <Link to={`/mentee/${mentee._id}`}>{mentee.name.first}</Link>
+            <Link to={`/learner/${mentee._id}`}>{mentee.name.firstName}</Link>
           </li>
-          <li>{mentee.name.last}</li>
-          <li>{mentee.graduation}</li>
+          <li>{mentee.name.lastName}</li>
+          <li>{mentee.graduationDate}</li>
           <li>{mentee.status}</li>
         </ul>
       )),
-    [assignedMentees]
+    [assignedLearners]
   );
 
   return (
@@ -66,7 +66,7 @@ function MenteeList() {
 
       {error && <p>{error}</p>}
 
-      {!isLoading && !error && assignedMentees.length ? (
+      {!isLoading && !error && assignedLearners.length ? (
         <>
           <ul>
             <li>First Name</li>
