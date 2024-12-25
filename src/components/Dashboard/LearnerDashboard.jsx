@@ -6,7 +6,7 @@ const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 function LearnerDashboard() {
   const accessToken = useSelector((state) => state.auth.accessToken);
 
-  const [assignedRoles, setAssignedRoles] = useState(null);
+  const [assignedAdvisors, setAssignedAdvisors] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -31,7 +31,7 @@ function LearnerDashboard() {
           throw new Error(result.error.message);
         }
 
-        setAssignedRoles(result.data.assignedRoles);
+        setAssignedAdvisors(result.data.advisors);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -60,8 +60,8 @@ function LearnerDashboard() {
 
       {!isLoading && !error && (
         <>
-          {renderAdvisorInfo("mentor", assignedRoles?.mentor)}
-          {renderAdvisorInfo("coach", assignedRoles?.coach)}
+          {renderAdvisorInfo("mentor", assignedAdvisors?.mentor)}
+          {renderAdvisorInfo("coach", assignedAdvisors?.coach)}
         </>
       )}
     </>
