@@ -22,7 +22,7 @@ function Dashboard() {
   return (
     <main className="dashboard">
       <section>
-        <h1>Welcome {name.first}</h1>
+        <h1>Welcome {name.firstName}</h1>
       </section>
 
       <section>
