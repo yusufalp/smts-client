@@ -114,11 +114,13 @@ function AllProfiles() {
             <li>Last Updated</li>
             <li>Action</li>
           </ul>
-          {profiles &&
+          {profiles.length === 0 ? (
+            <p>There are no profiles</p>
+          ) : (
             profiles.map((profile) => (
               <ul key={profile._id}>
-                <li>{profile.name.first}</li>
-                <li>{profile.name.last}</li>
+                <li>{profile.name.firstName}</li>
+                <li>{profile.name.lastName}</li>
                 <li>{profile.role}</li>
                 <li>{profile.status}</li>
                 <li>{new Date(profile.updatedAt).toLocaleDateString()}</li>
@@ -132,7 +134,8 @@ function AllProfiles() {
                   </button>
                 </li>
               </ul>
-            ))}
+            ))
+          )}
         </>
       )}
 
