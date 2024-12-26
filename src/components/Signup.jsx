@@ -31,10 +31,6 @@ function Signup() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isFormValid = () => {
-    return !Object.values(signupFormErrors).some((error) => error !== "");
-  };
-
   const handleSignupInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -60,6 +56,10 @@ function Signup() {
         email: validateEmail(value),
       }));
     }
+  };
+
+  const isFormValid = () => {
+    return !Object.values(signupFormErrors).some((error) => error !== "");
   };
 
   const handleSignupSubmit = async (e) => {
