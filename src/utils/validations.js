@@ -1,6 +1,7 @@
 const EMAIL_REGEX = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
 const PASSWORD_REGEX =
   /^(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/;
+const PHONE_NUMBER_REGEX = /^[0-9]{10}/;
 
 export function validatePassword(value) {
   if (value === "") {
@@ -19,6 +20,14 @@ export function validateEmail(value) {
     return "Email cannot be blank";
   } else if (!value.match(EMAIL_REGEX)) {
     return "Enter a valid email";
+  } else {
+    return "";
+  }
+}
+
+export function validatePhoneNumber(value) {
+  if (!value.match(PHONE_NUMBER_REGEX)) {
+    return "Enter ten digits, numbers only, including area code";
   } else {
     return "";
   }
