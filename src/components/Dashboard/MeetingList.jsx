@@ -71,20 +71,15 @@ function MeetingList() {
             <li>Date</li>
             <li>Time</li>
             <li>Duration</li>
-            <li>Participant</li>
           </ul>
           {meetings.map((meeting) => (
             <ul key={meeting._id}>
               <li>
                 <Link to={`/meeting/${meeting._id}`}>{meeting.title}</Link>
               </li>
-              <li>{new Date(meeting.date).toLocaleDateString()}</li>
-              <li>{new Date(meeting.date).toLocaleTimeString()}</li>
-              <li>{meeting.duration}</li>
-              <li>
-                {role === "mentor" && meeting.learner?.name?.first}
-                {role === "mentee" && meeting.advisor?.name?.first}
-              </li>
+              <li>{new Date(meeting.scheduledDate).toLocaleDateString()}</li>
+              <li>{new Date(meeting.scheduledDate).toLocaleTimeString()}</li>
+              <li>{meeting.durationMinutes}</li>
             </ul>
           ))}
         </>
