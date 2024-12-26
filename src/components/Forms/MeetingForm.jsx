@@ -3,9 +3,11 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
+const MEETING_SERVICE_URL = import.meta.env.VITE_MEETING_SERVICE_URL;
 
 function MeetingForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
+  const profile = useSelector((state) => state.user.profile);
 
   const [meetingFormData, setMeetingFormData] = useState({
     title: "",
@@ -25,14 +27,17 @@ function MeetingForm() {
   useEffect(() => {
     const getAllAdvisors = async () => {
       try {
-        const response = await fetch(`${PROFILE_SERVICE_URL}/api/profiles/advisors`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await fetch(
+          `${PROFILE_SERVICE_URL}/api/profiles/advisors`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
         const result = await response.json();
 
@@ -66,8 +71,10 @@ function MeetingForm() {
     setIsSubmitting(true);
     setError("");
 
+    meetingFormData.learner = profile._id;
+
     try {
-      const response = await fetch(`${PROFILE_SERVICE_URL}/api/meetings`, {
+      const response = await fetch(`${MEETING_SERVICE_URL}/api/meetings`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -116,8 +123,8 @@ function MeetingForm() {
           />
           <label htmlFor="advisor">Advisor</label>
           <select
-            name="advisor"
             id="advisor"
+            name="advisor"
             defaultValue="default"
             required
             onChange={handleMeetingInputChange}
@@ -128,7 +135,7 @@ function MeetingForm() {
             {advisors &&
               advisors.map((advisor) => (
                 <option key={advisor._id} value={advisor._id}>
-                  {advisor.name.first} {advisor.name.last}
+                  {advisor.name.firstName} {advisor.name.lastName}
                 </option>
               ))}
           </select>
