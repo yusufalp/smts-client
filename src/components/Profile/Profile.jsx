@@ -23,12 +23,6 @@ function Profile() {
   return (
     <main>
       <h1>My Profile</h1>
-      <section>
-        <h2>
-          {name.firstName} {name.lastName}
-        </h2>
-        <button onClick={() => navigate("/name-form")}>Edit Name</button>
-      </section>
 
       {isAdmin && <AdminProfile />}
       {isAdvisor && <AdvisorProfile />}
@@ -43,12 +37,23 @@ function Profile() {
         <p>Role: {profile.role}</p>
         <p>Status: {profile.status}</p>
       </section>
+
       <section>
-        <h2>Email</h2>
-        <p>{profile.email}</p>
-        <button onClick={() => navigate("/email-form")}>
-          {profile.email ? "Edit" : "Add"} Email
+        <h2>About Me</h2>
+        <p>
+          Name: {name.firstName} {name.lastName}
+        </p>
+        <p>Bio: {profile.bio}</p>
+        <button onClick={() => navigate("/about-me-form")}>
+          Edit About Me
         </button>
+      </section>
+
+      <section>
+        <h2>Contact</h2>
+        <p>Email: {profile.email}</p>
+        <p>Phone: {profile.phoneNumber}</p>
+        <button onClick={() => navigate("/contact-form")}>Edit Contact</button>
       </section>
       <section>
         <h2>Address</h2>
@@ -60,9 +65,7 @@ function Profile() {
           <span>{profile.address?.state} </span>
           <span>{profile.address?.postalCode}</span>
         </p>
-        <button onClick={() => navigate("/address-form")}>
-          {profile.address ? "Edit" : "Add"} Address
-        </button>
+        <button onClick={() => navigate("/address-form")}>Edit Address</button>
       </section>
       <section>
         <h2>Links</h2>
@@ -81,9 +84,7 @@ function Profile() {
             <Link to={profile.links?.githubUrl}>GitHub</Link>
           </p>
         )}
-        <button onClick={() => navigate("/links-form")}>
-          {profile.links ? "Edit" : "Add"} Links
-        </button>
+        <button onClick={() => navigate("/links-form")}>Edit Links</button>
       </section>
     </main>
   );
