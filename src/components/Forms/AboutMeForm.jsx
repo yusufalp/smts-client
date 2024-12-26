@@ -6,13 +6,14 @@ import { setProfile } from "../../store/features/userSlice";
 
 const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
-function NameForm() {
+function AboutMeForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
   const profile = useSelector((state) => state.user.profile);
 
-  const [nameFormData, setNameFormData] = useState({
+  const [aboutMeForm, setAboutMeForm] = useState({
     firstName: profile?.name?.firstName || "",
     lastName: profile?.name?.lastName || "",
+    bio: profile?.bio || "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -23,7 +24,7 @@ function NameForm() {
   const handleNameInputChange = (e) => {
     const { name, value } = e.target;
 
-    setNameFormData((prevData) => ({
+    setAboutMeForm((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -34,7 +35,7 @@ function NameForm() {
 
     setIsSubmitting(true);
 
-    const body = { field: "name", value: nameFormData };
+    const body = { field: "about", value: aboutMeForm };
 
     try {
       const response = await fetch(
@@ -76,7 +77,7 @@ function NameForm() {
           name="firstName"
           id="firstName"
           required
-          value={nameFormData.firstName}
+          value={aboutMeForm.firstName}
           onChange={handleNameInputChange}
         />
 
@@ -85,7 +86,16 @@ function NameForm() {
           type="text"
           name="lastName"
           id="lastName"
-          value={nameFormData.lastName}
+          value={aboutMeForm.lastName}
+          onChange={handleNameInputChange}
+        />
+
+        <label htmlFor="bio">Bio</label>
+        <textarea
+          name="bio"
+          id="bio"
+          value={aboutMeForm.bio}
+          placeholder="Tell us about yourself"
           onChange={handleNameInputChange}
         />
 
@@ -100,4 +110,4 @@ function NameForm() {
   );
 }
 
-export default NameForm;
+export default AboutMeForm;

@@ -16,8 +16,8 @@ import Learner from "./components/Learner";
 import Meeting from "./components/Meeting";
 
 import MeetingForm from "./components/Forms/MeetingForm";
-import NameForm from "./components/Forms/NameForm";
-import EmailForm from "./components/Forms/EmailForm";
+import AboutMeForm from "./components/Forms/AboutMeForm";
+import ContactForm from "./components/Forms/ContactForm";
 import AddressForm from "./components/Forms/AddressForm";
 import LinksForm from "./components/Forms/LinksForm";
 import UpdateUser from "./components/UpdateUser";
@@ -39,8 +39,8 @@ function App() {
           <Route path="/learner/:learnerId" element={<Learner />} />
           <Route path="/meeting/:meetingId" element={<Meeting />} />
           <Route path="/meeting-form" element={<MeetingForm />} />
-          <Route path="/name-form" element={<NameForm />} />
-          <Route path="/email-form" element={<EmailForm />} />
+          <Route path="/about-me-form" element={<AboutMeForm />} />
+          <Route path="/contact-form" element={<ContactForm />} />
           <Route path="/address-form" element={<AddressForm />} />
           <Route path="/links-form" element={<LinksForm />} />
           <Route
