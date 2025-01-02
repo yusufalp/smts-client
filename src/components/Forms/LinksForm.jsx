@@ -101,7 +101,7 @@ function LinksForm() {
           onChange={handleLinksInputChange}
         />
         <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Updating" : "Update"}
+          {isSubmitting ? "Updating..." : "Update"}
         </button>
         <Link to="/profile">Cancel</Link>
       </form>

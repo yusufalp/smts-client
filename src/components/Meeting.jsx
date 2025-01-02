@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
+const MEETING_SERVICE_URL = import.meta.env.VITE_MEETING_SERVICE_URL;
 
 function Meeting() {
   const accessToken = useSelector((state) => state.auth.accessToken);
-  const profile = useSelector((state) => state.user.profile);
 
   const { meetingId } = useParams();
 
@@ -14,15 +13,11 @@ function Meeting() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const { role } = profile;
-
-  const isLearner = role === "mentee" || role === "alumni";
-
   useEffect(() => {
     const getMeeting = async () => {
       try {
         const response = await fetch(
-          `${PROFILE_SERVICE_URL}/api/meetings/${meetingId}`,
+          `${MEETING_SERVICE_URL}/api/meetings/${meetingId}`,
           {
             method: "GET",
             credentials: "include",
@@ -59,25 +54,25 @@ function Meeting() {
       {!isLoading && !error && meeting && (
         <>
           <h1>{meeting.title}</h1>
-          {isLearner ? (
-            <p>
-              Advisor:{" "}
-              <span>
-                {meeting.advisor?.name?.first} {meeting.advisor?.name?.last}
-              </span>
-            </p>
-          ) : (
-            <p>
-              Learner:{" "}
-              <Link to={`/mentee/${meeting.learner?._id}`}>
-                {meeting.learner?.name?.first} {meeting.learner?.name?.last}
-              </Link>
-            </p>
-          )}
-          <p>Date: {new Date(meeting.date).toLocaleDateString()}</p>
-          <p>Time: {new Date(meeting.date).toLocaleTimeString()}</p>
-          <p>Duration: {meeting.duration} min</p>
-          <p>Notes: {meeting.notes || "Notes are not recorded"}</p>
+          <p>
+            Organizer: {meeting.organizer?.name?.firstName}{" "}
+            {meeting.organizer?.name?.lastName}
+          </p>
+          <p>Participants:</p>
+          <ul>
+            {meeting &&
+              meeting.participants.map((participant) => (
+                <li key={participant._id}>
+                  {participant.name.firstName} {participant.name.lastName}
+                </li>
+              ))}
+          </ul>
+          <p>Description</p>
+          <p>{meeting.description}</p>
+          <p>Date: {new Date(meeting.scheduledAt).toLocaleDateString()}</p>
+          <p>Time: {new Date(meeting.scheduledAt).toLocaleTimeString()}</p>
+          <p>Duration: {meeting.durationMinutes} min</p>
+          <p>Summary: {meeting.summary || "Summary are not recorded"}</p>
         </>
       )}
     </main>

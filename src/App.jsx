@@ -4,22 +4,22 @@ import Layout from "./components/Layout";
 
 import Header from "./shared/Header";
 
-import PrivateRoutes from "./components/PrivateRoutes";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
+import PrivateRoutes from "./components/routes/PrivateRoutes";
+import Login from "./components/auth/Login";
+import Signup from "./components/auth/Signup";
 
-import Dashboard from "./components/Dashboard/Dashboard";
-import Profile from "./components/Profile/Profile";
+import Dashboard from "./components/dashboard/Dashboard";
+import Profile from "./components/profile/Profile";
 import Advisor from "./components/Advisor";
 import Learner from "./components/Learner";
 import Meeting from "./components/Meeting";
 
 // import CreateProfileForm from "./components/Forms/CreateProfileForm";
-import MeetingForm from "./components/Forms/MeetingForm";
-import AboutMeForm from "./components/Forms/AboutMeForm";
-import ContactForm from "./components/Forms/ContactForm";
-import AddressForm from "./components/Forms/AddressForm";
-import LinksForm from "./components/Forms/LinksForm";
+import MeetingForm from "./components/forms/MeetingForm";
+import AboutMeForm from "./components/forms/AboutMeForm";
+import ContactForm from "./components/forms/ContactForm";
+import AddressForm from "./components/forms/AddressForm";
+import LinksForm from "./components/forms/LinksForm";
 
 import UpdateUser from "./components/UpdateUser";
 

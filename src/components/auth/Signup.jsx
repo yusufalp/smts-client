@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import { login } from "../store/features/authSlice";
-import { validateEmail, validatePassword } from "../utils/validations";
-import { setProfile } from "../store/features/userSlice";
+import { validateEmail, validatePassword } from "../../utils/validations.js"
+import { setProfile } from "../../store/features/userSlice.js"
+import { login } from "../../store/features/authSlice";
 
 const USER_SERVICE_URL = import.meta.env.VITE_USER_SERVICE_URL;
 const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;

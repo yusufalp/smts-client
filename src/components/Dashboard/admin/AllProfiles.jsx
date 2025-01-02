@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { PAGINATION_VALUES } from "../../constants/paginationValues";
+import { PAGINATION_VALUES } from "../../../constants/paginationValues";
+import { ROLES } from "../../../constants/roles";
+import { STATUSES } from "../../../constants/statuses";
 
 const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
@@ -68,7 +70,7 @@ function AllProfiles() {
 
   return (
     <>
-      <h1>All Profiles</h1>
+      <h2>All Profiles</h2>
 
       <div>
         <label htmlFor="status">Status: </label>
@@ -79,9 +81,11 @@ function AllProfiles() {
           onChange={(e) => updateQuery({ status: e.target.value })}
         >
           <option value="all">All</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-          <option value="graduated">Graduated</option>
+          {Object.keys(STATUSES).map((status) => (
+            <option key={status} value={STATUSES[status].key}>
+              {status}
+            </option>
+          ))}
         </select>
 
         <label htmlFor="role">Role:</label>
@@ -92,11 +96,11 @@ function AllProfiles() {
           onChange={(e) => updateQuery({ role: e.target.value })}
         >
           <option value="all">All</option>
-          <option value="admin">Admin</option>
-          <option value="mentor">Mentor</option>
-          <option value="coach">Coach</option>
-          <option value="mentee">Mentee</option>
-          <option value="alumni">Alumni</option>
+          {Object.keys(ROLES).map((role) => (
+            <option key={role} value={ROLES[role].key}>
+              {role}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -104,6 +108,8 @@ function AllProfiles() {
         <p>Loading...</p>
       ) : error ? (
         <p className="error">{error}</p>
+      ) : profiles.length === 0 ? (
+        <p>There are no profile to display</p>
       ) : (
         <>
           <ul>
@@ -114,48 +120,46 @@ function AllProfiles() {
             <li>Last Updated</li>
             <li>Action</li>
           </ul>
-          {profiles.length === 0 ? (
-            <p>There are no profiles</p>
-          ) : (
-            profiles.map((profile) => (
-              <ul key={profile._id}>
-                <li>{profile.name.firstName}</li>
-                <li>{profile.name.lastName}</li>
-                <li>{profile.role}</li>
-                <li>{profile.status}</li>
-                <li>{new Date(profile.updatedAt).toLocaleDateString()}</li>
-                <li>
-                  <button
-                    onClick={() =>
-                      navigate(`/admin/update/profile/${profile._id}`)
-                    }
-                  >
-                    Update
-                  </button>
-                </li>
-              </ul>
-            ))
-          )}
+          {profiles.map((profile) => (
+            <ul key={profile._id}>
+              <li>{profile.name.firstName}</li>
+              <li>{profile.name.lastName}</li>
+              <li>{profile.role}</li>
+              <li>{profile.status}</li>
+              <li>{new Date(profile.updatedAt).toLocaleDateString()}</li>
+              <li>
+                <button
+                  onClick={() =>
+                    navigate(`/admin/update/profile/${profile._id}`)
+                  }
+                >
+                  Update
+                </button>
+              </li>
+            </ul>
+          ))}
         </>
       )}
 
-      <div className="pagination">
-        <button
-          onClick={() => updateQuery({ page: query.page - 1 })}
-          disabled={query.page === 1}
-        >
-          Previous
-        </button>
-        <span>
-          {query.page} of {totalPages}
-        </span>
-        <button
-          onClick={() => updateQuery({ page: query.page + 1 })}
-          disabled={query.page === totalPages}
-        >
-          Next
-        </button>
-      </div>
+      {profiles.length > 0 && (
+        <div className="pagination">
+          <button
+            onClick={() => updateQuery({ page: query.page - 1 })}
+            disabled={query.page === 1}
+          >
+            Previous
+          </button>
+          <span>
+            {query.page} of {totalPages}
+          </span>
+          <button
+            onClick={() => updateQuery({ page: query.page + 1 })}
+            disabled={query.page === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </>
   );
 }

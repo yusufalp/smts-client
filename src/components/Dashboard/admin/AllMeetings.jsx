@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { PAGINATION_VALUES } from "../../constants/paginationValues";
+import { PAGINATION } from "../../../constants/pagination";
 
 const MEETING_SERVICE_URL = import.meta.env.VITE_MEETING_SERVICE_URL;
 
@@ -15,11 +15,9 @@ function AllMeetings() {
   const [error, setError] = useState("");
 
   const [query, setQuery] = useState({
-    learner: "",
-    advisor: "",
     date: "",
-    page: PAGINATION_VALUES.PAGE.value,
-    limit: PAGINATION_VALUES.SIZE.value,
+    page: PAGINATION.PAGE.value,
+    limit: PAGINATION.SIZE.value,
   });
 
   const { role } = profile;
@@ -76,22 +74,6 @@ function AllMeetings() {
       <h1>All Meetings</h1>
 
       <div>
-        <label htmlFor="learner">Learner</label>
-        <input
-          type="text"
-          name="learner"
-          id="learner"
-          value={query.learner}
-          onChange={(e) => updateQuery({ learner: e.target.value })}
-        />
-        <label htmlFor="advisor">Advisor</label>
-        <input
-          type="text"
-          name="advisor"
-          id="advisor"
-          value={query.advisor}
-          onChange={(e) => updateQuery({ advisor: e.target.value })}
-        />
         <label htmlFor="date">Date</label>
         <input
           type="date"
@@ -106,6 +88,8 @@ function AllMeetings() {
         <p>Loading...</p>
       ) : error ? (
         <p className="error">{error}</p>
+      ) : meetings.length === 0 ? (
+        <p>There are no meetings to display</p>
       ) : (
         <>
           <ul>
@@ -113,49 +97,39 @@ function AllMeetings() {
             <li>Date</li>
             <li>Time</li>
             <li>Duration</li>
-            <li>Advisor</li>
-            <li>Learner</li>
+            <li>Organizer</li>
           </ul>
-          {meetings.length === 0 ? (
-            <p>There no meetings scheduled</p>
-          ) : (
-            meetings.map((meeting) => (
-              <ul key={meeting._id}>
-                <li>{meeting.title}</li>
-                <li>{new Date(meeting.scheduledAt).toLocaleDateString()}</li>
-                <li>{new Date(meeting.scheduledAt).toLocaleTimeString()}</li>
-                <li>{meeting.durationMinutes}</li>
-                <li>
-                  {meeting.advisor.name.firstName}{" "}
-                  {meeting.advisor.name.lastName}
-                </li>
-                <li>
-                  {meeting.learner.name.firstName}{" "}
-                  {meeting.learner.name.lastName}
-                </li>
-              </ul>
-            ))
-          )}
+          {meetings.map((meeting) => (
+            <ul key={meeting._id}>
+              <li>{meeting.title}</li>
+              <li>{new Date(meeting.scheduledAt).toLocaleDateString()}</li>
+              <li>{new Date(meeting.scheduledAt).toLocaleTimeString()}</li>
+              <li>{meeting.durationMinutes}</li>
+              <li>{meeting.organizer.name.firstName}</li>
+            </ul>
+          ))}
         </>
       )}
 
-      <div className="pagination">
-        <button
-          onClick={() => updateQuery({ page: query.page - 1 })}
-          disabled={query.page === 1}
-        >
-          Previous
-        </button>
-        <span>
-          {query.page} of {totalPages}
-        </span>
-        <button
-          onClick={() => updateQuery({ page: query.page + 1 })}
-          disabled={query.page === totalPages}
-        >
-          Next
-        </button>
-      </div>
+      {meetings.length > 0 && (
+        <div className="pagination">
+          <button
+            onClick={() => updateQuery({ page: query.page - 1 })}
+            disabled={query.page === 1}
+          >
+            Previous
+          </button>
+          <span>
+            {query.page} of {totalPages}
+          </span>
+          <button
+            onClick={() => updateQuery({ page: query.page + 1 })}
+            disabled={query.page === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </>
   );
 }

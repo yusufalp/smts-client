@@ -1,10 +1,9 @@
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 
-import AdminDashboard from "./AdminDashboard";
-import AdvisorDashboard from "./AdvisorDashboard";
-import LearnerDashboard from "./LearnerDashboard";
-import MeetingList from "./MeetingList";
+import AdminDashboard from "./admin/AdminDashboard";
+import AdvisorDashboard from "./advisor/AdvisorDashboard";
+import LearnerDashboard from "./learner/LearnerDashboard";
 
 function Dashboard() {
   const profile = useSelector((state) => state.user.profile);
@@ -22,16 +21,10 @@ function Dashboard() {
   return (
     <main className="dashboard">
       <section>
-        <h1>Welcome {name.firstName}</h1>
+        {isAdmin && <AdminDashboard name={name} />}
+        {isAdvisor && <AdvisorDashboard name={name} />}
+        {isLearner && <LearnerDashboard name={name} />}
       </section>
-
-      <section>
-        {isAdmin && <AdminDashboard />}
-        {isAdvisor && <AdvisorDashboard />}
-        {isLearner && <LearnerDashboard />}
-      </section>
-
-      <section>{(isAdvisor || isLearner) && <MeetingList />}</section>
     </main>
   );
 }

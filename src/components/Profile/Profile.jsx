@@ -2,9 +2,9 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import AdminProfile from "./AdminProfile";
-import AdvisorProfile from "./AdvisorProfile";
-import LearnerProfile from "./LearnerProfile";
+import AdminProfile from "./admin/AdminProfile";
+import AdvisorProfile from "./advisor/AdvisorProfile";
+import LearnerProfile from "./learner/LearnerProfile";
 
 function Profile() {
   const profile = useSelector((state) => state.user.profile);
@@ -29,19 +29,19 @@ function Profile() {
       {isLearner && (
         <LearnerProfile
           cohort={profile.cohort}
-          graduation={profile.graduationDate}
+          graduationDate={profile.graduationDate}
         />
       )}
 
       <section>
         <p>Role: {profile.role}</p>
-        <p>Status: {profile.status}</p>
+        <p>Status: {profile.profileStatus}</p>
       </section>
 
       <section>
         <h2>About Me</h2>
         <p>
-          Name: {name.firstName} {name.lastName}
+          Name: {name.firstName} {name.middleName} {name.lastName}
         </p>
         <p>Bio: {profile.bio}</p>
         <button onClick={() => navigate("/about-me-form")}>

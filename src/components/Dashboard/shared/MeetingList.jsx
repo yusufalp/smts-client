@@ -71,6 +71,7 @@ function MeetingList() {
             <li>Date</li>
             <li>Time</li>
             <li>Duration</li>
+            <li>Organizer</li>
           </ul>
           {meetings.map((meeting) => (
             <ul key={meeting._id}>
@@ -80,6 +81,7 @@ function MeetingList() {
               <li>{new Date(meeting.scheduledAt).toLocaleDateString()}</li>
               <li>{new Date(meeting.scheduledAt).toLocaleTimeString()}</li>
               <li>{meeting.durationMinutes}</li>
+              <li>{meeting.organizer.name.firstName}</li>
             </ul>
           ))}
         </>

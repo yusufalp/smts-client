@@ -66,15 +66,18 @@ function UpdateUser() {
     body.profileId = profileId;
 
     try {
-      const response = await fetch(`${PROFILE_SERVICE_URL}/api/admin/profiles/${searchedProfile._id}`, {
-        method: "PATCH",
-        credentials: "include",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        `${PROFILE_SERVICE_URL}/api/admin/profiles/${searchedProfile._id}`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(body),
+        }
+      );
 
       const result = await response.json();
 
@@ -109,7 +112,7 @@ function UpdateUser() {
                 <label htmlFor="role">Role</label>
                 <select name="role" id="role">
                   {Object.keys(ROLES).map((role) => (
-                    <option key={role} value={role}>
+                    <option key={role} value={ROLES[role].key}>
                       {role}
                     </option>
                   ))}
@@ -121,7 +124,7 @@ function UpdateUser() {
                 <label htmlFor="status">Status</label>
                 <select name="status" id="status">
                   {Object.keys(STATUSES).map((status) => (
-                    <option key={status} value={status}>
+                    <option key={status} value={STATUSES[status].key}>
                       {status}
                     </option>
                   ))}

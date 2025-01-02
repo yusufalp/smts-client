@@ -131,7 +131,7 @@ function ContactForm() {
         )}
 
         <button type="submit" disabled={isSubmitting || !isFormValid()}>
-          {isSubmitting ? "Updating" : "Update"}
+          {isSubmitting ? "Updating..." : "Update"}
         </button>
         <Link to="/profile">Cancel</Link>
       </form>

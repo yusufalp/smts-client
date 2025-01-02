@@ -15,7 +15,7 @@ function MeetingForm() {
     date: "",
     time: "",
     duration: 30,
-    notes: "",
+    description: "",
   });
   const [advisors, setAdvisors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -65,13 +65,31 @@ function MeetingForm() {
     }));
   };
 
+  console.log('advisors :>> ', advisors);
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     setIsSubmitting(true);
     setError("");
 
-    meetingFormData.learner = profile._id;
+    const organizerData = {
+      profileId: profile._id,
+      email: profile.email,
+      name: {
+        firstName: profile.name.firstName,
+        lastName: profile.name.lastName,
+      },
+    };
+
+
+    const selectedAdvisor = advisors.find(
+      (advisor) => (advisor._id = meetingFormData.advisor)
+    );
+
+    console.log('selectedAdvisor :>> ', selectedAdvisor);
+
+    meetingFormData.organizer = organizerData;
+    meetingFormData.advisor = selectedAdvisor;
 
     try {
       const response = await fetch(`${MEETING_SERVICE_URL}/api/meetings`, {
@@ -111,6 +129,7 @@ function MeetingForm() {
             Did you just meet with your mentor or coach?
           </p>
           <p className="text-margin-0">Complete the form</p>
+
           <label htmlFor="title">Title</label>
           <input
             type="text"
@@ -121,6 +140,7 @@ function MeetingForm() {
             value={meetingFormData.title}
             onChange={handleMeetingInputChange}
           />
+
           <label htmlFor="advisor">Advisor</label>
           <select
             id="advisor"
@@ -139,6 +159,7 @@ function MeetingForm() {
                 </option>
               ))}
           </select>
+
           <label htmlFor="date">Date</label>
           <input
             type="date"
@@ -148,6 +169,7 @@ function MeetingForm() {
             value={meetingFormData.date}
             onChange={handleMeetingInputChange}
           />
+
           <label htmlFor="time">Time</label>
           <input
             type="time"
@@ -157,6 +179,7 @@ function MeetingForm() {
             value={meetingFormData.time}
             onChange={handleMeetingInputChange}
           />
+
           <label htmlFor="duration">Duration (min)</label>
           <input
             type="number"
@@ -166,20 +189,22 @@ function MeetingForm() {
             value={meetingFormData.duration}
             onChange={handleMeetingInputChange}
           />
-          <label htmlFor="noes">Notes about the meeting</label>
+
+          <label htmlFor="description">Description</label>
           <textarea
-            name="notes"
-            id="notes"
+            name="description"
+            id="description"
             rows={4}
             cols={40}
-            required
-            placeholder="Enter important notes here..."
-            value={meetingFormData.notes}
+            placeholder="Enter description here..."
+            value={meetingFormData.description}
             onChange={handleMeetingInputChange}
           />
+
           <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Submitting" : "Submit"}
+            {isSubmitting ? "Submitting..." : "Submit"}
           </button>
+
           <Link to="/dashboard">Cancel</Link>
         </form>
       )}

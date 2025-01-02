@@ -12,6 +12,7 @@ function AboutMeForm() {
 
   const [aboutMeFormData, setAboutMeFormData] = useState({
     firstName: profile?.name?.firstName || "",
+    middleName: profile?.name?.middleName || "",
     lastName: profile?.name?.lastName || "",
     bio: profile?.bio || "",
   });
@@ -81,6 +82,15 @@ function AboutMeForm() {
           onChange={handleNameInputChange}
         />
 
+        <label htmlFor="middleName">Middle name</label>
+        <input
+          type="text"
+          name="middleName"
+          id="middleName"
+          value={aboutMeFormData.middleName}
+          onChange={handleNameInputChange}
+        />
+
         <label htmlFor="lastName">Last name</label>
         <input
           type="text"
@@ -100,7 +110,7 @@ function AboutMeForm() {
         />
 
         <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Updating" : "Update"}
+          {isSubmitting ? "Updating..." : "Update"}
         </button>
         <Link to="/profile">Cancel</Link>
 

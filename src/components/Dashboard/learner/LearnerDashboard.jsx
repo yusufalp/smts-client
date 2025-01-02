@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
+
+import MeetingList from "../shared/MeetingList";
 
 const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
-function LearnerDashboard() {
+function LearnerDashboard({ name }) {
   const accessToken = useSelector((state) => state.auth.accessToken);
 
   const [assignedAdvisors, setAssignedAdvisors] = useState(null);
@@ -31,7 +34,7 @@ function LearnerDashboard() {
           throw new Error(result.error.message);
         }
 
-        setAssignedAdvisors(result.data.advisors);
+        setAssignedAdvisors(result.data.advisors.assigned);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -46,7 +49,7 @@ function LearnerDashboard() {
     return (
       <p>
         {`Your ${advisorRole} ${
-          advisor ? `is ${advisor?.name?.first}` : "will be assigned soon"
+          advisor ? `is ${advisor?.name?.firstName}` : "will be assigned soon"
         }`}
       </p>
     );
@@ -59,13 +62,19 @@ function LearnerDashboard() {
       {error && <p>{error}</p>}
 
       {!isLoading && !error && (
-        <>
+        <main>
+          <h1>Welcome {name.firstName}</h1>
           {renderAdvisorInfo("mentor", assignedAdvisors?.mentor)}
           {renderAdvisorInfo("coach", assignedAdvisors?.coach)}
-        </>
+          <MeetingList />
+        </main>
       )}
     </>
   );
 }
+
+LearnerDashboard.propTypes = {
+  name: PropTypes.object,
+};
 
 export default LearnerDashboard;
