@@ -15,7 +15,9 @@ function AllMeetings() {
   const [error, setError] = useState("");
 
   const [query, setQuery] = useState({
+    title: "",
     date: "",
+    organizer: "",
     page: PAGINATION.PAGE.value,
     limit: PAGINATION.SIZE.value,
   });
@@ -62,7 +64,13 @@ function AllMeetings() {
       }
     };
 
-    getAllMeetings();
+    const applyFilter = setTimeout(() => {
+      getAllMeetings();
+    }, 1000);
+
+    return () => {
+      clearTimeout(applyFilter);
+    };
   }, [accessToken, role, query]);
 
   const updateQuery = (updates) => {
@@ -74,6 +82,14 @@ function AllMeetings() {
       <h1>All Meetings</h1>
 
       <div>
+        <label htmlFor="title">Title</label>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          value={query.title}
+          onChange={(e) => updateQuery({ title: e.target.value })}
+        />
         <label htmlFor="date">Date</label>
         <input
           type="date"
@@ -81,6 +97,15 @@ function AllMeetings() {
           id="date"
           value={query.date}
           onChange={(e) => updateQuery({ date: e.target.value })}
+        />
+
+        <label htmlFor="organizer">Organizer</label>
+        <input
+          type="text"
+          name="organizer"
+          id="organizer"
+          value={query.organizer}
+          onChange={(e) => updateQuery({ organizer: e.target.value })}
         />
       </div>
 
