@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-import { PUBLIC_PATHS } from "../constants/paths";
+import { PUBLIC_PATHS } from "../../constants/paths";
 
 function PrivateRoutes() {
   const accessToken = useSelector((state) => state.auth.accessToken);
