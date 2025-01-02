@@ -1,4 +1,3 @@
-export const PUBLIC_PATHS = Object.freeze({
-  "/login": { key: "", desc: "" },
-  "/signup": { key: "", desc: "" },
-});
+const publicPaths = ["/login", "/signup"];
+
+export const PUBLIC_PATHS = new Set(publicPaths);

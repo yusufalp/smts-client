@@ -10,14 +10,14 @@ function PrivateRoutes() {
 
   // Allow unauthenticated users only to public paths
   if (!accessToken) {
-    return PUBLIC_PATHS[location.pathname] ? (
+    return PUBLIC_PATHS.has(location.pathname) ? (
       <Outlet />
     ) : (
       <Navigate to="/login" replace />
     );
   }
 
-  if (PUBLIC_PATHS[location.pathname]) {
+  if (PUBLIC_PATHS.has(location.pathname)) {
     return <Navigate to="/dashboard" replace />;
   }
 
