@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { PAGINATION_VALUES } from "../../../constants/paginationValues";
+import { PAGINATION } from "../../../constants/pagination";
 import { ROLES } from "../../../constants/roles";
 import { STATUSES } from "../../../constants/statuses";
 
@@ -19,8 +19,8 @@ function AllProfiles() {
   const [query, setQuery] = useState({
     status: "active",
     role: "all",
-    page: PAGINATION_VALUES.PAGE.value,
-    limit: PAGINATION_VALUES.SIZE.value,
+    page: PAGINATION.PAGE.value,
+    limit: PAGINATION.SIZE.value,
   });
 
   const navigate = useNavigate();
