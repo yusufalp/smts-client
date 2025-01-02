@@ -1,4 +1,4 @@
-export const PAGINATION_VALUES = Object.freeze({
+export const PAGINATION = Object.freeze({
   PAGE: { value: 1, desc: "" },
   SIZE: { value: 5, desc: "" },
 });
