@@ -81,9 +81,9 @@ function AllProfiles() {
           onChange={(e) => updateQuery({ status: e.target.value })}
         >
           <option value="all">All</option>
-          {Object.keys(STATUSES).map((status) => (
-            <option key={status} value={STATUSES[status].key}>
-              {status}
+          {Object.entries(STATUSES).map(([status, value]) => (
+            <option key={value.id} value={status}>
+              {value.id}
             </option>
           ))}
         </select>
@@ -96,9 +96,9 @@ function AllProfiles() {
           onChange={(e) => updateQuery({ role: e.target.value })}
         >
           <option value="all">All</option>
-          {Object.keys(ROLES).map((role) => (
-            <option key={role} value={ROLES[role].key}>
-              {role}
+          {Object.entries(ROLES).map(([role, value]) => (
+            <option key={value.id} value={role}>
+              {value.id}
             </option>
           ))}
         </select>
@@ -125,7 +125,7 @@ function AllProfiles() {
               <li>{profile.name.firstName}</li>
               <li>{profile.name.lastName}</li>
               <li>{profile.role}</li>
-              <li>{profile.status}</li>
+              <li>{STATUSES[profile.profileStatus].id}</li>
               <li>{new Date(profile.updatedAt).toLocaleDateString()}</li>
               <li>
                 <button

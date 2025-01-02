@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import AdminProfile from "./admin/AdminProfile";
 import AdvisorProfile from "./advisor/AdvisorProfile";
 import LearnerProfile from "./learner/LearnerProfile";
+import { ROLES } from "../../constants/roles";
+import { STATUSES } from "../../constants/statuses";
 
 function Profile() {
   const profile = useSelector((state) => state.user.profile);
@@ -34,8 +36,8 @@ function Profile() {
       )}
 
       <section>
-        <p>Role: {profile.role}</p>
-        <p>Status: {profile.profileStatus}</p>
+        <p>Role: {ROLES[profile.role].id}</p>
+        <p>Status: {STATUSES[profile.profileStatus].id}</p>
       </section>
 
       <section>

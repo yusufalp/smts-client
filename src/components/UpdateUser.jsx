@@ -111,9 +111,9 @@ function UpdateUser() {
               <>
                 <label htmlFor="role">Role</label>
                 <select name="role" id="role">
-                  {Object.keys(ROLES).map((role) => (
-                    <option key={role} value={ROLES[role].key}>
-                      {role}
+                  {Object.entries(ROLES).map(([role, value]) => (
+                    <option key={value.id} value={role}>
+                      {value.id}
                     </option>
                   ))}
                 </select>
@@ -123,9 +123,9 @@ function UpdateUser() {
               <>
                 <label htmlFor="status">Status</label>
                 <select name="status" id="status">
-                  {Object.keys(STATUSES).map((status) => (
-                    <option key={status} value={STATUSES[status].key}>
-                      {status}
+                  {Object.entries(STATUSES).map(([status, value]) => (
+                    <option key={value.id} value={status}>
+                      {value.id}
                     </option>
                   ))}
                 </select>
