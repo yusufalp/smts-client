@@ -10,7 +10,7 @@ function AboutMeForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
   const profile = useSelector((state) => state.user.profile);
 
-  const [aboutMeForm, setAboutMeForm] = useState({
+  const [aboutMeFormData, setAboutMeFormData] = useState({
     firstName: profile?.name?.firstName || "",
     lastName: profile?.name?.lastName || "",
     bio: profile?.bio || "",
@@ -24,7 +24,7 @@ function AboutMeForm() {
   const handleNameInputChange = (e) => {
     const { name, value } = e.target;
 
-    setAboutMeForm((prevData) => ({
+    setAboutMeFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -35,7 +35,7 @@ function AboutMeForm() {
 
     setIsSubmitting(true);
 
-    const body = { field: "about", value: aboutMeForm };
+    const body = { field: "about", value: aboutMeFormData };
 
     try {
       const response = await fetch(
@@ -77,7 +77,7 @@ function AboutMeForm() {
           name="firstName"
           id="firstName"
           required
-          value={aboutMeForm.firstName}
+          value={aboutMeFormData.firstName}
           onChange={handleNameInputChange}
         />
 
@@ -86,7 +86,7 @@ function AboutMeForm() {
           type="text"
           name="lastName"
           id="lastName"
-          value={aboutMeForm.lastName}
+          value={aboutMeFormData.lastName}
           onChange={handleNameInputChange}
         />
 
@@ -94,7 +94,7 @@ function AboutMeForm() {
         <textarea
           name="bio"
           id="bio"
-          value={aboutMeForm.bio}
+          value={aboutMeFormData.bio}
           placeholder="Tell us about yourself"
           onChange={handleNameInputChange}
         />
