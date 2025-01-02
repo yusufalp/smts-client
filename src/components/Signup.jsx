@@ -123,7 +123,7 @@ function Signup() {
   return (
     <main>
       <form onSubmit={handleSignupSubmit}>
-        <h1>Create an account</h1>
+        <h1>Signup</h1>
 
         <label htmlFor="firstName">First Name</label>
         <input
@@ -198,7 +198,7 @@ function Signup() {
         )}
 
         <button type="submit" disabled={isLoading || !isFormValid()}>
-          {isLoading ? "Creating account..." : "Create"}
+          {isLoading ? "Signing up..." : "Signup"}
         </button>
 
         {error && <p className="error">{error}</p>}
