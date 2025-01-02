@@ -5,4 +5,6 @@ export const ROLES = Object.freeze({
   mentee: { key: "mentee", desc: "" },
   alumni: { key: "alumni", desc: "" },
   guest: { key: "guest", desc: "" },
+  applicant: { key: "applicant", desc: "" },
+  prospective: { key: "prospective", desc: "" },
 });
