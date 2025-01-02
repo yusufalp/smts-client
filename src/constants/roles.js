@@ -1,10 +1,10 @@
 export const ROLES = Object.freeze({
-  admin: { key: "admin", desc: "" },
-  mentor: { key: "mentor", desc: "" },
-  coach: { key: "coach", desc: "" },
-  mentee: { key: "mentee", desc: "" },
-  alumni: { key: "alumni", desc: "" },
-  guest: { key: "guest", desc: "" },
-  applicant: { key: "applicant", desc: "" },
-  prospective: { key: "prospective", desc: "" },
+  Admin: { key: "admin", desc: "" },
+  Mentor: { key: "mentor", desc: "" },
+  Coach: { key: "coach", desc: "" },
+  Mentee: { key: "mentee", desc: "" },
+  Alumni: { key: "alumni", desc: "" },
+  Guest: { key: "guest", desc: "" },
+  Applicant: { key: "applicant", desc: "" },
+  Prospective: { key: "prospective", desc: "" },
 });

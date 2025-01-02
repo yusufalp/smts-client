@@ -1,5 +1,5 @@
 export const STATUSES = Object.freeze({
-  active: { key: "active", desc: "" },
-  inactive: { key: "inactive", desc: "" },
-  graduated: { key: "graduated", desc: "" },
+  Active: { key: "active", desc: "" },
+  Inactive: { key: "inactive", desc: "" },
+  Graduated: { key: "graduated", desc: "" },
 });
