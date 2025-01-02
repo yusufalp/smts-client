@@ -7,17 +7,17 @@ import { setProfile } from "../../store/features/userSlice";
 
 const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
-function CreateProfile() {
+function CreateProfileForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
 
   const [profileData, setProfileData] = useState({
-    first: "",
-    last: "",
+    firstName: "",
+    lastName: "",
     email: "",
   });
   const [profileDataErrors, setProfileDataError] = useState({
-    first: "",
-    last: "",
+    firstName: "",
+    lastName: "",
     email: "",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -58,15 +58,18 @@ function CreateProfile() {
     setError("");
 
     try {
-      const response = await fetch(`${PROFILE_SERVICE_URL}/api/profiles/profile`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(profileData),
-      });
+      const response = await fetch(
+        `${PROFILE_SERVICE_URL}/api/profiles/profile`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(profileData),
+        }
+      );
 
       const result = await response.json();
 
@@ -91,30 +94,30 @@ function CreateProfile() {
       <form onSubmit={handleCreateProfileSubmit}>
         <h1>Create your profile</h1>
         <p>All fields are required</p>
-        <label htmlFor="first">First name</label>
+        <label htmlFor="firstName">First name</label>
         <input
           type="text"
-          name="first"
-          id="first"
+          name="firstName"
+          id="firstName"
           required
-          value={profileData.first}
+          value={profileData.firstName}
           onChange={handleProfileInputChange}
         />
-        {profileDataErrors.first && (
-          <p className="error">{profileDataErrors.first}</p>
+        {profileDataErrors.firstName && (
+          <p className="error">{profileDataErrors.firstName}</p>
         )}
 
-        <label htmlFor="last">Last name</label>
+        <label htmlFor="lastName">Last name</label>
         <input
           type="text"
-          name="last"
-          id="last"
+          name="lastName"
+          id="lastName"
           required
-          value={profileData.last}
+          value={profileData.lastName}
           onChange={handleProfileInputChange}
         />
-        {profileDataErrors.last && (
-          <p className="error">{profileDataErrors.last}</p>
+        {profileDataErrors.lastName && (
+          <p className="error">{profileDataErrors.lastName}</p>
         )}
 
         <label htmlFor="email">Email</label>
@@ -141,4 +144,4 @@ function CreateProfile() {
   );
 }
 
-export default CreateProfile;
+export default CreateProfileForm;
