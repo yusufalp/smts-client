@@ -122,8 +122,8 @@ function AllMeetings() {
             meetings.map((meeting) => (
               <ul key={meeting._id}>
                 <li>{meeting.title}</li>
-                <li>{new Date(meeting.scheduledDate).toLocaleDateString()}</li>
-                <li>{new Date(meeting.scheduledDate).toLocaleTimeString()}</li>
+                <li>{new Date(meeting.scheduledAt).toLocaleDateString()}</li>
+                <li>{new Date(meeting.scheduledAt).toLocaleTimeString()}</li>
                 <li>{meeting.durationMinutes}</li>
                 <li>
                   {meeting.advisor.name.firstName}{" "}

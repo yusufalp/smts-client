@@ -77,8 +77,8 @@ function MeetingList() {
               <li>
                 <Link to={`/meeting/${meeting._id}`}>{meeting.title}</Link>
               </li>
-              <li>{new Date(meeting.scheduledDate).toLocaleDateString()}</li>
-              <li>{new Date(meeting.scheduledDate).toLocaleTimeString()}</li>
+              <li>{new Date(meeting.scheduledAt).toLocaleDateString()}</li>
+              <li>{new Date(meeting.scheduledAt).toLocaleTimeString()}</li>
               <li>{meeting.durationMinutes}</li>
             </ul>
           ))}
