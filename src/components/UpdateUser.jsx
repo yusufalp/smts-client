@@ -14,7 +14,7 @@ function UpdateUser() {
   const navigate = useNavigate();
 
   const [searchedProfile, setSearchedProfile] = useState(null);
-  const [updateValue, setUpdateValue] = useState("role");
+  const [updateField, setUpdateField] = useState("role");
 
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -58,16 +58,11 @@ function UpdateUser() {
     setIsSubmitting(true);
     setError("");
 
-    const body =
-      updateValue === "role"
-        ? { field: "role", value: e.target.role.value }
-        : { field: "status", value: e.target.status.value };
-
-    body.profileId = profileId;
+    const body = { field: updateField, value: e.target[updateField].value };
 
     try {
       const response = await fetch(
-        `${PROFILE_SERVICE_URL}/api/admin/profiles/${searchedProfile._id}`,
+        `${PROFILE_SERVICE_URL}/api/admin/profiles/${profileId}`,
         {
           method: "PATCH",
           credentials: "include",
@@ -93,52 +88,96 @@ function UpdateUser() {
     }
   };
 
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
   return (
     <main>
-      {isLoading && <p>Loading...</p>}
+      <>
+        <h1>{`${searchedProfile?.name?.firstName}'s Details`}</h1>
 
-      {error && <p>{error}</p>}
+        <div>
+          <label htmlFor="field">Update: </label>
+          <select
+            name="info"
+            id="info"
+            value={updateField}
+            onChange={(e) => setUpdateField(e.target.value)}
+          >
+            <option value="default" disabled>
+              Select
+            </option>
+            <option value="profileStatus">Profile Status</option>
+            <option value="role">Role</option>
+            <option value="cohort">Cohort</option>
+            <option value="graduationDate">Graduation Date</option>
+          </select>
+        </div>
 
-      {!isLoading && !error && (
-        <>
-          <h1>{`${searchedProfile?.name?.firstName}'s Details`}</h1>
-          <div>
-            <button onClick={() => setUpdateValue("role")}>Role</button>
-            <button onClick={() => setUpdateValue("status")}>Status</button>
-          </div>
-          <form onSubmit={handleUpdateUserFormSubmit}>
-            {updateValue === "role" && (
-              <>
-                <label htmlFor="role">Role</label>
-                <select name="role" id="role">
-                  {Object.entries(ROLES).map(([role, value]) => (
-                    <option key={value.id} value={role}>
-                      {value.id}
-                    </option>
-                  ))}
-                </select>
-              </>
-            )}
-            {updateValue === "status" && (
-              <>
-                <label htmlFor="status">Status</label>
-                <select name="status" id="status">
-                  {Object.entries(STATUSES).map(([status, value]) => (
-                    <option key={value.id} value={status}>
-                      {value.id}
-                    </option>
-                  ))}
-                </select>
-              </>
-            )}
-            <button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Updating" : "Update"}
-            </button>
+        <form onSubmit={handleUpdateUserFormSubmit}>
+          {updateField === "role" && (
+            <>
+              <label htmlFor="role">Role</label>
+              <select name="role" id="role" required>
+                {Object.entries(ROLES).map(([role, value]) => (
+                  <option key={value.id} value={role}>
+                    {value.id}
+                  </option>
+                ))}
+              </select>
+            </>
+          )}
 
-            <Link to="/dashboard">Cancel</Link>
-          </form>
-        </>
-      )}
+          {updateField === "profileStatus" && (
+            <>
+              <label htmlFor="profileStatus">Status</label>
+              <select name="profileStatus" id="profileStatus" required>
+                {Object.entries(STATUSES).map(([status, value]) => (
+                  <option key={value.id} value={status}>
+                    {value.id}
+                  </option>
+                ))}
+              </select>
+            </>
+          )}
+
+          {updateField === "cohort" && (
+            <>
+              <label htmlFor="cohort">Cohort</label>
+              <input
+                type="number"
+                name="cohort"
+                id="cohort"
+                pattern="\d{4}"
+                required
+              />
+            </>
+          )}
+
+          {updateField === "graduationDate" && (
+            <>
+              <label htmlFor="graduationDate">Graduation Date</label>
+              <input
+                type="date"
+                name="graduationDate"
+                id="graduationDate"
+                required
+              />
+            </>
+          )}
+
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Updating" : "Update"}
+          </button>
+
+          <Link to="/dashboard">Cancel</Link>
+        </form>
+      </>
     </main>
   );
 }
