@@ -17,6 +17,8 @@ function AllProfiles() {
   const [error, setError] = useState("");
 
   const [query, setQuery] = useState({
+    firstName: "",
+    lastName: "",
     status: "active",
     role: "all",
     page: PAGINATION.PAGE.value,
@@ -61,7 +63,11 @@ function AllProfiles() {
       }
     };
 
-    getAllProfiles();
+    const applyFilter = setTimeout(() => {
+      getAllProfiles();
+    }, 1000);
+
+    return () => clearTimeout(applyFilter);
   }, [accessToken, query]);
 
   const updateQuery = (updates) => {
@@ -73,6 +79,24 @@ function AllProfiles() {
       <h2>All Profiles</h2>
 
       <div>
+        <label htmlFor="firstName">First Name</label>
+        <input
+          type="text"
+          name="firstName"
+          id="firstName"
+          value={query.firstName}
+          onChange={(e) => updateQuery({ firstName: e.target.value })}
+        />
+
+        <label htmlFor="lastName">Last Name</label>
+        <input
+          type="text"
+          name="lastName"
+          id="lastName"
+          value={query.lastName}
+          onChange={(e) => updateQuery({ lastName: e.target.value })}
+        />
+
         <label htmlFor="status">Status: </label>
         <select
           name="status"
@@ -115,8 +139,8 @@ function AllProfiles() {
           <ul>
             <li>First Name</li>
             <li>Last Name</li>
-            <li>Role</li>
             <li>Status</li>
+            <li>Role</li>
             <li>Last Updated</li>
             <li>Action</li>
           </ul>
@@ -124,8 +148,8 @@ function AllProfiles() {
             <ul key={profile._id}>
               <li>{profile.name.firstName}</li>
               <li>{profile.name.lastName}</li>
-              <li>{profile.role}</li>
               <li>{STATUSES[profile.profileStatus].id}</li>
+              <li>{ROLES[profile.role].id}</li>
               <li>{new Date(profile.updatedAt).toLocaleDateString()}</li>
               <li>
                 <button
