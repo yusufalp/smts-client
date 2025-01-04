@@ -28,8 +28,6 @@ function AllMeetings() {
     const getAllMeetings = async () => {
       const url = new URL(`${MEETING_SERVICE_URL}/api/admin/meetings`);
 
-      url.searchParams.append("role", role);
-
       Object.entries(query).forEach(([key, value]) => {
         if (value) url.searchParams.append(key, value);
       });
@@ -68,9 +66,7 @@ function AllMeetings() {
       getAllMeetings();
     }, 1000);
 
-    return () => {
-      clearTimeout(applyFilter);
-    };
+    return () => clearTimeout(applyFilter);
   }, [accessToken, role, query]);
 
   const updateQuery = (updates) => {
@@ -90,6 +86,7 @@ function AllMeetings() {
           value={query.title}
           onChange={(e) => updateQuery({ title: e.target.value })}
         />
+
         <label htmlFor="date">Date</label>
         <input
           type="date"
