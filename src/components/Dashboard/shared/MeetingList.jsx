@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
+import { PAGINATION } from "../../../constants/pagination";
+
 const MEETING_SERVICE_URL = import.meta.env.VITE_MEETING_SERVICE_URL;
 
 function MeetingList() {
@@ -12,6 +14,12 @@ function MeetingList() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const [totalPages, setTotalPages] = useState(0);
+  const [query, setQuery] = useState({
+    page: PAGINATION.PAGE.value,
+    limit: PAGINATION.SIZE.value,
+  });
+
   const navigate = useNavigate();
 
   const { role, _id } = profile;
@@ -21,6 +29,10 @@ function MeetingList() {
       const url = new URL(`${MEETING_SERVICE_URL}/api/meetings`);
 
       url.searchParams.append("profileId", _id);
+
+      Object.entries(query).forEach(([key, value]) => {
+        if (value) url.searchParams.append(key, value);
+      });
 
       try {
         const response = await fetch(url, {
@@ -39,6 +51,7 @@ function MeetingList() {
         }
 
         setMeetings(result.data.meetings);
+        setTotalPages(result.data.pagination.totalPages);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -47,7 +60,11 @@ function MeetingList() {
     };
 
     getMeetings();
-  }, [_id, accessToken, role]);
+  }, [_id, accessToken, query, role]);
+
+  const updateQuery = (updates) => {
+    setQuery((prev) => ({ ...prev, ...updates }));
+  };
 
   return (
     <>
@@ -86,6 +103,26 @@ function MeetingList() {
         </>
       ) : (
         !isLoading && !error && <p>There are no meetings</p>
+      )}
+
+      {meetings.length > 0 && (
+        <div className="pagination">
+          <button
+            onClick={() => updateQuery({ page: query.page - 1 })}
+            disabled={query.page === 1}
+          >
+            Previous
+          </button>
+          <span>
+            {query.page} of {totalPages}
+          </span>
+          <button
+            onClick={() => updateQuery({ page: query.page + 1 })}
+            disabled={query.page === totalPages}
+          >
+            Next
+          </button>
+        </div>
       )}
     </>
   );
