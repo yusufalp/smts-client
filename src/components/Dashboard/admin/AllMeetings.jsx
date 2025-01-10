@@ -142,7 +142,7 @@ function AllMeetings() {
             Previous
           </button>
           <span>
-            {query.page} of {totalPages}
+            Page {query.page} of {totalPages}
           </span>
           <button
             onClick={() => updateQuery({ page: query.page + 1 })}
