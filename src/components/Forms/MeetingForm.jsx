@@ -86,10 +86,20 @@ function MeetingForm() {
       (advisor) => (advisor._id = meetingFormData.advisor)
     );
 
+    const advisorData = {
+      profileId: selectedAdvisor._id,
+      email: selectedAdvisor.email,
+      name: {
+        firstName: selectedAdvisor.name.firstName,
+        lastName: selectedAdvisor.name.lastName
+      }
+    }
+
     console.log('selectedAdvisor :>> ', selectedAdvisor);
+    console.log('advisorData :>> ', advisorData);
 
     meetingFormData.organizer = organizerData;
-    meetingFormData.advisor = selectedAdvisor;
+    meetingFormData.advisor = advisorData;
 
     try {
       const response = await fetch(`${MEETING_SERVICE_URL}/api/meetings`, {
