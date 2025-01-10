@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { STATUSES } from "../../../constants/statuses";
 
 const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
@@ -51,8 +52,8 @@ function MenteeList() {
             <Link to={`/learner/${mentee._id}`}>{mentee.name.firstName}</Link>
           </li>
           <li>{mentee.name.lastName}</li>
-          <li>{mentee.graduationDate}</li>
-          <li>{mentee.status}</li>
+          <li>{new Date(mentee.graduationDate).toLocaleDateString()}</li>
+          <li>{STATUSES[mentee.profileStatus].id}</li>
         </ul>
       )),
     [assignedLearners]
