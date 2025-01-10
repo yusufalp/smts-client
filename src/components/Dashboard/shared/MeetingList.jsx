@@ -21,7 +21,6 @@ function MeetingList() {
       const url = new URL(`${MEETING_SERVICE_URL}/api/meetings`);
 
       url.searchParams.append("profileId", _id);
-      url.searchParams.append("role", role);
 
       try {
         const response = await fetch(url, {
