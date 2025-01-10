@@ -65,43 +65,37 @@ function MeetingForm() {
     }));
   };
 
-  console.log('advisors :>> ', advisors);
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     setIsSubmitting(true);
     setError("");
 
-    const organizerData = {
-      profileId: profile._id,
-      email: profile.email,
-      name: {
-        firstName: profile.name.firstName,
-        lastName: profile.name.lastName,
-      },
-    };
-
-
-    const selectedAdvisor = advisors.find(
-      (advisor) => (advisor._id = meetingFormData.advisor)
-    );
-
-    const advisorData = {
-      profileId: selectedAdvisor._id,
-      email: selectedAdvisor.email,
-      name: {
-        firstName: selectedAdvisor.name.firstName,
-        lastName: selectedAdvisor.name.lastName
-      }
-    }
-
-    console.log('selectedAdvisor :>> ', selectedAdvisor);
-    console.log('advisorData :>> ', advisorData);
-
-    meetingFormData.organizer = organizerData;
-    meetingFormData.advisor = advisorData;
-
     try {
+      const selectedAdvisor = advisors.find(
+        (advisor) => (advisor._id = meetingFormData.advisor)
+      );
+
+      const payload = {
+        ...meetingFormData,
+        organizer: {
+          profileId: profile._id,
+          email: profile.email,
+          name: {
+            firstName: profile.name.firstName,
+            lastName: profile.name.lastName,
+          },
+        },
+        advisor: {
+          profileId: selectedAdvisor._id,
+          email: selectedAdvisor.email,
+          name: {
+            firstName: selectedAdvisor.name.firstName,
+            lastName: selectedAdvisor.name.lastName,
+          },
+        },
+      };
+
       const response = await fetch(`${MEETING_SERVICE_URL}/api/meetings`, {
         method: "POST",
         credentials: "include",
@@ -109,7 +103,7 @@ function MeetingForm() {
           "Content-type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify(meetingFormData),
+        body: JSON.stringify(payload),
       });
 
       const result = await response.json();
