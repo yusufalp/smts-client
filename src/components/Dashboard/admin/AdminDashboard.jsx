@@ -10,12 +10,12 @@ function AdminDashboard({ name }) {
 
   let componentToRender;
 
-  if (currentSection === "profiles") {
-    componentToRender = <AllProfiles />;
+  if (currentSection === "applications") {
+    componentToRender = <AllApplications />;
   } else if (currentSection === "meetings") {
     componentToRender = <AllMeetings />;
-  } else if (currentSection === "applications") {
-    componentToRender = <AllApplications />;
+  } else if (currentSection === "profiles") {
+    componentToRender = <AllProfiles />;
   }
 
   return (
