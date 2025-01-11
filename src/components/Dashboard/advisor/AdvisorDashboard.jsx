@@ -7,7 +7,7 @@ function AdvisorDashboard({ name }) {
   return (
     <main>
       <h1>Welcome {name.firstName}</h1>
-      <MenteeList />;
+      <MenteeList />
       <MeetingList />
     </main>
   );
