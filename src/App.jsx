@@ -1,25 +1,24 @@
 import { Routes, Route } from "react-router-dom";
 
 import Layout from "./components/Layout";
+import Header from "./components/common/Header";
 
-import Header from "./shared/Header";
-
-import PrivateRoutes from "./components/routes/PrivateRoutes";
+import PrivateRoutes from "./routes/PrivateRoutes";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 
 import Dashboard from "./components/dashboard/Dashboard";
 import Profile from "./components/profile/Profile";
-import Advisor from "./components/Advisor";
-import Learner from "./components/Learner";
+import Advisor from "./components/advisor/Advisor";
+import Learner from "./components/learner/Learner";
 import Meeting from "./components/Meeting";
 
 // import CreateProfileForm from "./components/Forms/CreateProfileForm";
-import MeetingForm from "./components/forms/MeetingForm";
-import AboutMeForm from "./components/forms/AboutMeForm";
-import ContactForm from "./components/forms/ContactForm";
-import AddressForm from "./components/forms/AddressForm";
-import LinksForm from "./components/forms/LinksForm";
+import MeetingForm from "./components/form/MeetingForm";
+import AboutMeForm from "./components/form/AboutMeForm";
+import ContactForm from "./components/form/ContactForm";
+import AddressForm from "./components/form/AddressForm";
+import LinksForm from "./components/form/LinksForm";
 
 import UpdateUser from "./components/UpdateUser";
 

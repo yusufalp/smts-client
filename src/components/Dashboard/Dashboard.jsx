@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 
-import AdminDashboard from "./admin/AdminDashboard";
-import AdvisorDashboard from "./advisor/AdvisorDashboard";
-import LearnerDashboard from "./learner/LearnerDashboard";
+import AdminDashboard from "./AdminDashboard";
+import AdvisorDashboard from "./AdvisorDashboard";
+import LearnerDashboard from "./LearnerDashboard";
 
 function Dashboard() {
   const profile = useSelector((state) => state.user.profile);

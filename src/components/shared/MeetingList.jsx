@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import { PAGINATION } from "../../../constants/pagination";
+import { PAGINATION } from "../../constants/pagination";
 
 const MEETING_SERVICE_URL = import.meta.env.VITE_MEETING_SERVICE_URL;
 

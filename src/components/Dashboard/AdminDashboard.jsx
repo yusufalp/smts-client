@@ -1,9 +1,9 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-import AllMeetings from "./AllMeetings";
-import AllProfiles from "./AllProfiles";
-import AllApplications from "./AllApplications";
+import AllMeetings from "../admin/AllMeetings";
+import AllProfiles from "../admin/AllProfiles";
+import AllApplications from "../admin/AllApplications";
 
 function AdminDashboard({ name }) {
   const [currentSection, setCurrentSection] = useState("profiles");

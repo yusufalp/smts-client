@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { STATUSES } from "../../../constants/statuses";
+
+import { STATUSES } from "../../constants/statuses";
 
 const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 

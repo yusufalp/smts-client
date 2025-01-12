@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import { logout } from "../store/features/authSlice";
-import { removeProfile } from "../store/features/userSlice";
+import { logout } from "../../store/features/authSlice";
+import { removeProfile } from "../../store/features/userSlice";
 
 const USER_SERVICE_URL = import.meta.env.VITE_USER_SERVICE_URL;
 

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
+import MenteeList from "../advisor/MenteeList";
 import MeetingList from "../shared/MeetingList";
-import MenteeList from "./MenteeList";
 
 function AdvisorDashboard({ name }) {
   return (

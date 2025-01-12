@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { PAGINATION } from "../../../constants/pagination";
-import { ROLES } from "../../../constants/roles";
-import { STATUSES } from "../../../constants/statuses";
+import { PAGINATION } from "../../constants/pagination";
+import { STATUSES } from "../../constants/statuses";
+import { ROLES } from "../../constants/roles";
 
 const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
