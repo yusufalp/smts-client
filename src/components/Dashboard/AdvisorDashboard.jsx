@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
 
-import MenteeList from "../advisor/MenteeList";
-import MeetingList from "../shared/MeetingList";
+import LearnerList from "../learner/LearnerList";
+import MeetingList from "../meeting/MeetingList";
 
 function AdvisorDashboard({ name }) {
   return (
     <main>
       <h1>Welcome {name.firstName}</h1>
-      <MenteeList />
+      <LearnerList />
       <MeetingList />
     </main>
   );

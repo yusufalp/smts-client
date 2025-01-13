@@ -11,7 +11,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import Profile from "./components/profile/Profile";
 import Advisor from "./components/advisor/Advisor";
 import Learner from "./components/learner/Learner";
-import Meeting from "./components/Meeting";
+import Meeting from "./components/meeting/Meeting";
 
 // import CreateProfileForm from "./components/Forms/CreateProfileForm";
 import MeetingForm from "./components/form/MeetingForm";
