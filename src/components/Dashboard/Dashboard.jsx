@@ -20,6 +20,8 @@ function Dashboard() {
 
   return (
     <main className="dashboard">
+      <h1>Welcome {profile.name.firstName}</h1>
+
       <section>
         {isAdmin && <AdminDashboard name={name} />}
         {isAdvisor && <AdvisorDashboard name={name} />}

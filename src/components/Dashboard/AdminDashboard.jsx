@@ -1,27 +1,23 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 
 import AllMeetings from "../admin/AllMeetings";
 import AllProfiles from "../admin/AllProfiles";
 import AllApplications from "../admin/AllApplications";
 
-function AdminDashboard({ name }) {
+function AdminDashboard() {
   const [currentSection, setCurrentSection] = useState("profiles");
 
-  let componentToRender;
-
-  if (currentSection === "applications") {
-    componentToRender = <AllApplications />;
-  } else if (currentSection === "meetings") {
-    componentToRender = <AllMeetings />;
-  } else if (currentSection === "profiles") {
-    componentToRender = <AllProfiles />;
-  }
+  const componentToRender =
+    currentSection === "applications" ? (
+      <AllApplications />
+    ) : currentSection === "meetings" ? (
+      <AllMeetings />
+    ) : (
+      <AllProfiles />
+    );
 
   return (
-    <main>
-      <h1>Welcome {name.firstName}</h1>
-
+    <>
       <label htmlFor="selection">Display </label>
       <select
         name="selection"
@@ -38,12 +34,8 @@ function AdminDashboard({ name }) {
       </select>
 
       {componentToRender}
-    </main>
+    </>
   );
 }
-
-AdminDashboard.propTypes = {
-  name: PropTypes.object,
-};
 
 export default AdminDashboard;
