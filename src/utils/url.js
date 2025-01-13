@@ -11,7 +11,5 @@ export const constructUrl = (baseUrl, endpoint, params = {}, query = {}) => {
     url.searchParams.append(key, query[key]);
   }
 
-  console.log("url :>> ", url.toString());
-
-  return url.toString(); // Return the string representation
+  return url.toString();
 };
