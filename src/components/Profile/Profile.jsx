@@ -1,38 +1,29 @@
-import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import AdminProfile from "./AdminProfile";
-import AdvisorProfile from "./AdvisorProfile";
-import LearnerProfile from "./LearnerProfile";
 import { ROLES } from "../../constants/roles";
 import { STATUSES } from "../../constants/statuses";
 
 function Profile() {
   const profile = useSelector((state) => state.user.profile);
-  const { role, name } = profile;
 
   const navigate = useNavigate();
 
-  const { isAdmin, isAdvisor, isLearner } = useMemo(() => {
-    return {
-      isAdmin: role === "admin",
-      isAdvisor: role === "mentor" || role === "coach",
-      isLearner: role === "mentee" || role === "alumni",
-    };
-  }, [role]);
+  const isLearner = profile.role === "mentee" || profile.role === "alumni";
 
   return (
     <main>
       <h1>My Profile</h1>
 
-      {isAdmin && <AdminProfile />}
-      {isAdvisor && <AdvisorProfile />}
       {isLearner && (
-        <LearnerProfile
-          cohort={profile.cohort}
-          graduationDate={profile.graduationDate}
-        />
+        <>
+          <p>Cohort: {profile.cohort ?? "will be updated soon"}</p>
+          <p>
+            Graduation date:{" "}
+            {new Date(profile.graduationDate).toLocaleDateString() ||
+              "will be updated soon"}
+          </p>
+        </>
       )}
 
       <section>
@@ -43,7 +34,8 @@ function Profile() {
       <section>
         <h2>About Me</h2>
         <p>
-          Name: {name.firstName} {name.middleName} {name.lastName}
+          Name: {profile.name.firstName} {profile.name.middleName}{" "}
+          {profile.name.lastName}
         </p>
         <p>Bio: {profile.bio}</p>
         <button onClick={() => navigate("/about-me-form")}>
@@ -57,6 +49,7 @@ function Profile() {
         <p>Phone: {profile.phoneNumber}</p>
         <button onClick={() => navigate("/contact-form")}>Edit Contact</button>
       </section>
+
       <section>
         <h2>Address</h2>
         <p>
@@ -69,6 +62,7 @@ function Profile() {
         </p>
         <button onClick={() => navigate("/address-form")}>Edit Address</button>
       </section>
+
       <section>
         <h2>Links</h2>
         {profile.links?.portfolioUrl && (
