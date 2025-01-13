@@ -2,17 +2,11 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { PAGINATION } from "../../constants/pagination";
-
-const MEETING_SERVICE_URL = import.meta.env.VITE_MEETING_SERVICE_URL;
+import { useFetch } from "../../hooks/useFetch";
+import { Link } from "react-router-dom";
 
 function AllMeetings() {
   const accessToken = useSelector((state) => state.auth.accessToken);
-  const profile = useSelector((state) => state.user.profile);
-
-  const [meetings, setMeetings] = useState([]);
-  const [totalPages, setTotalPages] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
 
   const [query, setQuery] = useState({
     title: "",
@@ -22,56 +16,76 @@ function AllMeetings() {
     limit: PAGINATION.SIZE.value,
   });
 
-  const { role } = profile;
+  const { data, error, loading, fetchData } = useFetch({
+    baseUrl: import.meta.env.VITE_MEETING_SERVICE_URL,
+    endpoint: "/api/admin/meetings",
+    query,
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 
   useEffect(() => {
-    const getAllMeetings = async () => {
-      const url = new URL(`${MEETING_SERVICE_URL}/api/admin/meetings`);
-
-      Object.entries(query).forEach(([key, value]) => {
-        if (value) url.searchParams.append(key, value);
-      });
-
-      // TODO: update search parameters and call API 3 seconds after the type is complete
-
-      try {
-        setIsLoading(true);
-        setError("");
-
-        const response = await fetch(url.href, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        const result = await response.json();
-
-        if (result.error) {
-          throw new Error(result.error);
-        }
-
-        setMeetings(result.data.meetings);
-        setTotalPages(result.data.pagination.totalPages);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     const applyFilter = setTimeout(() => {
-      getAllMeetings();
+      fetchData();
     }, 1000);
 
     return () => clearTimeout(applyFilter);
-  }, [accessToken, role, query]);
+  }, [fetchData]);
 
   const updateQuery = (updates) => {
     setQuery((prev) => ({ ...prev, ...updates }));
   };
+
+  const renderAllMeetingsDetails = () => (
+    <>
+      <ul>
+        <li>Title</li>
+        <li>Date</li>
+        <li>Time</li>
+        <li>Duration</li>
+        <li>Organizer</li>
+      </ul>
+      {data.meetings.map((meeting) => (
+        <ul key={meeting._id}>
+          <li>
+            <Link to={`/meeting/${meeting._id}`}>{meeting.title}</Link>
+          </li>
+          <li>{new Date(meeting.scheduledAt).toLocaleDateString()}</li>
+          <li>{new Date(meeting.scheduledAt).toLocaleTimeString()}</li>
+          <li>{meeting.durationMinutes}</li>
+          <li>
+            <Link to={`/learner/${meeting.organizer.profileId}`}>
+              {meeting.organizer.name.firstName}
+            </Link>
+          </li>
+        </ul>
+      ))}
+    </>
+  );
+
+  const renderPaginationControls = () => (
+    <div className="pagination">
+      <button
+        onClick={() => updateQuery({ page: query.page - 1 })}
+        disabled={query.page === 1}
+      >
+        Previous
+      </button>
+      <span>
+        Page {query.page} of {data.pagination.totalPages}
+      </span>
+      <button
+        onClick={() => updateQuery({ page: query.page + 1 })}
+        disabled={query.page === data.pagination.totalPages}
+      >
+        Next
+      </button>
+    </div>
+  );
 
   return (
     <>
@@ -106,51 +120,17 @@ function AllMeetings() {
         />
       </div>
 
-      {isLoading ? (
+      {loading ? (
         <p>Loading...</p>
       ) : error ? (
         <p className="error">{error}</p>
-      ) : meetings.length === 0 ? (
-        <p>There are no meetings to display</p>
-      ) : (
+      ) : data ? (
         <>
-          <ul>
-            <li>Title</li>
-            <li>Date</li>
-            <li>Time</li>
-            <li>Duration</li>
-            <li>Organizer</li>
-          </ul>
-          {meetings.map((meeting) => (
-            <ul key={meeting._id}>
-              <li>{meeting.title}</li>
-              <li>{new Date(meeting.scheduledAt).toLocaleDateString()}</li>
-              <li>{new Date(meeting.scheduledAt).toLocaleTimeString()}</li>
-              <li>{meeting.durationMinutes}</li>
-              <li>{meeting.organizer.name.firstName}</li>
-            </ul>
-          ))}
+          {renderAllMeetingsDetails()}
+          {renderPaginationControls()}
         </>
-      )}
-
-      {meetings.length > 0 && (
-        <div className="pagination">
-          <button
-            onClick={() => updateQuery({ page: query.page - 1 })}
-            disabled={query.page === 1}
-          >
-            Previous
-          </button>
-          <span>
-            Page {query.page} of {totalPages}
-          </span>
-          <button
-            onClick={() => updateQuery({ page: query.page + 1 })}
-            disabled={query.page === totalPages}
-          >
-            Next
-          </button>
-        </div>
+      ) : (
+        <p>There are no meetings to display</p>
       )}
     </>
   );

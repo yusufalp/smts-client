@@ -1,20 +1,14 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { PAGINATION } from "../../constants/pagination";
 import { STATUSES } from "../../constants/statuses";
 import { ROLES } from "../../constants/roles";
-
-const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
+import { useFetch } from "../../hooks/useFetch";
 
 function AllProfiles() {
   const accessToken = useSelector((state) => state.auth.accessToken);
-
-  const [profiles, setProfiles] = useState([]);
-  const [totalPages, setTotalPages] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
 
   const [query, setQuery] = useState({
     firstName: "",
@@ -25,54 +19,74 @@ function AllProfiles() {
     limit: PAGINATION.SIZE.value,
   });
 
-  const navigate = useNavigate();
+  const { data, error, loading, fetchData } = useFetch({
+    baseUrl: import.meta.env.VITE_PROFILE_SERVICE_URL,
+    endpoint: "/api/admin/profiles",
+    query,
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 
   useEffect(() => {
-    const getAllProfiles = async () => {
-      const url = new URL(`${PROFILE_SERVICE_URL}/api/admin/profiles`);
-
-      Object.entries(query).forEach(([key, value]) => {
-        if (value) url.searchParams.append(key, value);
-      });
-
-      try {
-        setIsLoading(true);
-        setError("");
-
-        const response = await fetch(url.href, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        const result = await response.json();
-
-        if (result.error) {
-          throw new Error(result.error);
-        }
-
-        setProfiles(result.data.profiles);
-        setTotalPages(result.data.pagination.totalPages);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     const applyFilter = setTimeout(() => {
-      getAllProfiles();
+      fetchData();
     }, 1000);
 
     return () => clearTimeout(applyFilter);
-  }, [accessToken, query]);
+  }, [fetchData]);
 
   const updateQuery = (updates) => {
     setQuery((prev) => ({ ...prev, ...updates }));
   };
+
+  const renderAllProfilesDetails = () => (
+    <>
+      <ul>
+        <li>First Name</li>
+        <li>Last Name</li>
+        <li>Status</li>
+        <li>Role</li>
+        <li>Last Updated</li>
+      </ul>
+      {data.profiles.map((profile) => (
+        <ul key={profile._id}>
+          <li>
+            <Link to={`/admin/update/profile/${profile._id}`}>
+              {profile.name.firstName}
+            </Link>
+          </li>
+          <li>{profile.name.lastName}</li>
+          <li>{STATUSES[profile.profileStatus].id}</li>
+          <li>{ROLES[profile.role].id}</li>
+          <li>{new Date(profile.updatedAt).toLocaleDateString()}</li>
+        </ul>
+      ))}
+    </>
+  );
+
+  const renderPaginationControls = () => (
+    <div className="pagination">
+      <button
+        onClick={() => updateQuery({ page: query.page - 1 })}
+        disabled={query.page === 1}
+      >
+        Previous
+      </button>
+      <span>
+        Page {query.page} of {data.pagination.totalPages}
+      </span>
+      <button
+        onClick={() => updateQuery({ page: query.page + 1 })}
+        disabled={query.page === data.pagination.totalPages}
+      >
+        Next
+      </button>
+    </div>
+  );
 
   return (
     <>
@@ -128,61 +142,17 @@ function AllProfiles() {
         </select>
       </div>
 
-      {isLoading ? (
+      {loading ? (
         <p>Loading...</p>
       ) : error ? (
         <p className="error">{error}</p>
-      ) : profiles.length === 0 ? (
-        <p>There are no profile to display</p>
-      ) : (
+      ) : data ? (
         <>
-          <ul>
-            <li>First Name</li>
-            <li>Last Name</li>
-            <li>Status</li>
-            <li>Role</li>
-            <li>Last Updated</li>
-            <li>Action</li>
-          </ul>
-          {profiles.map((profile) => (
-            <ul key={profile._id}>
-              <li>{profile.name.firstName}</li>
-              <li>{profile.name.lastName}</li>
-              <li>{STATUSES[profile.profileStatus].id}</li>
-              <li>{ROLES[profile.role].id}</li>
-              <li>{new Date(profile.updatedAt).toLocaleDateString()}</li>
-              <li>
-                <button
-                  onClick={() =>
-                    navigate(`/admin/update/profile/${profile._id}`)
-                  }
-                >
-                  Update
-                </button>
-              </li>
-            </ul>
-          ))}
+          {renderAllProfilesDetails()}
+          {renderPaginationControls()}
         </>
-      )}
-
-      {profiles.length > 0 && (
-        <div className="pagination">
-          <button
-            onClick={() => updateQuery({ page: query.page - 1 })}
-            disabled={query.page === 1}
-          >
-            Previous
-          </button>
-          <span>
-            {query.page} of {totalPages}
-          </span>
-          <button
-            onClick={() => updateQuery({ page: query.page + 1 })}
-            disabled={query.page === totalPages}
-          >
-            Next
-          </button>
-        </div>
+      ) : (
+        <p>There are no profiles to display</p>
       )}
     </>
   );
