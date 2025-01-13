@@ -34,7 +34,7 @@ export function useFetch({
 
       if (!response.ok) {
         throw new Error(
-          result.error || `HTTP ${response.status}: ${response.statusText}`
+          result.error.message || `HTTP ${response.status}: ${response.statusText}`
         );
       }
 
