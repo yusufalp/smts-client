@@ -81,7 +81,7 @@ function LearnerList() {
       <h2>Learners</h2>
 
       {loading ? (
-        <p>loading...</p>
+        <p>Loading...</p>
       ) : error ? (
         <p>{error}</p>
       ) : data ? (
