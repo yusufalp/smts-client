@@ -55,7 +55,7 @@ function AllProfiles() {
 
         setData(result.data);
       } catch (error) {
-        setError(error);
+        setError(error.message);
       } finally {
         setIsLoading(false);
       }
