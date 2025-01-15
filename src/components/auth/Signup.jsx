@@ -2,12 +2,11 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import { validateEmail, validatePassword } from "../../utils/validations.js"
-import { setProfile } from "../../store/features/userSlice.js"
 import { login } from "../../store/features/authSlice";
+import { setProfile } from "../../store/features/userSlice.js";
 
-const USER_SERVICE_URL = import.meta.env.VITE_USER_SERVICE_URL;
-const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
+import { validateEmail, validatePassword } from "../../utils/validate.js";
+import { constructUrl } from "../../utils/url.js";
 
 function Signup() {
   const [signupFormData, setSignupFormData] = useState({
@@ -24,9 +23,11 @@ function Signup() {
     username: "",
     password: "",
   });
+
   const [showPassword, setShowPassword] = useState(false);
+
+  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,6 +41,17 @@ function Signup() {
     }));
   };
 
+  const checkEmail = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "email") {
+      setSignupFormErrors((prevErrors) => ({
+        ...prevErrors,
+        email: validateEmail(value),
+      }));
+    }
+  };
+
   const checkPassword = (e) => {
     const { name, value } = e.target;
 
@@ -47,13 +59,6 @@ function Signup() {
       setSignupFormErrors((prevErrors) => ({
         ...prevErrors,
         password: validatePassword(value),
-      }));
-    }
-
-    if (name === "email") {
-      setSignupFormErrors((prevErrors) => ({
-        ...prevErrors,
-        email: validateEmail(value),
       }));
     }
   };
@@ -67,44 +72,55 @@ function Signup() {
 
     if (!isFormValid()) return;
 
+    setError(null);
     setIsLoading(true);
-    setError("");
 
     try {
-      const signupResponse = await fetch(`${USER_SERVICE_URL}/users/signup`, {
+      const userBaseUrl = import.meta.env.VITE_USER_SERVICE_URL;
+      const userEndpoint = "/users/signup";
+
+      const userUrl = constructUrl(userBaseUrl, userEndpoint);
+
+      const userOptions = {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-type": "application/json",
         },
         body: JSON.stringify(signupFormData),
-      });
+      };
+
+      const signupResponse = await fetch(userUrl, userOptions);
 
       const signupResult = await signupResponse.json();
 
-      if (signupResult.error) {
-        throw new Error(signupResult.error.message);
+      if (signupResult.error || !signupResponse.ok) {
+        throw new Error(signupResult.error.message || "Failed to signup.");
       }
 
       const { accessToken, expiresAt } = signupResult.data;
 
-      const profileResponse = await fetch(
-        `${PROFILE_SERVICE_URL}/api/profiles/profile`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(signupFormData),
-        }
-      );
+      const profileBaseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+      const profileEndpoint = "/api/profiles/profile";
+
+      const profileUrl = constructUrl(profileBaseUrl, profileEndpoint);
+      
+      const profileOptions = {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(signupFormData),
+      };
+
+      const profileResponse = await fetch(profileUrl, profileOptions);
 
       const profileResult = await profileResponse.json();
 
-      if (profileResult.error) {
-        throw new Error(profileResult.error.message);
+      if (profileResult.error || !profileResponse.ok) {
+        throw new Error(profileResult.error.message || "Failed to signup.");
       }
 
       const { profile } = profileResult.data;
@@ -153,6 +169,7 @@ function Signup() {
           required
           value={signupFormData.email}
           onChange={handleSignupInputChange}
+          onBlur={checkEmail}
         />
         {signupFormErrors.email && (
           <p className="error">{signupFormErrors.email}</p>
@@ -203,6 +220,7 @@ function Signup() {
 
         {error && <p className="error">{error}</p>}
       </form>
+
       <p className="text-center">
         {`Already have an account?`} <Link to="/login">Login</Link>
       </p>

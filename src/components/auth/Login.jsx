@@ -5,15 +5,16 @@ import { useDispatch } from "react-redux";
 import { login } from "../../store/features/authSlice";
 import { setProfile } from "../../store/features/userSlice";
 
-const USER_SERVICE_URL = import.meta.env.VITE_USER_SERVICE_URL;
-const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
+import { constructUrl } from "../../utils/url";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
+
+  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,45 +22,54 @@ function Login() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
+    setError(null);
     setIsLoading(true);
-    setError("");
-
-    const body = { username, password };
 
     try {
-      const loginResponse = await fetch(`${USER_SERVICE_URL}/users/login`, {
+      const userBaseUrl = import.meta.env.VITE_USER_SERVICE_URL;
+      const userEndpoint = "/users/login";
+
+      const userUrl = constructUrl(userBaseUrl, userEndpoint);
+
+      const userOptions = {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify(body),
-      });
+        body: JSON.stringify({ username, password }),
+      };
+
+      const loginResponse = await fetch(userUrl, userOptions);
 
       const loginResult = await loginResponse.json();
 
-      if (loginResult.error) {
-        throw new Error(loginResult.error.message);
+      if (loginResult.error || !loginResponse.ok) {
+        throw new Error(loginResult.error.message || "Failed to login.");
       }
 
       const { accessToken, expiresAt } = loginResult.data;
 
-      const profileResponse = await fetch(
-        `${PROFILE_SERVICE_URL}/api/profiles/profile`,
-        {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const profileBaseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+      const profileEndpoint = "/api/profiles/profile";
+
+      const profileUrl = constructUrl(profileBaseUrl, profileEndpoint);
+
+      const profileOptions = {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      const profileResponse = await fetch(profileUrl, profileOptions);
 
       const profileResult = await profileResponse.json();
 
-      if (profileResult.error) {
-        throw new Error(profileResult.error.message);
+      if (profileResult.error || !profileResponse.ok) {
+        throw new Error(profileResult.error.message || "Failed to login.");
       }
 
       const { profile } = profileResult.data;
@@ -88,6 +98,7 @@ function Login() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
+
         <label htmlFor="password">Password</label>
         <input
           type={showPassword ? "text" : "password"}
@@ -97,6 +108,7 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
         <label htmlFor="show">
           <input
             type="checkbox"
@@ -114,6 +126,7 @@ function Login() {
 
         {error && <p className="error">{error}</p>}
       </form>
+
       <p className="text-center">
         {`Don't have an account?`} <Link to="/signup">Signup</Link>
       </p>
