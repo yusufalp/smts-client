@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
 
 import MeetingList from "../meeting/MeetingList";
 
 const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
-function LearnerDashboard({ name }) {
+function LearnerDashboard() {
   const accessToken = useSelector((state) => state.auth.accessToken);
 
   const [assignedAdvisors, setAssignedAdvisors] = useState(null);
@@ -62,19 +61,14 @@ function LearnerDashboard({ name }) {
       {error && <p>{error}</p>}
 
       {!isLoading && !error && (
-        <main>
-          <h1>Welcome {name.firstName}</h1>
+        <>
           {renderAdvisorInfo("mentor", assignedAdvisors?.mentor)}
           {renderAdvisorInfo("coach", assignedAdvisors?.coach)}
           <MeetingList />
-        </main>
+        </>
       )}
     </>
   );
 }
-
-LearnerDashboard.propTypes = {
-  name: PropTypes.object,
-};
 
 export default LearnerDashboard;
