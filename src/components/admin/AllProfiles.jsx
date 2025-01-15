@@ -33,6 +33,8 @@ function AllProfiles() {
       const endpoint = "/api/admin/profiles";
       const params = {};
 
+      const url = constructUrl(baseUrl, endpoint, params, query);
+
       const options = {
         method: "GET",
         credentials: "include",
@@ -41,8 +43,6 @@ function AllProfiles() {
           Authorization: `Bearer ${accessToken}`,
         },
       };
-
-      const url = constructUrl(baseUrl, endpoint, params, query);
 
       try {
         const response = await fetch(url, options);

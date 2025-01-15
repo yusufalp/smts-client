@@ -31,6 +31,7 @@ function AllMeetings() {
       const params = {};
 
       const url = constructUrl(baseUrl, endpoint, params, query);
+
       const options = {
         method: "GET",
         credentials: "include",

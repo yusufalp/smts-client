@@ -31,6 +31,8 @@ function MeetingList() {
       const endpoint = "/api/meetings";
       const params = {};
 
+      const url = constructUrl(baseUrl, endpoint, params, query);
+
       const options = {
         method: "GET",
         credentials: "include",
@@ -39,8 +41,6 @@ function MeetingList() {
           Authorization: `Bearer ${accessToken}`,
         },
       };
-
-      const url = constructUrl(baseUrl, endpoint, params, query);
 
       try {
         const response = await fetch(url, options);
