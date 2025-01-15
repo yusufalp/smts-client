@@ -1,0 +1,31 @@
+import { LENGTH, REGEX } from "../constants/validations";
+
+export function validatePassword(value) {
+  if (value === "") {
+    return "Password cannot be blank";
+  } else if (value.length < LENGTH.PASSWORD_MIN) {
+    return `Password must be at least ${LENGTH.PASSWORD_MIN} characters`;
+  } else if (!value.match(REGEX.PASSWORD)) {
+    return "Password must include an uppercase, a lowercase, a number and a special character: @ # $ % ^ & + ! =";
+  }
+
+  return "";
+}
+
+export function validateEmail(value) {
+  if (value === "") {
+    return "Email cannot be blank";
+  } else if (!value.match(REGEX.EMAIL)) {
+    return "Enter a valid email";
+  }
+
+  return "";
+}
+
+export function validatePhoneNumber(value) {
+  if (!value.match(REGEX.PHONE_NUMBER)) {
+    return "Enter ten digits, numbers only, including area code";
+  }
+
+  return "";
+}

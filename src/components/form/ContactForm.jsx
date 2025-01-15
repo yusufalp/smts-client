@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { setProfile } from "../../store/features/userSlice";
-import { validateEmail, validatePhoneNumber } from "../../utils/validations";
+import { validateEmail, validatePhoneNumber } from "../../utils/validate";
 
 const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
 
