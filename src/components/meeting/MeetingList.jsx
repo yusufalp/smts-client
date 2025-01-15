@@ -4,34 +4,63 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { PAGINATION } from "../../constants/pagination";
 
-import { useFetch } from "../../hooks/useFetch";
+import { constructUrl } from "../../utils/url";
 
 function MeetingList() {
   const accessToken = useSelector((state) => state.auth.accessToken);
   const profile = useSelector((state) => state.user.profile);
 
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   const navigate = useNavigate();
 
   const [query, setQuery] = useState({
+    profileId: profile._id,
     page: PAGINATION.PAGE.value,
     limit: PAGINATION.SIZE.value,
   });
 
-  const { data, error, loading, fetchData } = useFetch({
-    baseUrl: import.meta.env.VITE_MEETING_SERVICE_URL,
-    endpoint: "/api/meetings",
-    query: { ...query, profileId: profile._id },
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    const getAllMyMeetings = async () => {
+      setError(null);
+      setIsLoading(true);
+
+      const baseUrl = import.meta.env.VITE_MEETING_SERVICE_URL;
+      const endpoint = "/api/meetings";
+      const params = {};
+
+      const options = {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      const url = constructUrl(baseUrl, endpoint, params, query);
+
+      try {
+        const response = await fetch(url, options);
+
+        const result = await response.json();
+
+        if (result.error || !response.ok) {
+          throw new Error(result.error.message || "Failed to get meetings.");
+        }
+
+        setData(result.data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getAllMyMeetings();
+  }, [accessToken, query]);
 
   const updateQuery = (updates) => {
     setQuery((prev) => ({ ...prev, ...updates }));
@@ -89,7 +118,7 @@ function MeetingList() {
         </button>
       )}
 
-      {loading ? (
+      {isLoading ? (
         <p>Loading...</p>
       ) : error ? (
         <p>Error: {error}</p>

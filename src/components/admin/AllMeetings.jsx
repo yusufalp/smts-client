@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { PAGINATION } from "../../constants/pagination";
-import { useFetch } from "../../hooks/useFetch";
-import { Link } from "react-router-dom";
+
+import { constructUrl } from "../../utils/url";
 
 function AllMeetings() {
   const accessToken = useSelector((state) => state.auth.accessToken);
+
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [query, setQuery] = useState({
     title: "",
@@ -16,25 +21,48 @@ function AllMeetings() {
     limit: PAGINATION.SIZE.value,
   });
 
-  const { data, error, loading, fetchData } = useFetch({
-    baseUrl: import.meta.env.VITE_MEETING_SERVICE_URL,
-    endpoint: "/api/admin/meetings",
-    query,
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
   useEffect(() => {
+    const getAllMeetings = async () => {
+      setError(null);
+      setIsLoading(true);
+
+      const baseUrl = import.meta.env.VITE_MEETING_SERVICE_URL;
+      const endpoint = "/api/admin/meetings";
+      const params = {};
+
+      const url = constructUrl(baseUrl, endpoint, params, query);
+      const options = {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      try {
+        const response = await fetch(url, options);
+
+        const result = await response.json();
+
+        if (result.error || !response.ok) {
+          throw new Error(result.error.message || "Failed to get meetings.");
+        }
+
+        setData(result.data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     const applyFilter = setTimeout(() => {
-      fetchData();
+      getAllMeetings();
     }, 1000);
 
     return () => clearTimeout(applyFilter);
-  }, [fetchData]);
+  }, [accessToken, query]);
 
   const updateQuery = (updates) => {
     setQuery((prev) => ({ ...prev, ...updates }));
@@ -120,7 +148,7 @@ function AllMeetings() {
         />
       </div>
 
-      {loading ? (
+      {isLoading ? (
         <p>Loading...</p>
       ) : error ? (
         <p className="error">{error}</p>

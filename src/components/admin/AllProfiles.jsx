@@ -5,10 +5,15 @@ import { Link } from "react-router-dom";
 import { PAGINATION } from "../../constants/pagination";
 import { STATUSES } from "../../constants/statuses";
 import { ROLES } from "../../constants/roles";
-import { useFetch } from "../../hooks/useFetch";
+
+import { constructUrl } from "../../utils/url";
 
 function AllProfiles() {
   const accessToken = useSelector((state) => state.auth.accessToken);
+
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [query, setQuery] = useState({
     firstName: "",
@@ -19,25 +24,49 @@ function AllProfiles() {
     limit: PAGINATION.SIZE.value,
   });
 
-  const { data, error, loading, fetchData } = useFetch({
-    baseUrl: import.meta.env.VITE_PROFILE_SERVICE_URL,
-    endpoint: "/api/admin/profiles",
-    query,
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
   useEffect(() => {
+    const getAllProfiles = async () => {
+      setError(null);
+      setIsLoading(true);
+
+      const baseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+      const endpoint = "/api/admin/profiles";
+      const params = {};
+
+      const options = {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      const url = constructUrl(baseUrl, endpoint, params, query);
+
+      try {
+        const response = await fetch(url, options);
+
+        const result = await response.json();
+
+        if (result.error || !response.ok) {
+          throw new Error(result.error.message || "Failed to get profiles.");
+        }
+
+        setData(result.data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     const applyFilter = setTimeout(() => {
-      fetchData();
+      getAllProfiles();
     }, 1000);
 
     return () => clearTimeout(applyFilter);
-  }, [fetchData]);
+  }, [accessToken, query]);
 
   const updateQuery = (updates) => {
     setQuery((prev) => ({ ...prev, ...updates }));
@@ -142,7 +171,7 @@ function AllProfiles() {
         </select>
       </div>
 
-      {loading ? (
+      {isLoading ? (
         <p>Loading...</p>
       ) : error ? (
         <p className="error">{error}</p>
