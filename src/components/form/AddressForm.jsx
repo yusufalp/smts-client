@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { setProfile } from "../../store/features/userSlice";
 import { STATES } from "../../constants/states";
 
-const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
+import { constructUrl } from "../../utils/url";
 
 function AddressForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -19,8 +19,8 @@ function AddressForm() {
     postalCode: profile?.address?.postalCode || "",
   });
 
+  const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,23 +37,26 @@ function AddressForm() {
   const handleAddressFormSubmit = async (e) => {
     e.preventDefault();
 
+    setError(null);
     setIsSubmitting(true);
 
-    const body = { field: "address", value: addressFormData };
+    const baseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+    const endpoint = "/api/profiles/profile";
+
+    const url = constructUrl(baseUrl, endpoint);
+
+    const options = {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ field: "address", value: addressFormData }),
+    };
 
     try {
-      const response = await fetch(
-        `${PROFILE_SERVICE_URL}/api/profiles/profile`,
-        {
-          method: "PATCH",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const response = await fetch(url, options);
 
       const result = await response.json();
 

@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
-const MEETING_SERVICE_URL = import.meta.env.VITE_MEETING_SERVICE_URL;
+import { constructUrl } from "../../utils/url";
 
 function MeetingForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -17,35 +16,42 @@ function MeetingForm() {
     duration: 30,
     description: "",
   });
-  const [advisors, setAdvisors] = useState([]);
+
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const getAllAdvisors = async () => {
+      const serviceBaseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+      const serviceEndpoint = "/api/profiles/advisors";
+
+      const serviceUrl = constructUrl(serviceBaseUrl, serviceEndpoint);
+
+      const serviceOptions = {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
       try {
-        const response = await fetch(
-          `${PROFILE_SERVICE_URL}/api/profiles/advisors`,
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const response = await fetch(serviceUrl, serviceOptions);
 
         const result = await response.json();
 
-        if (result.error) {
-          throw new Error("Error when getting advisors");
+        if (result.error || !response.ok) {
+          throw new Error(
+            result.error.message || "Error when getting advisors"
+          );
         }
 
-        setAdvisors(result.data.advisors);
+        setData(result.data);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -71,44 +77,45 @@ function MeetingForm() {
     setIsSubmitting(true);
     setError("");
 
+    const selectedAdvisor = data.advisors.find(
+      (advisor) => (advisor._id = meetingFormData.advisor)
+    );
+
+    const payload = {
+      ...meetingFormData,
+      organizer: {
+        profileId: profile._id,
+        email: profile.email,
+        name: profile.name,
+      },
+      advisor: {
+        profileId: selectedAdvisor._id,
+        email: selectedAdvisor.email,
+        name: selectedAdvisor.name,
+      },
+    };
+
+    const meetingBaseUrl = import.meta.env.VITE_MEETING_SERVICE_URL;
+    const meetingEndpoint = "/api/meetings";
+
+    const meetingUrl = constructUrl(meetingBaseUrl, meetingEndpoint);
+
+    const meetingOptions = {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(payload),
+    };
+
     try {
-      const selectedAdvisor = advisors.find(
-        (advisor) => (advisor._id = meetingFormData.advisor)
-      );
-
-      const payload = {
-        ...meetingFormData,
-        organizer: {
-          profileId: profile._id,
-          email: profile.email,
-          name: {
-            firstName: profile.name.firstName,
-            lastName: profile.name.lastName,
-          },
-        },
-        advisor: {
-          profileId: selectedAdvisor._id,
-          email: selectedAdvisor.email,
-          name: {
-            firstName: selectedAdvisor.name.firstName,
-            lastName: selectedAdvisor.name.lastName,
-          },
-        },
-      };
-
-      const response = await fetch(`${MEETING_SERVICE_URL}/api/meetings`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(meetingUrl, meetingOptions);
 
       const result = await response.json();
 
-      if (result.error) {
+      if (result.error || !response.ok) {
         throw new Error(result.error.message);
       }
 
@@ -122,11 +129,11 @@ function MeetingForm() {
 
   return (
     <main className="meeting">
-      {isLoading && <p>Loading...</p>}
-
-      {error && <p>{error}</p>}
-
-      {!isLoading && !error && (
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : data ? (
         <form onSubmit={handleFormSubmit}>
           <h1>Add meeting</h1>
           <p className="text-margin-0">
@@ -156,8 +163,8 @@ function MeetingForm() {
             <option value="default" disabled>
               Select your advisor
             </option>
-            {advisors &&
-              advisors.map((advisor) => (
+            {data &&
+              data.advisors.map((advisor) => (
                 <option key={advisor._id} value={advisor._id}>
                   {advisor.name.firstName} {advisor.name.lastName}
                 </option>
@@ -211,6 +218,8 @@ function MeetingForm() {
 
           <Link to="/dashboard">Cancel</Link>
         </form>
+      ) : (
+        <p>There are no advisors</p>
       )}
     </main>
   );

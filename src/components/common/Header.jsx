@@ -4,8 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { logout } from "../../store/features/authSlice";
 import { removeProfile } from "../../store/features/userSlice";
-
-const USER_SERVICE_URL = import.meta.env.VITE_USER_SERVICE_URL;
+import { constructUrl } from "../../utils/url";
 
 function Header() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -13,26 +12,33 @@ function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleLogout = async () => {
+    setError(null);
     setIsLoading(true);
-    setError("");
 
     try {
-      const response = await fetch(`${USER_SERVICE_URL}/users/logout`, {
+      const baseUrl = import.meta.env.VITE_USER_SERVICE_URL;
+      const endpoint = "/users/logout";
+
+      const url = constructUrl(baseUrl, endpoint);
+
+      const options = {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-type": "application/json",
         },
-      });
+      };
+
+      const response = await fetch(url, options);
 
       const result = await response.json();
 
-      if (result.error) {
-        throw new Error(result.error.message);
+      if (result.error || !response.ok) {
+        throw new Error(result.error.message || "Failed to logout");
       }
 
       dispatch(logout());

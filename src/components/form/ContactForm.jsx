@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { setProfile } from "../../store/features/userSlice";
 import { validateEmail, validatePhoneNumber } from "../../utils/validate";
 
-const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
+import { constructUrl } from "../../utils/url";
 
 function ContactForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -19,8 +19,9 @@ function ContactForm() {
     email: "",
     phoneNumber: "",
   });
+
+  const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -61,23 +62,26 @@ function ContactForm() {
 
     if (!isFormValid()) return;
 
+    setError(null);
     setIsSubmitting(true);
 
-    const body = { field: "contact", value: contactFormData };
+    const baseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+    const endpoint = "/api/profiles/profile";
+
+    const url = constructUrl(baseUrl, endpoint);
+
+    const options = {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ field: "contact", value: contactFormData }),
+    };
 
     try {
-      const response = await fetch(
-        `${PROFILE_SERVICE_URL}/api/profiles/profile`,
-        {
-          method: "PATCH",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const response = await fetch(url, options);
 
       const result = await response.json();
 
@@ -95,8 +99,6 @@ function ContactForm() {
       setIsSubmitting(false);
     }
   };
-
-  console.log("error :>> ", contactFormErrors);
 
   return (
     <>

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { setProfile } from "../../store/features/userSlice";
 
-const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
+import { constructUrl } from "../../utils/url";
 
 function LinksForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -16,8 +16,8 @@ function LinksForm() {
     githubUrl: profile?.links?.githubUrl || "",
   });
 
+  const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,23 +34,26 @@ function LinksForm() {
   const handleLinksFormSubmit = async (e) => {
     e.preventDefault();
 
+    setError(null);
     setIsSubmitting(true);
 
-    const body = { field: "links", value: linksFormData };
+    const baseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+    const endpoint = "/api/profiles/profile";
+
+    const url = constructUrl(baseUrl, endpoint);
+
+    const options = {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ field: "links", value: linksFormData }),
+    };
 
     try {
-      const response = await fetch(
-        `${PROFILE_SERVICE_URL}/api/profiles/profile`,
-        {
-          method: "PATCH",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const response = await fetch(url, options);
 
       const result = await response.json();
 

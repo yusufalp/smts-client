@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { setProfile } from "../../store/features/userSlice";
 
-const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
+import { constructUrl } from "../../utils/url";
 
 function AboutMeForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -16,8 +16,9 @@ function AboutMeForm() {
     lastName: profile?.name?.lastName || "",
     bio: profile?.bio || "",
   });
+  
+  const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,28 +35,31 @@ function AboutMeForm() {
   const handleNameFormSubmit = async (e) => {
     e.preventDefault();
 
+    setError(null);
     setIsSubmitting(true);
 
-    const body = { field: "about", value: aboutMeFormData };
+    const baseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+    const endpoint = "/api/profiles/profile";
+
+    const url = constructUrl(baseUrl, endpoint);
+
+    const options = {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ field: "about", value: aboutMeFormData }),
+    };
 
     try {
-      const response = await fetch(
-        `${PROFILE_SERVICE_URL}/api/profiles/profile`,
-        {
-          method: "PATCH",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const response = await fetch(url, options);
 
       const result = await response.json();
 
-      if (result.error) {
-        throw new Error(result.error.message);
+      if (result.error || !response.ok) {
+        throw new Error(result.error.message || "Failed to update");
       }
 
       const profile = result.data.profile;
