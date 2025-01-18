@@ -5,7 +5,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { ROLES } from "../constants/roles";
 import { STATUSES } from "../constants/statuses";
 
-const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
+import { constructUrl } from "../utils/url";
+import { formatDate } from "../utils/date";
 
 function UpdateUser() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -14,26 +15,34 @@ function UpdateUser() {
   const navigate = useNavigate();
 
   const [searchedProfile, setSearchedProfile] = useState(null);
-  const [updateField, setUpdateField] = useState("role");
+  const [fields, setFields] = useState({});
 
+  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     const getProfile = async () => {
+      setError(null);
+      setIsLoading(true);
+
+      const baseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+      const endpoint = "/api/admin/profiles/:profileId";
+      const params = { profileId };
+
+      const url = constructUrl(baseUrl, endpoint, params);
+
+      const options = {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
       try {
-        const response = await fetch(
-          `${PROFILE_SERVICE_URL}/api/admin/profiles/${profileId}`,
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const response = await fetch(url, options);
 
         const result = await response.json();
 
@@ -55,24 +64,27 @@ function UpdateUser() {
   const handleUpdateUserFormSubmit = async (e) => {
     e.preventDefault();
 
+    setError(null);
     setIsSubmitting(true);
-    setError("");
 
-    const body = { field: updateField, value: e.target[updateField].value };
+    const baseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+    const endpoint = "/api/admin/profiles/:profileId";
+    const params = { profileId };
+
+    const url = constructUrl(baseUrl, endpoint, params);
+
+    const options = {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ fields }),
+    };
 
     try {
-      const response = await fetch(
-        `${PROFILE_SERVICE_URL}/api/admin/profiles/${profileId}`,
-        {
-          method: "PATCH",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const response = await fetch(url, options);
 
       const result = await response.json();
 
@@ -88,6 +100,11 @@ function UpdateUser() {
     }
   };
 
+  const handleFieldChange = (e) => {
+    const { name, value } = e.target;
+    setFields((prevFields) => ({ ...prevFields, [name]: value }));
+  };
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -101,75 +118,55 @@ function UpdateUser() {
       <>
         <h1>{`${searchedProfile?.name?.firstName}'s Details`}</h1>
 
-        <div>
-          <label htmlFor="field">Update: </label>
-          <select
-            name="info"
-            id="info"
-            value={updateField}
-            onChange={(e) => setUpdateField(e.target.value)}
-          >
-            <option value="default" disabled>
-              Select
-            </option>
-            <option value="profileStatus">Profile Status</option>
-            <option value="role">Role</option>
-            <option value="cohort">Cohort</option>
-            <option value="graduationDate">Graduation Date</option>
-          </select>
-        </div>
-
         <form onSubmit={handleUpdateUserFormSubmit}>
-          {updateField === "role" && (
-            <>
-              <label htmlFor="role">Role</label>
-              <select name="role" id="role" required>
-                {Object.entries(ROLES).map(([role, value]) => (
-                  <option key={value.id} value={role}>
-                    {value.id}
-                  </option>
-                ))}
-              </select>
-            </>
-          )}
+          <label htmlFor="role">Role</label>
+          <select
+            name="role"
+            id="role"
+            defaultValue={searchedProfile.role}
+            onChange={handleFieldChange}
+            required
+          >
+            {Object.entries(ROLES).map(([role, value]) => (
+              <option key={value.id} value={role}>
+                {value.id}
+              </option>
+            ))}
+          </select>
 
-          {updateField === "profileStatus" && (
-            <>
-              <label htmlFor="profileStatus">Status</label>
-              <select name="profileStatus" id="profileStatus" required>
-                {Object.entries(STATUSES).map(([status, value]) => (
-                  <option key={value.id} value={status}>
-                    {value.id}
-                  </option>
-                ))}
-              </select>
-            </>
-          )}
+          <label htmlFor="profileStatus">Status</label>
+          <select
+            name="profileStatus"
+            id="profileStatus"
+            defaultValue={searchedProfile.profileStatus}
+            onChange={handleFieldChange}
+            required
+          >
+            {Object.entries(STATUSES).map(([status, value]) => (
+              <option key={value.id} value={status}>
+                {value.id}
+              </option>
+            ))}
+          </select>
 
-          {updateField === "cohort" && (
-            <>
-              <label htmlFor="cohort">Cohort</label>
-              <input
-                type="number"
-                name="cohort"
-                id="cohort"
-                pattern="\d{4}"
-                required
-              />
-            </>
-          )}
+          <label htmlFor="cohort">Cohort</label>
+          <input
+            type="number"
+            name="cohort"
+            id="cohort"
+            defaultValue={searchedProfile.cohort}
+            onChange={handleFieldChange}
+            pattern="\d{4}"
+          />
 
-          {updateField === "graduationDate" && (
-            <>
-              <label htmlFor="graduationDate">Graduation Date</label>
-              <input
-                type="date"
-                name="graduationDate"
-                id="graduationDate"
-                required
-              />
-            </>
-          )}
+          <label htmlFor="graduationDate">Graduation Date</label>
+          <input
+            type="date"
+            name="graduationDate"
+            id="graduationDate"
+            defaultValue={formatDate(searchedProfile.graduationDate)}
+            onChange={handleFieldChange}
+          />
 
           <button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Updating" : "Update"}
