@@ -7,8 +7,30 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --black: #000000;
+  --engineering-orange: #b80c09;
+  --process-cyan: #01baef;
+  --ghost-white: #fbfbff;
+  --paynes-gray: #596475;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  margin: 0;
+  background-color: var(--ghost-white);
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }
