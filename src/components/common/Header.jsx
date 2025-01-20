@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { logout } from "../../store/features/authSlice";
 import { removeProfile } from "../../store/features/userSlice";
-import { constructUrl } from "../../utils/url";
 
 function Header() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -12,74 +11,67 @@ function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleLogout = async () => {
-    setError(null);
-    setIsLoading(true);
+  const handleLogin = () => {
+    navigate("/login");
+  };
 
-    try {
-      const baseUrl = import.meta.env.VITE_USER_SERVICE_URL;
-      const endpoint = "/users/logout";
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(removeProfile());
 
-      const url = constructUrl(baseUrl, endpoint);
+    setIsMenuOpen(false);
+    navigate("/login");
+  };
 
-      const options = {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
+  const toggleDropdown = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
 
-      const response = await fetch(url, options);
-
-      const result = await response.json();
-
-      if (result.error || !response.ok) {
-        throw new Error(result.error.message || "Failed to logout");
-      }
-
-      dispatch(logout());
-      dispatch(removeProfile());
-
-      navigate("/login");
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleMenuItemClick = () => {
+    setIsMenuOpen(false);
   };
 
   return (
     <header>
       <nav>
         {accessToken ? (
-          <ul>
-            <li>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
-            <li>
-              <Link to="/profile">Profile</Link>
-            </li>
-            <li onClick={handleLogout}>
-              <Link disabled={isLoading}>Logout</Link>
-            </li>
-          </ul>
+          <div className="menu-container">
+            <button className="menu-toggle" onClick={toggleDropdown}>
+              Menu
+            </button>
+            {isMenuOpen && (
+              <ul className="menu-dropdown">
+                <li className="menu-link" onClick={handleMenuItemClick}>
+                  <Link to="/dashboard">Dashboard</Link>
+                </li>
+
+                <li className="menu-separator"></li>
+
+                <li className="menu-link" onClick={handleMenuItemClick}>
+                  <Link to="/profile">Profile</Link>
+                </li>
+                <li className="menu-link" onClick={handleMenuItemClick}>
+                  <Link to="/account">Account</Link>
+                </li>
+
+                <li className="menu-separator"></li>
+
+                <li>
+                  <button className="menu-logout" onClick={handleLogout}>
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            )}
+          </div>
         ) : (
-          <ul>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/signup">Signup</Link>
-            </li>
-          </ul>
+          <button className="login" onClick={handleLogin}>
+            Login
+          </button>
         )}
       </nav>
-
-      {error && <p>{error}</p>}
     </header>
   );
 }

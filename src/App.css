@@ -1,11 +1,36 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
+  width: 96%;
+  margin: 72px auto 0; /* Corresponds to header height */
 }
 
-main {
-  padding: 2rem;
-  min-width: 320px;
+@media screen and (min-width: 576px) {
+}
+@media screen and (min-width: 768px) {
+  #root {
+    width: 84%;
+  }
+}
+@media screen and (min-width: 992px) {
+}
+@media screen and (min-width: 1200px) {
+  #root {
+    width: 72%;
+  }
+}
+@media screen and (min-width: 1536px) {
+  #root {
+    width: 60%;
+    max-width: 2400px;
+  }
+}
+
+/* Header and Navigation Styles */
+header {
+  width: 100vw;
+  height: 72px; /* Corresponds to root margin */
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 header nav {
@@ -13,86 +38,59 @@ header nav {
   justify-content: flex-end;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
+header nav a {
+  text-decoration: none;
 }
 
-header ul {
-  display: flex;
-  justify-content: space-around;
-  width: 320px;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
+/* Button Styles (Common Styles) */
+.menu-toggle,
+.menu-logout,
+.login {
+  background-color: var(--black);
+  color: var(--ghost-white);
+  border: none;
+  font: inherit;
+  padding: 8px 16px;
   cursor: pointer;
-  transition: border-color 0.25s;
+  margin: 16px;
 }
 
-button:hover {
-  border-color: #646cff;
+nav button:hover {
+  background-color: var(--paynes-gray);
 }
 
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  width: 50%;
-}
-
-form button {
-  margin: 16px 0;
-}
-
-form label {
-  margin: 16px 0 3px;
-}
-
-form input,
-form select,
-form textarea {
-  border-radius: 10px;
-  border: 1px solid black;
-  font-size: 1rem;
-  padding: 0.5rem;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.text-margin-0 {
+/* Logout Button Specific Styles (Overrides Common Styles) */
+.menu-logout {
+  text-align: left;
+  width: 100%;
   margin: 0;
 }
 
-.dashboard ul {
-  display: flex;
-  list-style: none;
-  padding: 0;
+/* Menu Dropdown Styles */
+.menu-dropdown {
+  position: absolute;
+  top: 48px;
+  right: 16px;
+  z-index: 10;
+  background-color: var(--black);
+  box-shadow: 0 10px 15px -3px var(--black), 0 4px 6px -2px var(--black);
+  margin-top: 1rem;
 }
 
-.dashboard ul:first-of-type {
-  font-weight: bold;
+/* Menu Link Styles */
+.menu-link a,
+.menu-logout {
+  display: block;
+  color: #fbfbff;
+  padding: 1rem 3rem 1rem 1rem;
 }
 
-.dashboard ul li {
-  width: 64px;
-  display: flex;
-  align-items: center;
-  flex: 1;
+.menu-link:hover {
+  background-color: #596475;
 }
 
-.error {
-  color: red;
+/* Menu Separator Style */
+.menu-separator {
+  border-top: 1px solid #ccc;
+  margin: 0.25rem 0;
 }
