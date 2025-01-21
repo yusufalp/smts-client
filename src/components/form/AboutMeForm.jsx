@@ -16,7 +16,7 @@ function AboutMeForm() {
     lastName: profile?.name?.lastName || "",
     bio: profile?.bio || "",
   });
-  
+
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -76,46 +76,58 @@ function AboutMeForm() {
   return (
     <>
       <form onSubmit={handleNameFormSubmit}>
-        <label htmlFor="firstName">First name</label>
-        <input
-          type="text"
-          name="firstName"
-          id="firstName"
-          required
-          value={aboutMeFormData.firstName}
-          onChange={handleNameInputChange}
-        />
+        <h1>About</h1>
+        <p>Update profile info below</p>
 
-        <label htmlFor="middleName">Middle name</label>
-        <input
-          type="text"
-          name="middleName"
-          id="middleName"
-          value={aboutMeFormData.middleName}
-          onChange={handleNameInputChange}
-        />
+        <div>
+          <label htmlFor="firstName">First name</label>
+          <input
+            type="text"
+            name="firstName"
+            id="firstName"
+            required
+            value={aboutMeFormData.firstName}
+            onChange={handleNameInputChange}
+          />
+        </div>
 
-        <label htmlFor="lastName">Last name</label>
-        <input
-          type="text"
-          name="lastName"
-          id="lastName"
-          value={aboutMeFormData.lastName}
-          onChange={handleNameInputChange}
-        />
+        <div>
+          <label htmlFor="middleName">Middle name</label>
+          <input
+            type="text"
+            name="middleName"
+            id="middleName"
+            value={aboutMeFormData.middleName}
+            onChange={handleNameInputChange}
+          />
+        </div>
 
-        <label htmlFor="bio">Bio</label>
-        <textarea
-          name="bio"
-          id="bio"
-          value={aboutMeFormData.bio}
-          placeholder="Tell us about yourself"
-          onChange={handleNameInputChange}
-        />
+        <div>
+          <label htmlFor="lastName">Last name</label>
+          <input
+            type="text"
+            name="lastName"
+            id="lastName"
+            value={aboutMeFormData.lastName}
+            onChange={handleNameInputChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="bio">Bio</label>
+          <textarea
+            name="bio"
+            id="bio"
+            value={aboutMeFormData.bio}
+            placeholder="Tell us about yourself"
+            onChange={handleNameInputChange}
+          />
+        </div>
 
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Updating..." : "Update"}
         </button>
+
         <Link to="/profile">Cancel</Link>
 
         {error && <p>{error}</p>}

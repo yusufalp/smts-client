@@ -103,42 +103,50 @@ function ContactForm() {
   return (
     <>
       <form onSubmit={handleContactFormSubmit}>
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          placeholder="Enter a valid email"
-          value={contactFormData.email}
-          onChange={handleContactFormInputChange}
-          onBlur={checkContactInfo}
-        />
-        {contactFormErrors.email && (
-          <p className="error">{contactFormErrors.email}</p>
-        )}
+        <h1>Contact</h1>
+        <p>Update contact info below</p>
 
-        <label htmlFor="phone">Phone Number</label>
-        <input
-          type="tel"
-          name="phoneNumber"
-          id="phone"
-          placeholder="Enter a valid phone number"
-          pattern="[0-9]{10}"
-          value={contactFormData.phoneNumber}
-          onChange={handleContactFormInputChange}
-          onBlur={checkContactInfo}
-        />
-        {contactFormErrors.phoneNumber && (
-          <p className="error">{contactFormErrors.phoneNumber}</p>
-        )}
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Enter a valid email"
+            value={contactFormData.email}
+            onChange={handleContactFormInputChange}
+            onBlur={checkContactInfo}
+          />
+          {contactFormErrors.email && (
+            <p className="error">{contactFormErrors.email}</p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="phone">Phone Number</label>
+          <input
+            type="tel"
+            name="phoneNumber"
+            id="phone"
+            placeholder="Enter a valid phone number"
+            pattern="[0-9]{10}"
+            value={contactFormData.phoneNumber}
+            onChange={handleContactFormInputChange}
+            onBlur={checkContactInfo}
+          />
+          {contactFormErrors.phoneNumber && (
+            <p className="error">{contactFormErrors.phoneNumber}</p>
+          )}
+        </div>
 
         <button type="submit" disabled={isSubmitting || !isFormValid()}>
           {isSubmitting ? "Updating..." : "Update"}
         </button>
-        <Link to="/profile">Cancel</Link>
-      </form>
 
-      {error && <p className="error">{error}</p>}
+        <Link to="/profile">Cancel</Link>
+
+        {error && <p className="error">{error}</p>}
+      </form>
     </>
   );
 }

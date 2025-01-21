@@ -78,67 +78,85 @@ function AddressForm() {
   return (
     <>
       <form onSubmit={handleAddressFormSubmit}>
-        <h2>Please enter your address</h2>
-        <label htmlFor="line1">Address Line 1</label>
-        <input
-          type="text"
-          name="line1"
-          id="line1"
-          placeholder="Street address"
-          value={addressFormData.line1}
-          onChange={handleAddressInputChange}
-        />
-        <label htmlFor="line2">Address Line 2</label>
-        <input
-          type="text"
-          name="line2"
-          id="line2"
-          placeholder="apt, suite etc."
-          value={addressFormData.line2}
-          onChange={handleAddressInputChange}
-        />
-        <label htmlFor="city">City</label>
-        <input
-          type="text"
-          name="city"
-          id="city"
-          placeholder="City"
-          value={addressFormData.city}
-          onChange={handleAddressInputChange}
-        />
-        <label htmlFor="state">State</label>
-        <select
-          name="state"
-          id="state"
-          defaultValue={addressFormData.state || "default"}
-          onChange={handleAddressInputChange}
-        >
-          <option value="default" disabled>
-            Please select a state
-          </option>
-          {STATES.map((state) => (
-            <option key={state.name} value={state.abbreviation}>
-              {state.name}
+        <h1>Address</h1>
+        <p>Update address info below</p>
+
+        <div>
+          <label htmlFor="line1">Address Line 1</label>
+          <input
+            type="text"
+            name="line1"
+            id="line1"
+            placeholder="Street address"
+            value={addressFormData.line1}
+            onChange={handleAddressInputChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="line2">Address Line 2</label>
+          <input
+            type="text"
+            name="line2"
+            id="line2"
+            placeholder="apt, suite etc."
+            value={addressFormData.line2}
+            onChange={handleAddressInputChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="city">City</label>
+          <input
+            type="text"
+            name="city"
+            id="city"
+            placeholder="City"
+            value={addressFormData.city}
+            onChange={handleAddressInputChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="state">State</label>
+          <select
+            name="state"
+            id="state"
+            defaultValue={addressFormData.state || "default"}
+            onChange={handleAddressInputChange}
+          >
+            <option value="default" disabled>
+              Please select a state
             </option>
-          ))}
-        </select>
-        <label htmlFor="postalCode">Postal Code</label>
-        <input
-          type="text"
-          name="postalCode"
-          id="postalCode"
-          pattern="[0-9]{5}"
-          placeholder="e.g 02113"
-          value={addressFormData.postalCode}
-          onChange={handleAddressInputChange}
-        />
+            {STATES.map((state) => (
+              <option key={state.name} value={state.abbreviation}>
+                {state.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="postalCode">Postal Code</label>
+          <input
+            type="text"
+            name="postalCode"
+            id="postalCode"
+            pattern="[0-9]{5}"
+            placeholder="e.g 02113"
+            value={addressFormData.postalCode}
+            onChange={handleAddressInputChange}
+          />
+        </div>
+
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Updating..." : "Update"}
         </button>
-        <Link to="/profile">Cancel</Link>
-      </form>
 
-      {error && <p>{error}</p>}
+        <Link to="/profile">Cancel</Link>
+
+        {error && <p>{error}</p>}
+      </form>
     </>
   );
 }

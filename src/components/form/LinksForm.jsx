@@ -75,41 +75,53 @@ function LinksForm() {
   return (
     <>
       <form onSubmit={handleLinksFormSubmit}>
-        <h2>Please enter personal links</h2>
-        <label htmlFor="portfolioUrl">Portfolio</label>
-        <input
-          type="url"
-          name="portfolioUrl"
-          id="portfolioUrl"
-          placeholder="e.g. https://www.johnwick.com"
-          value={linksFormData.portfolioUrl}
-          onChange={handleLinksInputChange}
-        />
-        <label htmlFor="linkedinUrl">LinkedIn</label>
-        <input
-          type="url"
-          name="linkedinUrl"
-          id="linkedinUrl"
-          placeholder="e.g. https://www.linkedin.com/in/john-wick"
-          value={linksFormData.linkedinUrl}
-          onChange={handleLinksInputChange}
-        />
-        <label htmlFor="githubUrl">GitHub</label>
-        <input
-          type="url"
-          name="githubUrl"
-          id="githubUrl"
-          placeholder="e.g. https://www.github.com/john-wick"
-          value={linksFormData.githubUrl}
-          onChange={handleLinksInputChange}
-        />
+        <h1>Links</h1>
+        <p>Update personal links below</p>
+
+        <div>
+          <label htmlFor="portfolioUrl">Portfolio</label>
+          <input
+            type="url"
+            name="portfolioUrl"
+            id="portfolioUrl"
+            placeholder="e.g. https://www.johnwick.com"
+            value={linksFormData.portfolioUrl}
+            onChange={handleLinksInputChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="linkedinUrl">LinkedIn</label>
+          <input
+            type="url"
+            name="linkedinUrl"
+            id="linkedinUrl"
+            placeholder="e.g. https://www.linkedin.com/in/john-wick"
+            value={linksFormData.linkedinUrl}
+            onChange={handleLinksInputChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="githubUrl">GitHub</label>
+          <input
+            type="url"
+            name="githubUrl"
+            id="githubUrl"
+            placeholder="e.g. https://www.github.com/john-wick"
+            value={linksFormData.githubUrl}
+            onChange={handleLinksInputChange}
+          />
+        </div>
+
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Updating..." : "Update"}
         </button>
-        <Link to="/profile">Cancel</Link>
-      </form>
 
-      {error && <p>{error}</p>}
+        <Link to="/profile">Cancel</Link>
+
+        {error && <p>{error}</p>}
+      </form>
     </>
   );
 }
