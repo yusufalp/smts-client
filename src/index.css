@@ -8,11 +8,19 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --black: #000000;
-  --engineering-orange: #b80c09;
-  --process-cyan: #01baef;
-  --ghost-white: #fbfbff;
-  --paynes-gray: #596475;
+  --main-color-dark: #040404;
+  --main-color-light: #fbfbfb;
+
+  --main-color-success: #b4dc7f;
+  --main-color-error: #b80c09;
+  --main-color-info: #01baef;
+  --main-color-warning: #fe5e41;
+
+  --main-bg-color-primary: #210b2c;
+  --main-bg-color-secondary: #484848;
+
+  --main-bg-color-disabled: #e8e8e8;
+  --main-text-color-disabled: #96939b;
 }
 
 * {
@@ -22,7 +30,26 @@
 }
 
 body {
-  background-color: var(--ghost-white);
+  background-color: var(--main-color-light);
+}
+
+/* Header and Navigation Styles */
+header {
+  background-color: var(--main-color-light);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 72px; /* Corresponds to root margin */
+}
+
+header nav {
+  display: flex;
+  justify-content: flex-end;
+}
+
+header nav a {
+  text-decoration: none;
 }
 
 ol,
@@ -33,4 +60,28 @@ ul {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+button {
+  background-color: var(--main-color-dark);
+  color: var(--main-color-light);
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 1.2rem;
+  padding: 8px 16px;
+  margin: 16px 0;
+}
+
+button:hover {
+  background-color: var(--main-bg-color-secondary);
+}
+
+button:disabled {
+  background-color: var(--main-bg-color-disabled);
+  color: var(--main-text-color-disabled);
+}
+
+.error {
+  color: var(--main-color-error);
 }
