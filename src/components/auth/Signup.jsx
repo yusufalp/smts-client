@@ -104,7 +104,7 @@ function Signup() {
       const profileEndpoint = "/api/profiles/profile";
 
       const profileUrl = constructUrl(profileBaseUrl, profileEndpoint);
-      
+
       const profileOptions = {
         method: "POST",
         credentials: "include",
@@ -139,91 +139,101 @@ function Signup() {
   return (
     <main>
       <form onSubmit={handleSignupSubmit}>
-        <h1>Signup</h1>
+        <h1>Get Started</h1>
+        <p>Let us create your account</p>
 
-        <label htmlFor="firstName">First Name</label>
-        <input
-          type="text"
-          name="firstName"
-          id="firstName"
-          required
-          value={signupFormData.firstName}
-          onChange={handleSignupInputChange}
-        />
-
-        <label htmlFor="lastName">Last Name</label>
-        <input
-          type="text"
-          name="lastName"
-          id="lastName"
-          required
-          value={signupFormData.lastName}
-          onChange={handleSignupInputChange}
-        />
-
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          required
-          value={signupFormData.email}
-          onChange={handleSignupInputChange}
-          onBlur={checkEmail}
-        />
-        {signupFormErrors.email && (
-          <p className="error">{signupFormErrors.email}</p>
-        )}
-
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          required
-          value={signupFormData.username}
-          onChange={handleSignupInputChange}
-        />
-        {signupFormErrors.username && (
-          <p className="error">{signupFormErrors.username}</p>
-        )}
-
-        <label htmlFor="password">Password</label>
-        <input
-          type={showPassword ? "text" : "password"}
-          name="password"
-          id="password"
-          required
-          value={signupFormData.password}
-          onChange={handleSignupInputChange}
-          onBlur={checkPassword}
-        />
-
-        <label htmlFor="show">
+        <div>
+          <label htmlFor="firstName">First Name</label>
           <input
-            type="checkbox"
-            name="show"
-            id="show"
-            checked={showPassword}
-            onChange={() => setShowPassword(!showPassword)}
+            type="text"
+            name="firstName"
+            id="firstName"
+            required
+            value={signupFormData.firstName}
+            onChange={handleSignupInputChange}
           />
-          Show Password
-        </label>
+        </div>
 
-        {signupFormErrors.password && (
-          <p className="error">{signupFormErrors.password}</p>
-        )}
+        <div>
+          <label htmlFor="lastName">Last Name</label>
+          <input
+            type="text"
+            name="lastName"
+            id="lastName"
+            required
+            value={signupFormData.lastName}
+            onChange={handleSignupInputChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            required
+            value={signupFormData.email}
+            onChange={handleSignupInputChange}
+            onBlur={checkEmail}
+          />
+          {signupFormErrors.email && (
+            <p className="error">{signupFormErrors.email}</p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            required
+            value={signupFormData.username}
+            onChange={handleSignupInputChange}
+          />
+          {signupFormErrors.username && (
+            <p className="error">{signupFormErrors.username}</p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            id="password"
+            required
+            value={signupFormData.password}
+            onChange={handleSignupInputChange}
+            onBlur={checkPassword}
+          />
+          {signupFormErrors.password && (
+            <p className="error">{signupFormErrors.password}</p>
+          )}
+
+          <label htmlFor="show">
+            <input
+              type="checkbox"
+              name="show"
+              id="show"
+              checked={showPassword}
+              onChange={() => setShowPassword(!showPassword)}
+            />
+            {" Show Password"}
+          </label>
+        </div>
 
         <button type="submit" disabled={isLoading || !isFormValid()}>
           {isLoading ? "Signing up..." : "Signup"}
         </button>
 
         {error && <p className="error">{error}</p>}
-      </form>
 
-      <p className="text-center">
-        {`Already have an account?`} <Link to="/login">Login</Link>
-      </p>
+        <p className="cta">
+          {`Already have an account?`} <Link to="/login">Login</Link>
+        </p>
+      </form>
     </main>
   );
 }

@@ -88,48 +88,53 @@ function Login() {
   return (
     <main>
       <form onSubmit={handleLoginSubmit}>
-        <h1>Login</h1>
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          required
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-
-        <label htmlFor="password">Password</label>
-        <input
-          type={showPassword ? "text" : "password"}
-          id="password"
-          name="password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <label htmlFor="show">
+        <h1>Welcome back</h1>
+        <p>Login to your account </p>
+        <div>
+          <label htmlFor="username">Username</label>
           <input
-            type="checkbox"
-            name="show"
-            id="show"
-            checked={showPassword}
-            onChange={() => setShowPassword(!showPassword)}
+            type="text"
+            id="username"
+            name="username"
+            required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
-          Show Password
-        </label>
+        </div>
+
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            type={showPassword ? "text" : "password"}
+            id="password"
+            name="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <label htmlFor="show">
+            <input
+              type="checkbox"
+              name="show"
+              id="show"
+              checked={showPassword}
+              onChange={() => setShowPassword(!showPassword)}
+            />
+            {" Show Password"}
+          </label>
+        </div>
 
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Logging in..." : "Login"}
         </button>
 
         {error && <p className="error">{error}</p>}
-      </form>
 
-      <p className="text-center">
-        {`Don't have an account?`} <Link to="/signup">Signup</Link>
-      </p>
+        <p className="cta">
+          {`Don't have an account?`} <Link to="/signup">Signup</Link>
+        </p>
+      </form>
     </main>
   );
 }
