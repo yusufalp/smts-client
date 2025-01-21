@@ -16,7 +16,7 @@ export function validateEmail(value) {
   if (value === "") {
     return "Email cannot be blank";
   } else if (!value.match(REGEX.EMAIL)) {
-    return "Enter a valid email";
+    return "Email is not valid";
   }
 
   return "";
