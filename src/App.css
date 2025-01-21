@@ -28,6 +28,7 @@
   right: 16px;
   z-index: 10;
   margin-top: 1rem;
+  /* width: 160px; */
 }
 
 /* Menu Link Styles */
@@ -67,12 +68,14 @@ form div {
   margin: 16px 0;
 }
 
-form label:not(:last-child),
-form input {
+form label:not(:last-child) {
   font-size: 1.2rem;
 }
 
-form input {
+form input,
+form textarea,
+form select {
+  font-size: 1.2rem;
   padding: 8px;
 }
 
