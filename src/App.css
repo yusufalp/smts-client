@@ -3,64 +3,16 @@
   margin: 72px auto 0; /* Corresponds to header height */
 }
 
-@media screen and (min-width: 576px) {
-}
-@media screen and (min-width: 768px) {
-  #root {
-    width: 84%;
-  }
-}
-@media screen and (min-width: 992px) {
-}
-@media screen and (min-width: 1200px) {
-  #root {
-    width: 72%;
-  }
-}
-@media screen and (min-width: 1536px) {
-  #root {
-    width: 60%;
-    max-width: 2400px;
-  }
-}
-
-/* Header and Navigation Styles */
-header {
-  width: 100vw;
-  height: 72px; /* Corresponds to root margin */
-  position: fixed;
-  top: 0;
-  left: 0;
-}
-
-header nav {
-  display: flex;
-  justify-content: flex-end;
-}
-
-header nav a {
-  text-decoration: none;
-}
-
-/* Button Styles (Common Styles) */
+/* Menu Button Styles (Common Styles) */
 .menu-toggle,
 .menu-logout,
-.login {
-  background-color: var(--black);
-  color: var(--ghost-white);
-  border: none;
-  font: inherit;
-  padding: 8px 16px;
-  cursor: pointer;
+.menu-login {
   margin: 16px;
-}
-
-nav button:hover {
-  background-color: var(--paynes-gray);
 }
 
 /* Logout Button Specific Styles (Overrides Common Styles) */
 .menu-logout {
+  color: var(--main-color-warning);
   text-align: left;
   width: 100%;
   margin: 0;
@@ -68,12 +20,13 @@ nav button:hover {
 
 /* Menu Dropdown Styles */
 .menu-dropdown {
+  background-color: var(--main-color-dark);
+  box-shadow: 0 10px 15px -3px var(--main-color-dark),
+    0 4px 6px -2px var(--main-color-dark);
   position: absolute;
   top: 48px;
   right: 16px;
   z-index: 10;
-  background-color: var(--black);
-  box-shadow: 0 10px 15px -3px var(--black), 0 4px 6px -2px var(--black);
   margin-top: 1rem;
 }
 
@@ -81,16 +34,92 @@ nav button:hover {
 .menu-link a,
 .menu-logout {
   display: block;
-  color: #fbfbff;
+  font: inherit;
+  font-size: 1.2rem;
   padding: 1rem 3rem 1rem 1rem;
 }
 
+.menu-link a {
+  color: var(--main-color-light);
+}
+
 .menu-link:hover {
-  background-color: #596475;
+  background-color: var(--main-bg-color-secondary);
 }
 
 /* Menu Separator Style */
 .menu-separator {
-  border-top: 1px solid #ccc;
+  border-top: 1px solid var(--main-color-light);
   margin: 0.25rem 0;
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: auto;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  margin: 16px 0;
+}
+
+form label:not(:last-child),
+form input {
+  font-size: 1.2rem;
+}
+
+form input {
+  padding: 8px;
+}
+
+form button {
+  margin-top: 32px;
+}
+
+form .cta {
+  text-align: center;
+  margin-top: 32px;
+}
+
+@media screen and (min-width: 576px) {
+  form {
+    width: 80%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #root {
+    width: 84%;
+  }
+
+  form {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  form {
+    width: 60%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  #root {
+    width: 72%;
+  }
+
+  form {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 1536px) {
+  #root {
+    width: 60%;
+    max-width: 2400px;
+  }
 }
