@@ -71,6 +71,7 @@ button {
   font-size: 1.2rem;
   padding: 8px 16px;
   margin: 16px 0;
+  /* width: 180px; */
 }
 
 button:hover {
