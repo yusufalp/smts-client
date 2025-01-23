@@ -73,7 +73,7 @@ function AllProfiles() {
   };
 
   const renderAllProfilesDetails = () => (
-    <>
+    <div className="data-list">
       <ul>
         <li>First Name</li>
         <li>Last Name</li>
@@ -94,8 +94,70 @@ function AllProfiles() {
           <li>{new Date(profile.updatedAt).toLocaleDateString()}</li>
         </ul>
       ))}
-    </>
+    </div>
   );
+
+  const renderFilterOptions = () => {
+    return (
+      <div className="filter-options">
+        <div>
+          <label htmlFor="firstName">First Name</label>
+          <input
+            type="text"
+            name="firstName"
+            id="firstName"
+            value={query.firstName}
+            onChange={(e) => updateQuery({ firstName: e.target.value })}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="lastName">Last Name</label>
+          <input
+            type="text"
+            name="lastName"
+            id="lastName"
+            value={query.lastName}
+            onChange={(e) => updateQuery({ lastName: e.target.value })}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="status">Status</label>
+          <select
+            name="status"
+            id="status"
+            value={query.status}
+            onChange={(e) => updateQuery({ status: e.target.value })}
+          >
+            <option value="all">All</option>
+            {Object.entries(STATUSES).map(([status, value]) => (
+              <option key={value.id} value={status}>
+                {value.id}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="role">Role</label>
+          <select
+            name="role"
+            id="role"
+            value={query.role}
+            onChange={(e) => updateQuery({ role: e.target.value })}
+          >
+            <option value="all">All</option>
+            {Object.entries(ROLES).map(([role, value]) => (
+              <option key={value.id} value={role}>
+                {value.id}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+    );
+  };
 
   const renderPaginationControls = () => (
     <div className="pagination">
@@ -120,62 +182,14 @@ function AllProfiles() {
   return (
     <>
       <h2>All Profiles</h2>
-
-      <div>
-        <label htmlFor="firstName">First Name</label>
-        <input
-          type="text"
-          name="firstName"
-          id="firstName"
-          value={query.firstName}
-          onChange={(e) => updateQuery({ firstName: e.target.value })}
-        />
-
-        <label htmlFor="lastName">Last Name</label>
-        <input
-          type="text"
-          name="lastName"
-          id="lastName"
-          value={query.lastName}
-          onChange={(e) => updateQuery({ lastName: e.target.value })}
-        />
-
-        <label htmlFor="status">Status: </label>
-        <select
-          name="status"
-          id="status"
-          value={query.status}
-          onChange={(e) => updateQuery({ status: e.target.value })}
-        >
-          <option value="all">All</option>
-          {Object.entries(STATUSES).map(([status, value]) => (
-            <option key={value.id} value={status}>
-              {value.id}
-            </option>
-          ))}
-        </select>
-
-        <label htmlFor="role">Role:</label>
-        <select
-          name="role"
-          id="role"
-          value={query.role}
-          onChange={(e) => updateQuery({ role: e.target.value })}
-        >
-          <option value="all">All</option>
-          {Object.entries(ROLES).map(([role, value]) => (
-            <option key={value.id} value={role}>
-              {value.id}
-            </option>
-          ))}
-        </select>
-      </div>
+      {renderFilterOptions()}
+      <div className="divider"></div>
 
       {isLoading ? (
         <p>Loading...</p>
       ) : error ? (
         <p className="error">{error}</p>
-      ) : data ? (
+      ) : data?.profiles.length !== 0 ? (
         <>
           {renderAllProfilesDetails()}
           {renderPaginationControls()}
