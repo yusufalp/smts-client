@@ -88,6 +88,88 @@ form .cta {
   margin-top: 32px;
 }
 
+/* Profile */
+.user-information {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.user-summary {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border: 2px solid var(--main-color-dark);
+  padding: 12px;
+}
+
+.user-summary-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.user-summary figure,
+.user-summary section {
+  width: 100%;
+}
+
+.user-summary img {
+  width: 160px;
+  border-radius: 50%;
+}
+
+.user-enrollment div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-links li {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-links button {
+  width: 100%;
+}
+
+.user-details {
+  flex: 3;
+  border: 2px solid var(--main-color-dark);
+  padding: 12px;
+}
+
+.user-about,
+.user-contact,
+.user-address {
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs {
+  display: flex;
+  gap: 3px;
+}
+
+.tab {
+  flex: 1;
+}
+
+.tab button {
+  width: 100%;
+  border: none;
+  background-color: var(--main-color-dark);
+  border-bottom: 3px solid transparent; /* Add transparent border for transition */
+  transition: border-color 0.5s ease; /* Smooth transition for the border */
+}
+
+.tab.active button {
+  background-color: var(--main-bg-color-primary);
+  color: var(--main-color-light);
+  border-bottom: 3px solid var(--main-color-warning);
+}
+
 /* Shared */
 .divider {
   border-bottom: 1px solid var(--main-bg-color-primary);
