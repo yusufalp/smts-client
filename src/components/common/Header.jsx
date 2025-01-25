@@ -52,9 +52,6 @@ function Header() {
                 <li className="menu-link" onClick={handleMenuItemClick}>
                   <Link to="/profile">Profile</Link>
                 </li>
-                <li className="menu-link" onClick={handleMenuItemClick}>
-                  <Link to="/account">Account</Link>
-                </li>
 
                 <li className="menu-separator"></li>
 

@@ -30,11 +30,11 @@ function Profile() {
                 <p>{ROLES[profile.role].id}</p>
                 <p>{STATUSES[profile.profileStatus].id}</p>
               </figcaption>
-              <div className="divider"></div>
             </figure>
 
             {isLearner && (
               <section className="user-enrollment">
+                <div className="divider"></div>
                 <div>
                   <p>Cohort</p>
                   <p>{profile.cohort ?? "will be updated soon"}</p>
@@ -84,9 +84,10 @@ function Profile() {
             <li className={`tab ${activeTab === "address" ? "active" : ""}`}>
               <button onClick={() => setActiveTab("address")}>Address</button>
             </li>
+            <li className={`tab ${activeTab === "account" ? "active" : ""}`}>
+              <button onClick={() => setActiveTab("account")}>Account</button>
+            </li>
           </ul>
-
-          <div className="divider"></div>
 
           {activeTab === "about" && (
             <section className="user-about">
@@ -97,7 +98,7 @@ function Profile() {
                 <p>Bio: {profile.bio}</p>
               </div>
               <button onClick={() => navigate("/about-me-form")}>
-                Edit About Me
+                Edit About
               </button>
             </section>
           )}
@@ -125,6 +126,18 @@ function Profile() {
               </div>
               <button onClick={() => navigate("/address-form")}>
                 Edit Address
+              </button>
+            </section>
+          )}
+
+          {activeTab === "account" && (
+            <section className="user-account">
+              <div>
+                <p>Username: </p>
+                <p>Password: </p>
+              </div>
+              <button onClick={() => navigate("/address-form")}>
+                Change Password
               </button>
             </section>
           )}
