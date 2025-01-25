@@ -33,13 +33,15 @@ function Header() {
     setIsMenuOpen(false);
   };
 
+  const menuToggleIcon = `fa-solid ${isMenuOpen ? "fa-x" : "fa-bars"}`;
+
   return (
     <header>
       <nav>
         {accessToken ? (
           <div className="menu-container">
             <button className="menu-toggle" onClick={toggleDropdown}>
-              Menu
+              <i className={menuToggleIcon}></i>
             </button>
             {isMenuOpen && (
               <ul className="menu-dropdown">

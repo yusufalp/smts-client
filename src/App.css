@@ -10,6 +10,10 @@
   margin: 16px;
 }
 
+.menu-toggle {
+  width: 48px;
+}
+
 /* Logout Button Specific Styles (Overrides Common Styles) */
 .menu-logout {
   color: var(--main-color-warning);
