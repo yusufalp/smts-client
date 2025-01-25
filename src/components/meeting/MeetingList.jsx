@@ -113,13 +113,13 @@ function MeetingList() {
     <>
       <h2>Meetings</h2>
 
-      <div className="divider"></div>
-
       {profile.role === "mentee" && (
         <button onClick={() => navigate("/meeting-form")}>
           Add a New Meeting
         </button>
       )}
+
+      <div className="divider"></div>
 
       {isLoading ? (
         <p>Loading...</p>
