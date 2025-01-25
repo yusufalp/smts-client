@@ -169,8 +169,13 @@ form .cta {
 
 .tab.active button {
   background-color: var(--main-bg-color-primary);
-  /* color: var(--main-color-light); */
   border-bottom: 3px solid var(--main-color-warning);
+}
+
+/* Advisor Dashboard */
+.advisor-dashboard {
+  border: 2px solid var(--main-color-dark);
+  padding: 12px;
 }
 
 /* Shared */

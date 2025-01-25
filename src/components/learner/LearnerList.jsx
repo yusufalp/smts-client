@@ -63,16 +63,15 @@ function LearnerList() {
     setQuery((prev) => ({ ...prev, ...updates }));
   };
 
-  const renderLearnersDetails = () =>
-    data.learners.map((learner) => (
-      <>
-        <ul>
-          <li>First Name</li>
-          <li>Last Name</li>
-          <li>Graduation</li>
-          <li>Status</li>
-        </ul>
-
+  const renderLearnersDetails = () => (
+    <div className="data-list">
+      <ul>
+        <li>First Name</li>
+        <li>Last Name</li>
+        <li>Graduation</li>
+        <li>Status</li>
+      </ul>
+      {data.learners.map((learner) => (
         <ul key={learner._id}>
           <li>
             <Link to={`/learner/${learner._id}`}>{learner.name.firstName}</Link>
@@ -81,8 +80,9 @@ function LearnerList() {
           <li>{new Date(learner.graduationDate).toLocaleDateString()}</li>
           <li>{STATUSES[learner.profileStatus].id}</li>
         </ul>
-      </>
-    ));
+      ))}
+    </div>
+  );
 
   const renderPaginationControls = () => (
     <div className="pagination">
@@ -107,6 +107,8 @@ function LearnerList() {
   return (
     <>
       <h2>Learners</h2>
+
+      <div className="divider"></div>
 
       {isLoading ? (
         <p>Loading...</p>

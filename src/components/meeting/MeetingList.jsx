@@ -67,7 +67,7 @@ function MeetingList() {
   };
 
   const renderMeetingsDetails = () => (
-    <>
+    <div className="data-list">
       <ul>
         <li>Title</li>
         <li>Date</li>
@@ -86,7 +86,7 @@ function MeetingList() {
           <li>{meeting.organizer.name.firstName}</li>
         </ul>
       ))}
-    </>
+    </div>
   );
 
   const renderPaginationControls = () => (
@@ -112,6 +112,9 @@ function MeetingList() {
   return (
     <>
       <h2>Meetings</h2>
+
+      <div className="divider"></div>
+
       {profile.role === "mentee" && (
         <button onClick={() => navigate("/meeting-form")}>
           Add a New Meeting
