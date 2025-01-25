@@ -173,6 +173,7 @@ form .cta {
 }
 
 /* Dashboard */
+.admin-dashboard,
 .advisor-dashboard,
 .learner-dashboard,
 .meetings-list-dashboard {

@@ -5,12 +5,12 @@ import AllProfiles from "../admin/AllProfiles";
 import AllApplications from "../admin/AllApplications";
 
 function AdminDashboard() {
-  const [currentSection, setCurrentSection] = useState("profiles");
+  const [activeTab, setActiveTab] = useState("profiles");
 
   const componentToRender =
-    currentSection === "applications" ? (
+    activeTab === "applications" ? (
       <AllApplications />
-    ) : currentSection === "meetings" ? (
+    ) : activeTab === "meetings" ? (
       <AllMeetings />
     ) : (
       <AllProfiles />
@@ -18,22 +18,23 @@ function AdminDashboard() {
 
   return (
     <>
-      <label htmlFor="selection">Display </label>
-      <select
-        name="selection"
-        id="selection"
-        value={currentSection}
-        onChange={(e) => setCurrentSection(e.target.value)}
-      >
-        <option value="default" disabled>
-          Select a section
-        </option>
-        <option value="profiles">Profiles</option>
-        <option value="meetings">Meetings</option>
-        <option value="applications">Applications</option>
-      </select>
+      <div className="admin-dashboard">
+        <ul className="tabs">
+          <li className={`tab ${activeTab === "profiles" ? "active" : ""}`}>
+            <button onClick={() => setActiveTab("profiles")}>Profiles</button>
+          </li>
+          <li className={`tab ${activeTab === "meetings" ? "active" : ""}`}>
+            <button onClick={() => setActiveTab("meetings")}>Meetings</button>
+          </li>
+          <li className={`tab ${activeTab === "applications" ? "active" : ""}`}>
+            <button onClick={() => setActiveTab("applications")}>
+              Applications
+            </button>
+          </li>
+        </ul>
 
-      {componentToRender}
+        {componentToRender}
+      </div>
     </>
   );
 }
