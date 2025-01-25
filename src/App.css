@@ -140,16 +140,11 @@ form .cta {
   padding: 12px;
 }
 
-.user-about,
-.user-contact,
-.user-address {
-  display: flex;
-  flex-direction: column;
-}
-
 .tabs {
   display: flex;
-  gap: 3px;
+  margin-top: -28px;
+  margin-left: -12px;
+  margin-right: -12px;
 }
 
 .tab {
@@ -159,14 +154,14 @@ form .cta {
 .tab button {
   width: 100%;
   border: none;
-  background-color: var(--main-color-dark);
+  background-color: var(--main-text-color-disabled);
   border-bottom: 3px solid transparent; /* Add transparent border for transition */
   transition: border-color 0.5s ease; /* Smooth transition for the border */
 }
 
 .tab.active button {
   background-color: var(--main-bg-color-primary);
-  color: var(--main-color-light);
+  /* color: var(--main-color-light); */
   border-bottom: 3px solid var(--main-color-warning);
 }
 
