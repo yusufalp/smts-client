@@ -172,10 +172,19 @@ form .cta {
   border-bottom: 3px solid var(--main-color-warning);
 }
 
-/* Advisor Dashboard */
-.advisor-dashboard {
+/* Dashboard */
+.advisor-dashboard,
+.learner-dashboard,
+.meetings-list-dashboard {
   border: 2px solid var(--main-color-dark);
   padding: 12px;
+}
+
+.learner-dashboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 16px;
 }
 
 /* Shared */
@@ -239,6 +248,10 @@ form .cta {
 
   form {
     width: 70%;
+  }
+
+  .learner-dashboard {
+    flex-direction: row;
   }
 }
 

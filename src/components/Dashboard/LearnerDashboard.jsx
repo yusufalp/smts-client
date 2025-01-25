@@ -69,9 +69,13 @@ function LearnerDashboard() {
         <p>{error}</p>
       ) : data ? (
         <>
-          {renderAdvisorInfo("mentor", data.advisors?.assigned?.mentor)}
-          {renderAdvisorInfo("coach", data.advisors?.assigned?.coach)}
-          <MeetingList />
+          <div className="learner-dashboard">
+            {renderAdvisorInfo("mentor", data.advisors?.assigned?.mentor)}
+            {renderAdvisorInfo("coach", data.advisors?.assigned?.coach)}
+          </div>
+          <div className="meetings-list-dashboard">
+            <MeetingList />
+          </div>
         </>
       ) : (
         <p>There are no advisors</p>
