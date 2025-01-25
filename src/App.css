@@ -144,6 +144,10 @@ form .cta {
   padding: 12px;
 }
 
+.user-details-info-title {
+  font-weight: bold;
+}
+
 .tabs {
   display: flex;
   margin-top: -28px;

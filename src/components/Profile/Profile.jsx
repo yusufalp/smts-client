@@ -92,10 +92,22 @@ function Profile() {
           {activeTab === "about" && (
             <section className="user-about">
               <div>
-                <p>First Name: {profile.name.firstName}</p>
-                <p>Middle Name: {profile.name.middleName}</p>
-                <p>Last Name: {profile.name.lastName}</p>
-                <p>Bio: {profile.bio}</p>
+                <p>
+                  <span className="user-details-info-title">First Name: </span>
+                  <span>{profile.name.firstName}</span>
+                </p>
+                <p>
+                  <span className="user-details-info-title">Middle Name: </span>
+                  <span>{profile.name.middleName}</span>
+                </p>
+                <p>
+                  <span className="user-details-info-title">Last Name: </span>
+                  <span>{profile.name.lastName}</span>
+                </p>
+                <p>
+                  <span className="user-details-info-title">Bio: </span>
+                  <span>{profile.bio}</span>
+                </p>
               </div>
               <button onClick={() => navigate("/about-me-form")}>
                 Edit About
@@ -106,8 +118,14 @@ function Profile() {
           {activeTab === "contact" && (
             <section className="user-contact">
               <div>
-                <p>Email: {profile.email}</p>
-                <p>Phone: {profile.phoneNumber}</p>
+                <p>
+                  <span className="user-details-info-title">Email: </span>
+                  <span>{profile.email}</span>
+                </p>
+                <p>
+                  <span className="user-details-info-title">Phone: </span>
+                  <span>{profile.phoneNumber}</span>
+                </p>
               </div>
               <button onClick={() => navigate("/contact-form")}>
                 Edit Contact
@@ -118,11 +136,30 @@ function Profile() {
           {activeTab === "address" && (
             <section className="user-address">
               <div>
-                <p>Address (line 1): {profile.address?.street?.line1}</p>
-                <p>Address (line 2): {profile.address?.street?.line2}</p>
-                <p>City: {profile.address?.city} </p>
-                <p>State: {profile.address?.state} </p>
-                <p>Postal Code: {profile.address?.postalCode}</p>
+                <p>
+                  <span className="user-details-info-title">
+                    Address (line 1):{" "}
+                  </span>
+                  <span>{profile.address?.street?.line1}</span>
+                </p>
+                <p>
+                  <span className="user-details-info-title">
+                    Address (line 2):{" "}
+                  </span>
+                  <span>{profile.address?.street?.line2}</span>
+                </p>
+                <p>
+                  <span className="user-details-info-title">City: </span>
+                  <span>{profile.address?.city}</span>
+                </p>
+                <p>
+                  <span className="user-details-info-title">State: </span>
+                  <span>{profile.address?.state}</span>
+                </p>
+                <p>
+                  <span className="user-details-info-title">Postal Code: </span>
+                  <span>{profile.address?.postalCode}</span>
+                </p>
               </div>
               <button onClick={() => navigate("/address-form")}>
                 Edit Address
@@ -133,8 +170,12 @@ function Profile() {
           {activeTab === "account" && (
             <section className="user-account">
               <div>
-                <p>Username: </p>
-                <p>Password: </p>
+                <p>
+                  <span className="user-details-info-title">Username: </span>
+                </p>
+                <p>
+                  <span className="user-details-info-title">Password: </span>
+                </p>
               </div>
               <button onClick={() => navigate("/address-form")}>
                 Change Password
