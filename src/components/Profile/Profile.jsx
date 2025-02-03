@@ -14,6 +14,9 @@ function Profile() {
 
   const isLearner = profile.role === "mentee" || profile.role === "alumni";
 
+  const hasLinks =
+    profile.links && Object.values(profile.links).some((link) => link !== "");
+
   return (
     <main>
       <h1>My Profile</h1>
@@ -54,22 +57,28 @@ function Profile() {
 
           <div className="user-links">
             <ul>
-              <li>
-                <p>Portfolio</p>
-                <Link to={profile.links?.portfolioUrl}>Portfolio</Link>
-              </li>
-              <li>
-                <p>LinkedIn</p>
-                <Link to={profile.links?.linkedinUrl}>LinkedIn</Link>
-              </li>
-              <li>
-                <p>GitHub</p>
-                <p>
+              {profile.links?.portfolioUrl && (
+                <li>
+                  <p>Portfolio</p>
+                  <Link to={profile.links?.portfolioUrl}>Portfolio</Link>
+                </li>
+              )}
+              {profile.links?.linkedinUrl && (
+                <li>
+                  <p>LinkedIn</p>
+                  <Link to={profile.links?.linkedinUrl}>LinkedIn</Link>
+                </li>
+              )}
+              {profile.links?.githubUrl && (
+                <li>
+                  <p>GitHub</p>
                   <Link to={profile.links?.githubUrl}>GitHub</Link>
-                </p>
-              </li>
+                </li>
+              )}
             </ul>
-            <button onClick={() => navigate("/links-form")}>Edit Links</button>
+            <button onClick={() => navigate("/links-form")}>
+              {hasLinks ? "Edit" : "Add"} Links
+            </button>
           </div>
         </div>
 
