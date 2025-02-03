@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ROLES } from "../../constants/roles";
 import { STATUSES } from "../../constants/statuses";
 import { useState } from "react";
-import { retrievePathname, withoutProtocol } from "../../utils/url";
+import { retrievePathname, formatLinkWithoutProtocol } from "../../utils/url";
 
 function Profile() {
   const profile = useSelector((state) => state.user.profile);
@@ -70,7 +70,7 @@ function Profile() {
                 <li>
                   <p><i className="fa-solid fa-folder-open"></i></p>
                   <Link to={profile.links?.portfolioUrl}>
-                    {withoutProtocol(profile.links.portfolioUrl)}
+                    {formatLinkWithoutProtocol(profile.links.portfolioUrl)}
                   </Link>
                 </li>
               )}
