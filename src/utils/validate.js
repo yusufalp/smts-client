@@ -29,3 +29,19 @@ export function validatePhoneNumber(value) {
 
   return "";
 }
+
+export function validateLinkedinUrl(value) {
+  if (value !== "" && !value.match(REGEX.LINKEDIN)) {
+    return "Enter a valid LinkedIn profile url";
+  }
+
+  return "";
+}
+
+export function validateGithubUrl(value) {
+  if (value !== "" && !value.match(REGEX.GITHUB)) {
+    return "Enter a valid GitHub profile url";
+  }
+
+  return "";
+}

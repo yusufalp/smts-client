@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { setProfile } from "../../store/features/userSlice";
 
 import { constructUrl } from "../../utils/url";
+import { validateGithubUrl, validateLinkedinUrl } from "../../utils/validate";
 
 function LinksForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -14,6 +15,10 @@ function LinksForm() {
     portfolioUrl: profile?.links?.portfolioUrl || "",
     linkedinUrl: profile?.links?.linkedinUrl || "",
     githubUrl: profile?.links?.githubUrl || "",
+  });
+  const [linksFormErrors, setLinksFormErrors] = useState({
+    linkedinUrl: "",
+    githubUrl: "",
   });
 
   const [error, setError] = useState(null);
@@ -31,8 +36,38 @@ function LinksForm() {
     }));
   };
 
+  const checkLinkedinUrl = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "linkedinUrl") {
+      setLinksFormErrors((prevErrors) => ({
+        ...prevErrors,
+        linkedinUrl: validateLinkedinUrl(value),
+      }));
+    }
+  };
+
+  const checkGithubUrl = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "githubUrl") {
+      setLinksFormErrors((prevErrors) => ({
+        ...prevErrors,
+        githubUrl: validateGithubUrl(value),
+      }));
+    }
+  };
+
+  const isFormValid = () => {
+    return !Object.values(linksFormErrors).some((error) => error !== "");
+  };
+
+  console.log('isFormValid() :>> ', isFormValid());
+
   const handleLinksFormSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isFormValid()) return;
 
     setError(null);
     setIsSubmitting(true);
@@ -99,7 +134,11 @@ function LinksForm() {
             placeholder="e.g. https://www.linkedin.com/in/john-wick"
             value={linksFormData.linkedinUrl}
             onChange={handleLinksInputChange}
+            onBlur={checkLinkedinUrl}
           />
+          {linksFormErrors.linkedinUrl && (
+            <p className="error">{linksFormErrors.linkedinUrl}</p>
+          )}
         </div>
 
         <div>
@@ -111,10 +150,14 @@ function LinksForm() {
             placeholder="e.g. https://www.github.com/john-wick"
             value={linksFormData.githubUrl}
             onChange={handleLinksInputChange}
+            onBlur={checkGithubUrl}
           />
+          {linksFormErrors.githubUrl && (
+            <p className="error">{linksFormErrors.githubUrl}</p>
+          )}
         </div>
 
-        <button type="submit" disabled={isSubmitting}>
+        <button type="submit" disabled={isSubmitting || !isFormValid()}>
           {isSubmitting ? "Updating..." : "Update"}
         </button>
 
