@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ROLES } from "../../constants/roles";
 import { STATUSES } from "../../constants/statuses";
 import { useState } from "react";
+import { retrievePathname, withoutProtocol } from "../../utils/url";
 
 function Profile() {
   const profile = useSelector((state) => state.user.profile);
@@ -30,8 +31,12 @@ function Profile() {
                 alt="profile image"
               />
               <figcaption>
-                <p>{ROLES[profile.role].id}</p>
-                <p>{STATUSES[profile.profileStatus].id}</p>
+                <p>{profile.name.firstName}</p>
+                <p>
+                  <span>{ROLES[profile.role].id}</span>
+                  <span> | </span>
+                  <span>{STATUSES[profile.profileStatus].id}</span>
+                </p>
               </figcaption>
             </figure>
 
@@ -57,22 +62,32 @@ function Profile() {
 
           <div className="user-links">
             <ul>
+              <li>
+                <p><i className="fa-solid fa-envelope"></i></p>
+                <a href={`mailto:${profile.email}`}>{profile.email}</a>
+              </li>
               {profile.links?.portfolioUrl && (
                 <li>
-                  <p>Portfolio</p>
-                  <Link to={profile.links?.portfolioUrl}>Portfolio</Link>
+                  <p><i className="fa-solid fa-folder-open"></i></p>
+                  <Link to={profile.links?.portfolioUrl}>
+                    {withoutProtocol(profile.links.portfolioUrl)}
+                  </Link>
                 </li>
               )}
               {profile.links?.linkedinUrl && (
                 <li>
-                  <p>LinkedIn</p>
-                  <Link to={profile.links?.linkedinUrl}>LinkedIn</Link>
+                  <p><i className="fa-brands fa-linkedin"></i></p>
+                  <Link to={profile.links?.linkedinUrl}>
+                    {retrievePathname(profile.links.linkedinUrl)}
+                  </Link>
                 </li>
               )}
               {profile.links?.githubUrl && (
                 <li>
-                  <p>GitHub</p>
-                  <Link to={profile.links?.githubUrl}>GitHub</Link>
+                  <p><i className="fa-brands fa-square-github"></i></p>
+                  <Link to={profile.links?.githubUrl}>
+                    {retrievePathname(profile.links.githubUrl)}
+                  </Link>
                 </li>
               )}
             </ul>

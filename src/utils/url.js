@@ -13,3 +13,19 @@ export const constructUrl = (baseUrl, endpoint, params = {}, query = {}) => {
 
   return url.toString();
 };
+
+export const retrieveHostName = (link) => {
+  const url = new URL(link);
+
+  return url.hostname;
+};
+
+export const retrievePathname = (link) => {
+  const url = new URL(link);
+
+  return url.pathname;
+};
+
+export const withoutProtocol = (link) => {
+  return link.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "");
+};

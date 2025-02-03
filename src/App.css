@@ -131,7 +131,17 @@ form .cta {
 
 .user-links li {
   display: flex;
-  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.fa-solid {
+  font-size: 1.1rem;
+}
+
+.fa-brands {
+  font-size: 1.2rem;
 }
 
 .user-links button {
@@ -139,7 +149,7 @@ form .cta {
 }
 
 .user-details {
-  flex: 3;
+  flex: 2;
   border: 2px solid var(--main-color-dark);
   padding: 12px;
 }
