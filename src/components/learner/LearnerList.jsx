@@ -114,7 +114,7 @@ function LearnerList() {
         <p>Loading...</p>
       ) : error ? (
         <p>{error}</p>
-      ) : data ? (
+      ) : data.learners.length !== 0 ? (
         <>
           <>{renderLearnersDetails()}</>
           <>{renderPaginationControls()}</>

@@ -125,7 +125,7 @@ function MeetingList() {
         <p>Loading...</p>
       ) : error ? (
         <p>Error: {error}</p>
-      ) : data ? (
+      ) : data.meetings.length !== 0 ? (
         <>
           {renderMeetingsDetails()}
           {renderPaginationControls()}
