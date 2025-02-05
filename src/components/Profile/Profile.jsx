@@ -91,7 +91,7 @@ function Profile() {
                 </li>
               )}
             </ul>
-            <button onClick={() => navigate("/links-form")}>
+            <button onClick={() => navigate("/form/links")}>
               {hasLinks ? "Edit" : "Add"} Links
             </button>
           </div>
@@ -133,7 +133,7 @@ function Profile() {
                   <span>{profile.bio}</span>
                 </p>
               </div>
-              <button onClick={() => navigate("/about-me-form")}>
+              <button onClick={() => navigate("/form/about-me")}>
                 Edit About
               </button>
             </section>
@@ -151,7 +151,7 @@ function Profile() {
                   <span>{profile.phoneNumber}</span>
                 </p>
               </div>
-              <button onClick={() => navigate("/contact-form")}>
+              <button onClick={() => navigate("/form/contact")}>
                 Edit Contact
               </button>
             </section>
@@ -185,7 +185,7 @@ function Profile() {
                   <span>{profile.address?.postalCode}</span>
                 </p>
               </div>
-              <button onClick={() => navigate("/address-form")}>
+              <button onClick={() => navigate("/form/address")}>
                 Edit Address
               </button>
             </section>
@@ -201,7 +201,7 @@ function Profile() {
                   <span className="user-details-info-title">Password: </span>
                 </p>
               </div>
-              <button onClick={() => navigate("/address-form")}>
+              <button onClick={() => navigate("/form/account")}>
                 Change Password
               </button>
             </section>

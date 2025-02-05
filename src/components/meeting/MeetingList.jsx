@@ -114,7 +114,7 @@ function MeetingList() {
       <h2>Meetings</h2>
 
       {profile.role === "mentee" && (
-        <button onClick={() => navigate("/meeting-form")}>
+        <button onClick={() => navigate("/form/meeting")}>
           Add a New Meeting
         </button>
       )}
