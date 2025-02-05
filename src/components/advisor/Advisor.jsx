@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 
 import { constructUrl } from "../../utils/url";
 
+import ProfileDetails from "../profile/ProfileDetails";
+
 function Advisor() {
   const accessToken = useSelector((state) => state.auth.accessToken);
 
@@ -61,9 +63,7 @@ function Advisor() {
       ) : error ? (
         <p>{error}</p>
       ) : data ? (
-        <>
-          <h1>{`You are viewing ${data.profile?.name?.firstName}'s Profile`}</h1>
-        </>
+        <ProfileDetails profile={data.profile} />
       ) : (
         <p>There is no advisor</p>
       )}

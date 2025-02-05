@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { constructUrl } from "../../utils/url";
+import ProfileDetails from "../profile/ProfileDetails";
 
 function Learner() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -53,54 +54,6 @@ function Learner() {
     getLearner();
   }, [accessToken, learnerId]);
 
-  const renderLearnerDetails = () => {
-    const { learner } = data;
-
-    return (
-      <>
-        <h1>{`You are viewing ${learner?.name?.firstName}'s Profile`}</h1>
-        <p>Email: {learner?.email}</p>
-        <p>Cohort: {learner?.cohort}</p>
-        <p>Graduation: {learner?.graduationDate}</p>
-        <p>Status: {learner?.status}</p>
-        {learner.links && (
-          <>
-            <h2>Links</h2>
-            <ul>
-              <li>
-                <Link
-                  to={learner?.links?.portfolioUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Portfolio
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to={learner?.links?.linkedinUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  LinkedIn
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to={learner?.links?.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  GitHub
-                </Link>
-              </li>
-            </ul>
-          </>
-        )}
-      </>
-    );
-  };
-
   return (
     <main>
       {isLoading ? (
@@ -108,7 +61,7 @@ function Learner() {
       ) : error ? (
         <p>{error}</p>
       ) : data ? (
-        <>{renderLearnerDetails()}</>
+        <ProfileDetails profile={data.learner} />
       ) : (
         <p>There are no learners</p>
       )}
