@@ -185,13 +185,13 @@ form .cta {
 /* Dashboard */
 .admin-dashboard,
 .advisor-dashboard,
-.learner-dashboard,
-.meetings-list-dashboard {
+.learner-dashboard-advisor-info,
+.learner-dashboard-meetings-list {
   border: 2px solid var(--main-color-dark);
   padding: 12px;
 }
 
-.learner-dashboard {
+.learner-dashboard-advisor-info {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -261,7 +261,7 @@ form .cta {
     width: 70%;
   }
 
-  .learner-dashboard {
+  .learner-dashboard-advisor-info {
     flex-direction: row;
   }
 }

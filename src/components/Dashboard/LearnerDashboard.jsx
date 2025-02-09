@@ -69,11 +69,11 @@ function LearnerDashboard() {
         <p>{error}</p>
       ) : data ? (
         <>
-          <div className="learner-dashboard">
+          <div className="learner-dashboard-advisor-info">
             {renderAdvisorInfo("mentor", data.advisors?.assigned?.mentor)}
             {renderAdvisorInfo("coach", data.advisors?.assigned?.coach)}
           </div>
-          <div className="meetings-list-dashboard">
+          <div className="learner-dashboard-meetings-list">
             <MeetingList />
           </div>
         </>
