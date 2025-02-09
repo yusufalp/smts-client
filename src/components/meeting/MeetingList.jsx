@@ -66,7 +66,7 @@ function MeetingList() {
     setQuery((prev) => ({ ...prev, ...updates }));
   };
 
-  const renderMeetingsDetails = () => (
+  const renderMeetingsList = () => (
     <div className="data-list">
       <ul>
         <li>Title</li>
@@ -127,7 +127,7 @@ function MeetingList() {
         <p>Error: {error}</p>
       ) : data.meetings.length !== 0 ? (
         <>
-          {renderMeetingsDetails()}
+          {renderMeetingsList()}
           {renderPaginationControls()}
         </>
       ) : (
