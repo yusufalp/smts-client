@@ -116,9 +116,11 @@ function ProfileDetails({ isSelf, profile }) {
             <li className={`tab ${activeTab === "address" ? "active" : ""}`}>
               <button onClick={() => setActiveTab("address")}>Address</button>
             </li>
-            <li className={`tab ${activeTab === "account" ? "active" : ""}`}>
-              <button onClick={() => setActiveTab("account")}>Account</button>
-            </li>
+            {isSelf && (
+              <li className={`tab ${activeTab === "account" ? "active" : ""}`}>
+                <button onClick={() => setActiveTab("account")}>Account</button>
+              </li>
+            )}
           </ul>
 
           {activeTab === "about" && (
@@ -205,7 +207,7 @@ function ProfileDetails({ isSelf, profile }) {
             </section>
           )}
 
-          {activeTab === "account" && (
+          {isSelf && activeTab === "account" && (
             <section className="user-account">
               <div>
                 <p>
