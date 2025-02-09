@@ -9,18 +9,22 @@ import LinksForm from "./LinksForm";
 function Form() {
   const { type } = useParams();
 
-  return type === "meeting-form" ? (
-    <MeetingForm />
-  ) : type === "about-me" ? (
-    <AboutMeForm />
-  ) : type === "contact" ? (
-    <ContactForm />
-  ) : type === "address" ? (
-    <AddressForm />
-  ) : type === "links" ? (
-    <LinksForm />
-  ) : (
-    <p>Invalid Form</p>
+  return (
+    <main>
+      {type === "meeting" ? (
+        <MeetingForm />
+      ) : type === "about-me" ? (
+        <AboutMeForm />
+      ) : type === "contact" ? (
+        <ContactForm />
+      ) : type === "address" ? (
+        <AddressForm />
+      ) : type === "links" ? (
+        <LinksForm />
+      ) : (
+        <p>Invalid Form</p>
+      )}
+    </main>
   );
 }
 

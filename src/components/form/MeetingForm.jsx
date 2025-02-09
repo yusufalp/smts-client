@@ -62,7 +62,7 @@ function MeetingForm() {
     getAllAdvisors();
   }, [accessToken]);
 
-  const handleMeetingInputChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     setMeetingFormData((prevData) => ({
@@ -128,11 +128,11 @@ function MeetingForm() {
   };
 
   return (
-    <main className="meeting">
+    <>
       {isLoading ? (
         <p>Loading...</p>
       ) : error ? (
-        <p>{error}</p>
+        <p className="error">{error}</p>
       ) : data ? (
         <form onSubmit={handleFormSubmit}>
           <h1>Add meeting</h1>
@@ -141,76 +141,88 @@ function MeetingForm() {
           </p>
           <p className="text-margin-0">Complete the form</p>
 
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            required
-            placeholder="Add a short title"
-            value={meetingFormData.title}
-            onChange={handleMeetingInputChange}
-          />
+          <div>
+            <label htmlFor="title">Title</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              required
+              placeholder="Add a short title"
+              value={meetingFormData.title}
+              onChange={handleInputChange}
+            />
+          </div>
 
-          <label htmlFor="advisor">Advisor</label>
-          <select
-            id="advisor"
-            name="advisor"
-            defaultValue="default"
-            required
-            onChange={handleMeetingInputChange}
-          >
-            <option value="default" disabled>
-              Select your advisor
-            </option>
-            {data &&
-              data.advisors.map((advisor) => (
-                <option key={advisor._id} value={advisor._id}>
-                  {advisor.name.firstName} {advisor.name.lastName}
-                </option>
-              ))}
-          </select>
+          <div>
+            <label htmlFor="advisor">Advisor</label>
+            <select
+              id="advisor"
+              name="advisor"
+              defaultValue="default"
+              required
+              onChange={handleInputChange}
+            >
+              <option value="default" disabled>
+                Select your advisor
+              </option>
+              {data &&
+                data.advisors.map((advisor) => (
+                  <option key={advisor._id} value={advisor._id}>
+                    {advisor.name.firstName} {advisor.name.lastName}
+                  </option>
+                ))}
+            </select>
+          </div>
 
-          <label htmlFor="date">Date</label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            required
-            value={meetingFormData.date}
-            onChange={handleMeetingInputChange}
-          />
+          <div>
+            <label htmlFor="date">Date</label>
+            <input
+              type="date"
+              id="date"
+              name="date"
+              required
+              value={meetingFormData.date}
+              onChange={handleInputChange}
+            />
+          </div>
 
-          <label htmlFor="time">Time</label>
-          <input
-            type="time"
-            id="time"
-            name="time"
-            required
-            value={meetingFormData.time}
-            onChange={handleMeetingInputChange}
-          />
+          <div>
+            <label htmlFor="time">Time</label>
+            <input
+              type="time"
+              id="time"
+              name="time"
+              required
+              value={meetingFormData.time}
+              onChange={handleInputChange}
+            />
+          </div>
 
-          <label htmlFor="duration">Duration (min)</label>
-          <input
-            type="number"
-            id="duration"
-            name="duration"
-            required
-            value={meetingFormData.duration}
-            onChange={handleMeetingInputChange}
-          />
+          <div>
+            <label htmlFor="duration">Duration (min)</label>
+            <input
+              type="number"
+              id="duration"
+              name="duration"
+              required
+              value={meetingFormData.duration}
+              onChange={handleInputChange}
+            />
+          </div>
 
-          <label htmlFor="description">Description</label>
-          <textarea
-            name="description"
-            id="description"
-            rows={4}
-            cols={40}
-            placeholder="Enter description here..."
-            value={meetingFormData.description}
-            onChange={handleMeetingInputChange}
-          />
+          <div>
+            <label htmlFor="description">Description</label>
+            <textarea
+              name="description"
+              id="description"
+              rows={4}
+              cols={40}
+              placeholder="Enter description here..."
+              value={meetingFormData.description}
+              onChange={handleInputChange}
+            />
+          </div>
 
           <button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Submitting..." : "Submit"}
@@ -221,7 +233,7 @@ function MeetingForm() {
       ) : (
         <p>There are no advisors</p>
       )}
-    </main>
+    </>
   );
 }
 

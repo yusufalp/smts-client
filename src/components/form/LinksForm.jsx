@@ -27,7 +27,7 @@ function LinksForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLinksInputChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     setLinksFormData((prevData) => ({
@@ -62,9 +62,7 @@ function LinksForm() {
     return !Object.values(linksFormErrors).some((error) => error !== "");
   };
 
-  console.log('isFormValid() :>> ', isFormValid());
-
-  const handleLinksFormSubmit = async (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     if (!isFormValid()) return;
@@ -109,7 +107,7 @@ function LinksForm() {
 
   return (
     <>
-      <form onSubmit={handleLinksFormSubmit}>
+      <form onSubmit={handleFormSubmit}>
         <h1>Links</h1>
         <p>Update personal links below</p>
 
@@ -121,7 +119,7 @@ function LinksForm() {
             id="portfolioUrl"
             placeholder="e.g. https://www.johnwick.com"
             value={linksFormData.portfolioUrl}
-            onChange={handleLinksInputChange}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -133,7 +131,7 @@ function LinksForm() {
             id="linkedinUrl"
             placeholder="e.g. https://www.linkedin.com/in/john-wick"
             value={linksFormData.linkedinUrl}
-            onChange={handleLinksInputChange}
+            onChange={handleInputChange}
             onBlur={checkLinkedinUrl}
           />
           {linksFormErrors.linkedinUrl && (
@@ -149,7 +147,7 @@ function LinksForm() {
             id="githubUrl"
             placeholder="e.g. https://www.github.com/john-wick"
             value={linksFormData.githubUrl}
-            onChange={handleLinksInputChange}
+            onChange={handleInputChange}
             onBlur={checkGithubUrl}
           />
           {linksFormErrors.githubUrl && (
@@ -163,7 +161,7 @@ function LinksForm() {
 
         <Link to="/profile">Cancel</Link>
 
-        {error && <p>{error}</p>}
+        {error && <p className="error">{error}</p>}
       </form>
     </>
   );

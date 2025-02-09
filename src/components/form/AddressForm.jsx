@@ -25,7 +25,7 @@ function AddressForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleAddressInputChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     setAddressFormData((prevData) => ({
@@ -34,7 +34,7 @@ function AddressForm() {
     }));
   };
 
-  const handleAddressFormSubmit = async (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     setError(null);
@@ -77,7 +77,7 @@ function AddressForm() {
 
   return (
     <>
-      <form onSubmit={handleAddressFormSubmit}>
+      <form onSubmit={handleFormSubmit}>
         <h1>Address</h1>
         <p>Update address info below</p>
 
@@ -89,7 +89,7 @@ function AddressForm() {
             id="line1"
             placeholder="Street address"
             value={addressFormData.line1}
-            onChange={handleAddressInputChange}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -101,7 +101,7 @@ function AddressForm() {
             id="line2"
             placeholder="apt, suite etc."
             value={addressFormData.line2}
-            onChange={handleAddressInputChange}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -113,7 +113,7 @@ function AddressForm() {
             id="city"
             placeholder="City"
             value={addressFormData.city}
-            onChange={handleAddressInputChange}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -123,7 +123,7 @@ function AddressForm() {
             name="state"
             id="state"
             defaultValue={addressFormData.state || "default"}
-            onChange={handleAddressInputChange}
+            onChange={handleInputChange}
           >
             <option value="default" disabled>
               Please select a state
@@ -145,7 +145,7 @@ function AddressForm() {
             pattern="[0-9]{5}"
             placeholder="e.g 02113"
             value={addressFormData.postalCode}
-            onChange={handleAddressInputChange}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -155,7 +155,7 @@ function AddressForm() {
 
         <Link to="/profile">Cancel</Link>
 
-        {error && <p>{error}</p>}
+        {error && <p className="error">{error}</p>}
       </form>
     </>
   );

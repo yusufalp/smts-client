@@ -26,7 +26,7 @@ function ContactForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleContactFormInputChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     setContactFormData((prevData) => ({
@@ -57,7 +57,7 @@ function ContactForm() {
     return !Object.values(contactFormErrors).some((error) => error !== "");
   };
 
-  const handleContactFormSubmit = async (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     if (!isFormValid()) return;
@@ -102,7 +102,7 @@ function ContactForm() {
 
   return (
     <>
-      <form onSubmit={handleContactFormSubmit}>
+      <form onSubmit={handleFormSubmit}>
         <h1>Contact</h1>
         <p>Update contact info below</p>
 
@@ -114,7 +114,7 @@ function ContactForm() {
             id="email"
             placeholder="Enter a valid email"
             value={contactFormData.email}
-            onChange={handleContactFormInputChange}
+            onChange={handleInputChange}
             onBlur={checkContactInfo}
           />
           {contactFormErrors.email && (
@@ -131,7 +131,7 @@ function ContactForm() {
             placeholder="Enter a valid phone number"
             pattern="[0-9]{10}"
             value={contactFormData.phoneNumber}
-            onChange={handleContactFormInputChange}
+            onChange={handleInputChange}
             onBlur={checkContactInfo}
           />
           {contactFormErrors.phoneNumber && (

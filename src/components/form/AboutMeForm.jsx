@@ -23,7 +23,7 @@ function AboutMeForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleNameInputChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     setAboutMeFormData((prevData) => ({
@@ -32,7 +32,7 @@ function AboutMeForm() {
     }));
   };
 
-  const handleNameFormSubmit = async (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     setError(null);
@@ -75,7 +75,7 @@ function AboutMeForm() {
 
   return (
     <>
-      <form onSubmit={handleNameFormSubmit}>
+      <form onSubmit={handleFormSubmit}>
         <h1>About</h1>
         <p>Update profile info below</p>
 
@@ -87,7 +87,7 @@ function AboutMeForm() {
             id="firstName"
             required
             value={aboutMeFormData.firstName}
-            onChange={handleNameInputChange}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -98,7 +98,7 @@ function AboutMeForm() {
             name="middleName"
             id="middleName"
             value={aboutMeFormData.middleName}
-            onChange={handleNameInputChange}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -109,7 +109,7 @@ function AboutMeForm() {
             name="lastName"
             id="lastName"
             value={aboutMeFormData.lastName}
-            onChange={handleNameInputChange}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -120,7 +120,7 @@ function AboutMeForm() {
             id="bio"
             value={aboutMeFormData.bio}
             placeholder="Tell us about yourself"
-            onChange={handleNameInputChange}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -130,7 +130,7 @@ function AboutMeForm() {
 
         <Link to="/profile">Cancel</Link>
 
-        {error && <p>{error}</p>}
+        {error && <p className="error">{error}</p>}
       </form>
     </>
   );
