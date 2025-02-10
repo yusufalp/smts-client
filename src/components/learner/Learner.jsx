@@ -7,6 +7,7 @@ import ProfileDetails from "../profile/ProfileDetails";
 
 function Learner() {
   const accessToken = useSelector((state) => state.auth.accessToken);
+  const profile = useSelector((state) => state.user.profile);
 
   const { learnerId } = useParams();
 
@@ -22,8 +23,9 @@ function Learner() {
       const baseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
       const endpoint = "/api/profiles/assigned/learner/:learnerId";
       const params = { learnerId };
+      const query = { advisorId: profile._id };
 
-      const url = constructUrl(baseUrl, endpoint, params);
+      const url = constructUrl(baseUrl, endpoint, params, query);
 
       const options = {
         method: "GET",
