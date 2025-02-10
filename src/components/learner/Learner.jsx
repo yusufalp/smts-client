@@ -54,7 +54,7 @@ function Learner() {
     };
 
     getLearner();
-  }, [accessToken, learnerId]);
+  }, [accessToken, learnerId, profile._id]);
 
   return (
     <main>
