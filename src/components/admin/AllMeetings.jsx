@@ -26,7 +26,7 @@ function AllMeetings() {
       setError(null);
       setIsLoading(true);
 
-      const baseUrl = import.meta.env.VITE_MEETING_SERVICE_URL;
+      const baseUrl = import.meta.env.VITE_SERVER_SERVICE_URL;
       const endpoint = "/api/admin/meetings";
       const params = {};
 

@@ -17,7 +17,7 @@ function LearnerDashboard() {
       setError(null);
       setIsLoading(true);
 
-      const baseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+      const baseUrl = import.meta.env.VITE_SERVER_SERVICE_URL;
       const endpoint = "/api/profiles/assigned/advisors";
 
       const url = constructUrl(baseUrl, endpoint);

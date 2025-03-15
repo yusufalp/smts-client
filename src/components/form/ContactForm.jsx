@@ -65,7 +65,7 @@ function ContactForm() {
     setError(null);
     setIsSubmitting(true);
 
-    const baseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+    const baseUrl = import.meta.env.VITE_SERVER_SERVICE_URL;
     const endpoint = "/api/profiles/profile";
 
     const url = constructUrl(baseUrl, endpoint);

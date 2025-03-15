@@ -15,7 +15,7 @@ function Meeting() {
 
   useEffect(() => {
     const getMeeting = async () => {
-      const baseUrl = import.meta.env.VITE_MEETING_SERVICE_URL;
+      const baseUrl = import.meta.env.VITE_SERVER_SERVICE_URL;
       const endpoint = "/api/meetings/:meetingId";
       const params = { meetingId };
 

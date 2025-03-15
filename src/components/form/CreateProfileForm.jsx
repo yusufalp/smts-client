@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils/validations";
 import { setProfile } from "../../store/features/userSlice";
 
-const PROFILE_SERVICE_URL = import.meta.env.VITE_PROFILE_SERVICE_URL;
+const PROFILE_SERVICE_URL = import.meta.env.VITE_SERVER_SERVICE_URL;
 
 function CreateProfileForm() {
   const accessToken = useSelector((state) => state.auth.accessToken);

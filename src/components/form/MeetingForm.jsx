@@ -26,7 +26,7 @@ function MeetingForm() {
 
   useEffect(() => {
     const getAllAdvisors = async () => {
-      const serviceBaseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+      const serviceBaseUrl = import.meta.env.VITE_SERVER_SERVICE_URL;
       const serviceEndpoint = "/api/profiles/advisors";
 
       const serviceUrl = constructUrl(serviceBaseUrl, serviceEndpoint);
@@ -95,7 +95,7 @@ function MeetingForm() {
       },
     };
 
-    const meetingBaseUrl = import.meta.env.VITE_MEETING_SERVICE_URL;
+    const meetingBaseUrl = import.meta.env.VITE_SERVER_SERVICE_URL;
     const meetingEndpoint = "/api/meetings";
 
     const meetingUrl = constructUrl(meetingBaseUrl, meetingEndpoint);

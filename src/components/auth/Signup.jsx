@@ -100,7 +100,7 @@ function Signup() {
 
       const { accessToken, expiresAt } = signupResult.data;
 
-      const profileBaseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+      const profileBaseUrl = import.meta.env.VITE_SERVER_SERVICE_URL;
       const profileEndpoint = "/api/profiles/profile";
 
       const profileUrl = constructUrl(profileBaseUrl, profileEndpoint);

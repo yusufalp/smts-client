@@ -26,7 +26,7 @@ function UpdateUser() {
       setError(null);
       setIsLoading(true);
 
-      const baseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+      const baseUrl = import.meta.env.VITE_SERVER_SERVICE_URL;
       const endpoint = "/api/admin/profiles/:profileId";
       const params = { profileId };
 
@@ -67,7 +67,7 @@ function UpdateUser() {
     setError(null);
     setIsSubmitting(true);
 
-    const baseUrl = import.meta.env.VITE_PROFILE_SERVICE_URL;
+    const baseUrl = import.meta.env.VITE_SERVER_SERVICE_URL;
     const endpoint = "/api/admin/profiles/:profileId";
     const params = { profileId };
 
