@@ -55,7 +55,7 @@ function LearnerDashboard() {
     return (
       <p>
         {`Your ${advisorRole} ${
-          advisor ? `is ${advisor?.name?.firstName}` : "will be assigned soon"
+          advisor ? `is ${advisor?.name?.firstName}` : "pending"
         }`}
       </p>
     );

@@ -33,7 +33,7 @@ function ProfileDetails({ isSelf, profile }) {
                 <p>
                   <span>{ROLES[profile.role].id}</span>
                   <span> | </span>
-                  <span>{STATUSES[profile.profileStatus].id}</span>
+                  <span>{STATUSES[profile.status].id}</span>
                 </p>
               </figcaption>
             </figure>
@@ -43,13 +43,14 @@ function ProfileDetails({ isSelf, profile }) {
                 <div className="divider"></div>
                 <div>
                   <p>Cohort</p>
-                  <p>{profile.cohort ?? "will be updated soon"}</p>
+                  <p>{profile.cohort ?? "pending"}</p>
                 </div>
                 <div>
                   <p>Graduation</p>
                   <p>
-                    {new Date(profile.graduationDate).toLocaleDateString() ||
-                      "will be updated soon"}
+                    {profile.graduationDate
+                      ? new Date(profile.graduationDate).toLocaleDateString()
+                      : "pending"}
                   </p>
                 </div>
               </section>

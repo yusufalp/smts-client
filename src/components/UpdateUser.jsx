@@ -134,11 +134,11 @@ function UpdateUser() {
             ))}
           </select>
 
-          <label htmlFor="profileStatus">Status</label>
+          <label htmlFor="status">Status</label>
           <select
-            name="profileStatus"
-            id="profileStatus"
-            defaultValue={searchedProfile.profileStatus}
+            name="status"
+            id="status"
+            defaultValue={searchedProfile.status}
             onChange={handleFieldChange}
             required
           >

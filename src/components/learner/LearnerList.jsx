@@ -78,7 +78,7 @@ function LearnerList() {
           </li>
           <li>{learner.name.lastName}</li>
           <li>{new Date(learner.graduationDate).toLocaleDateString()}</li>
-          <li>{STATUSES[learner.profileStatus].id}</li>
+          <li>{STATUSES[learner.status].id}</li>
         </ul>
       ))}
     </div>

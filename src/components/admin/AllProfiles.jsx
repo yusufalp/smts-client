@@ -89,7 +89,7 @@ function AllProfiles() {
             </Link>
           </li>
           <li>{profile.name.lastName}</li>
-          <li>{STATUSES[profile.profileStatus].id}</li>
+          <li>{STATUSES[profile.status].id}</li>
           <li>{ROLES[profile.role].id}</li>
           <li>{new Date(profile.updatedAt).toLocaleDateString()}</li>
         </ul>
