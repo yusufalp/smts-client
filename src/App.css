@@ -95,6 +95,7 @@ form .cta {
 /* Profile */
 .user-information {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: 16px;
 }
@@ -261,18 +262,22 @@ form .cta {
     width: 70%;
   }
 
+  .user-information {
+    flex-direction: row;
+  }
+
   .learner-dashboard-advisor-info {
     flex-direction: row;
   }
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 1024px) {
   form {
     width: 60%;
   }
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1152px) {
   #root {
     width: 72%;
   }
@@ -282,7 +287,7 @@ form .cta {
   }
 }
 
-@media screen and (min-width: 1536px) {
+@media screen and (min-width: 1280px) {
   #root {
     width: 60%;
     max-width: 2400px;
